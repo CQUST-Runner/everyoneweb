@@ -15,6 +15,7 @@ import { LibraryComponent } from './library/library.component';
 import { SavePageComponent } from './save-page/save-page.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LogsComponent } from './logs/logs.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { LogsComponent } from './logs/logs.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

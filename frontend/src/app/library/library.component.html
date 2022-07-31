@@ -1,1 +1,16 @@
-<p>library works!</p>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="10px">
+  <div fxFlex="15%">
+    <mat-selection-list #shoes>
+      <mat-list-option *ngFor="let shoe of typesOfShoes">
+        <mat-icon mat-list-icon>folder</mat-icon>
+        <div mat-line>{{shoe}}</div>
+      </mat-list-option>
+    </mat-selection-list>
+    
+    <p>
+      Options selected: {{shoes.selectedOptions.selected.length}}
+    </p>
+  </div>
+  <div fxFlex="1 1 auto">
+  </div>
+</div>
