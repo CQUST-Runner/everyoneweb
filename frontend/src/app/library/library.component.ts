@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {ThemePalette} from '@angular/material/core';
+import {MatSelectionList} from '@angular/material/list';
 
 export interface PeriodicElement {
   name: string;
@@ -80,4 +81,12 @@ export class LibraryComponent implements OnInit {
         color: ThemePalette = 'accent';
         displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
         dataSource = ELEMENT_DATA;
+        
+        select(b:boolean,t:MatSelectionList) {
+          if (b){
+            t.selectAll();
+          }else{
+            t.deselectAll();
+          }
+        }
 }

@@ -3,13 +3,21 @@
 
     <div fxFlex="1 1 auto" style="overflow-y: auto;">
 
-      <mat-selection-list *ngIf="toggle.checked" #shoes multiple="true">
+      <mat-selection-list #list *ngIf="toggle.checked" #shoes multiple="true">
+        <mat-list-option (selectedChange)="select($event, list);" >
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <div mat-line>全部</div>
+        </mat-list-option>
         <mat-list-option *ngFor="let shoe of typesOfShoes">
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
         </mat-list-option>
       </mat-selection-list>
-      <mat-selection-list *ngIf="!toggle.checked" #shoes multiple="false">
+      <mat-selection-list #list *ngIf="!toggle.checked" #shoes multiple="false">
+        <mat-list-option (selectedChange)="select($event, list);" >
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <div mat-line>全部</div>
+        </mat-list-option>
         <mat-list-option *ngFor="let shoe of typesOfShoes">
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
