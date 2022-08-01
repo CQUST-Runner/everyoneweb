@@ -13,6 +13,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input'
 import {MatTableModule} from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSelectModule} from '@angular/material/select';
+
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -30,6 +32,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatInputModule,
     MatTableModule,
     MatSlideToggleModule,
+    MatSelectModule,
   ],
   exports:[
     MatToolbarModule,
@@ -47,6 +50,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatInputModule,
     MatTableModule,
     MatSlideToggleModule,
+    MatSelectModule,
   ]
 })
 export class MaterialModule { }

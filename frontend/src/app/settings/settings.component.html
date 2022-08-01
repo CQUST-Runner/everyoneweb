@@ -1,1 +1,78 @@
-<p>settings works!</p>
+<div class="container" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="start">
+  <div fxFlex="0" fxLayout="row">
+    <div>外观：</div>
+    <div fxFlex="1 1 auto"></div>
+    <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
+      <mat-form-field appearance="fill">
+        <mat-label>首屏界面：</mat-label>
+        <select matNativeControl>
+          <option value="save-page" selected>新建</option>
+          <option value="library">已保存的网页</option>
+          <option value="settings">设置</option>
+          <option value="logs">日志</option>
+        </select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>语言</mat-label>
+        <select matNativeControl>
+          <option value="sc" selected>中文（简体）</option>
+          <option value="tc">中文（繁体）</option>
+          <option value="english">English</option>
+          <option value="jp">日本語</option>
+        </select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div fxFlex="0" fxLayout="row">
+    <div>
+      数据：
+    </div>
+    <div fxFlex="1 1 auto"></div>
+    <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
+      <div fxLayout="row">
+        <mat-form-field fxFlex="1 1 auto" appearance="fill">
+          <mat-label>数据目录：</mat-label>
+          <input matInput #message maxlength="256" placeholder="Ex. I need help with..." value="C:\\xxx">
+          <mat-hint align="start"><strong>若目录为同步目录，则数据将在设备间同步。</strong> </mat-hint>
+          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+        </mat-form-field>
+        <button mat-icon-button aria-label="Example icon-button with a heart icon">
+          <mat-icon>folderopen</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>机器名：</mat-label>
+        <input matInput placeholder="" value="machine0">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div fxFlex="0" fxLayout="row">
+    <div>
+      HTTP服务：
+    </div>
+    <div fxFlex="1 1 auto"></div>
+    <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
+      <mat-slide-toggle color="primary" checked="">HTTP服务</mat-slide-toggle>
+      <mat-form-field appearance="fill">
+        <mat-label>HTTP服务端口：</mat-label>
+        <input matInput placeholder="" value="51552">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div fxFlex="1 0 auto"></div>
+
+  <div fxFlex="0" fxFlexAlign="end">
+    <button mat-raised-button style="min-width:150px; min-height:40px;">应用</button>
+  </div>
+</div>
