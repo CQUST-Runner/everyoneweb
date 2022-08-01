@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatChipInputEvent} from '@angular/material/chips';
+import {ThemePalette} from '@angular/material/core';
 
 export interface PeriodicElement {
   name: string;
@@ -76,7 +77,7 @@ export class LibraryComponent implements OnInit {
             this.fruits.splice(index, 1);
           }
         }
-      
+        color: ThemePalette = 'accent';
         displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
         dataSource = ELEMENT_DATA;
 }

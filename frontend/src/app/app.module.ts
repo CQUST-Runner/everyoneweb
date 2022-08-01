@@ -23,6 +23,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input'
 import {MatTableModule} from '@angular/material/table';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {MatTableModule} from '@angular/material/table';
     ReactiveFormsModule,
     MatInputModule,
     MatTableModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

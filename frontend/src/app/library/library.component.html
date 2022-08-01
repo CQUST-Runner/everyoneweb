@@ -1,18 +1,37 @@
 <div fxLayout="row" fxLayoutGap="10px" style="overflow: hidden;">
-  <div fxFlex="15%" style="overflow-y: auto">
-    <mat-selection-list #shoes [multiple]="false">
-      <mat-list-option *ngFor="let shoe of typesOfShoes">
-        <mat-icon mat-list-icon>folder</mat-icon>
-        <div mat-line>{{shoe}}</div>
-      </mat-list-option>
-    </mat-selection-list>
-    <p>
-      Options selected: {{shoes.selectedOptions.selected.length}}
-    </p>
+  <div fxFlex="15%" fxLayout="column" style="overflow: hidden;">
+
+    <div fxFlex="1 1 auto" style="overflow-y: auto;">
+
+      <mat-selection-list *ngIf="toggle.checked" #shoes multiple="true">
+        <mat-list-option *ngFor="let shoe of typesOfShoes">
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <div mat-line>{{shoe}}</div>
+        </mat-list-option>
+      </mat-selection-list>
+      <mat-selection-list *ngIf="!toggle.checked" #shoes multiple="false">
+        <mat-list-option *ngFor="let shoe of typesOfShoes">
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <div mat-line>{{shoe}}</div>
+        </mat-list-option>
+      </mat-selection-list>
+      <p>
+        <!-- Options selected: {{shoes.selectedOptions.selected.length}} -->
+      </p>
+    </div>
+
+    <mat-divider fxFlex="0 0 auto"></mat-divider>
+
+    <div style="padding: 10px 20px;" fxFlex="0 0 auto" fxFlexAlign="start">
+      <mat-slide-toggle #toggle [color]="color">
+        多选
+      </mat-slide-toggle>
+    </div>
+
   </div>
-  <div fxFlex="1 1 auto" fxLayout="column" style="overflow:hidden; padding:0 20px;">
-    <div>
-      <mat-form-field class="example-chip-list" appearance="fill">
+  <div fxFlex="1 1 auto" fxLayout="column" style="overflow:hidden; padding:5px 20px;">
+    <div fxLayout="row" fxLayoutGap="20px" style="align-items: center;">
+      <!-- <mat-form-field class="example-chip-list" appearance="fill">
         <mat-chip-list #chipList aria-label="Fruit selection">
           <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
             {{fruit}}
@@ -21,17 +40,16 @@
             </button>
           </mat-chip>
         </mat-chip-list>
+      </mat-form-field> -->
+      <div fxFlex="1 0 auto"></div>
+      <mat-form-field fxFlex="0 1 auto" appearance="legacy">
+        <mat-label>Legacy form field</mat-label>
+        <input matInput placeholder="Placeholder">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
-      <p>
-        <mat-form-field appearance="legacy">
-          <mat-label>Legacy form field</mat-label>
-          <input matInput placeholder="Placeholder">
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-          <!-- <mat-hint>Hint</mat-hint> -->
-        </mat-form-field>
-      </p>
     </div>
-    
+
     <div fxFlex="1 1 auto" style="overflow-y:auto;">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
