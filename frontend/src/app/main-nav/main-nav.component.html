@@ -12,8 +12,8 @@
       <a mat-list-item href="logs">日志</a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
+  <mat-sidenav-content fxLayout="column" style="height: 100vh;overflow: hidden;">
+    <mat-toolbar color="primary" fxFlex="0 0 auto">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -23,8 +23,10 @@
       </button>
       <span>{{router.url}}</span>
     </mat-toolbar>
-    <router-outlet></router-outlet>
+    <div fxFlex="1 1 auto" fxLayout="column" style="overflow: hidden;">
+      <router-outlet></router-outlet>
+    </div>
     <!-- Add Content Here -->
-    <footer>asd</footer>
+    <footer fxFlex="0 0 20px">asd</footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
