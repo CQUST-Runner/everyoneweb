@@ -43,7 +43,6 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   id: any;
 
   tmpDisableAutoScroll(ev: Event) {
-    return;
     if (this.lastScroolTop > this.pre.nativeElement.scrollTop && this.autoScroll) {
       this.autoScroll = false;
     }
