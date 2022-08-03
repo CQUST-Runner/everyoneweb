@@ -46,10 +46,11 @@
 
     <div fxFlex="1 1 auto" style="overflow-y:auto;">
       
-      <mat-form-field appearance="standard">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-      </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
       
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
@@ -68,8 +69,13 @@
       
           <!-- Fruit Column -->
           <ng-container matColumnDef="fruit">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fruit </th>
-            <td mat-cell *matCellDef="let row"> {{row.fruit}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fruit
+            </th>
+            <td mat-cell *matCellDef="let row" > {{row.fruit}} 
+              <button  mat-icon-button [cdkCopyToClipboard]="row.fruit">
+              <mat-icon class="copy-button"  >content_copy</mat-icon>
+            </button>
+           </td>
           </ng-container>
           
           
@@ -81,7 +87,7 @@
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item>
-                <mat-icon>tab</mat-icon>
+                <mat-icon>open_in_browser</mat-icon>
                 <span>浏览器打开</span>
               </button>
               <button mat-menu-item>

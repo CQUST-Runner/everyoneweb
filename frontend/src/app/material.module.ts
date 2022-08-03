@@ -16,6 +16,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import { MatMenuModule} from '@angular/material/menu';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatSelectModule,
     MatMenuModule,
     MatPaginatorModule,
+    ClipboardModule,
   ],
   exports:[
     MatToolbarModule,
@@ -57,6 +59,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatSelectModule,
     MatMenuModule,
     MatPaginatorModule,
+    ClipboardModule,
   ]
 })
 export class MaterialModule { }

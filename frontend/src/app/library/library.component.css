@@ -21,3 +21,7 @@ table {
 a {
     color: rgba(0, 0, 0, .87);
 }
+
+.copy-button {
+    font-size: 1em;
+}
