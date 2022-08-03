@@ -3,10 +3,10 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-color: #272822;
 }
 
 .filename {
-    background-color: #272822;
     color: #ff4081;
     font-size: 1.5em;
     padding: 5px 1em;
