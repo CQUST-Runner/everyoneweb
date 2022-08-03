@@ -17,3 +17,7 @@ table {
     flex-direction: column;
     overflow: hidden;
 }
+
+a {
+    color: rgba(0, 0, 0, .87);
+}
