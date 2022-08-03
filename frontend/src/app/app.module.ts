@@ -13,6 +13,7 @@ import { LogsComponent } from './logs/logs.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MaterialModule } from './material.module';
+import { HighlightService } from './service/highlight.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { MaterialModule } from './material.module';
     ReactiveFormsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [HighlightService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
