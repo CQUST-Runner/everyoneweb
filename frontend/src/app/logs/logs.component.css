@@ -5,6 +5,14 @@
     overflow: hidden;
 }
 
+.filename {
+    background-color: #272822;
+    color: #ff4081;
+    font-size: 1.5em;
+    padding: 5px 1em;
+}
+
 pre {
     margin: 0;
+    border-radius: 0;
 }
