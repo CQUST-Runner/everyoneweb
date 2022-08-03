@@ -36,7 +36,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
       return;
     }
     this.code.nativeElement.innerHTML +=
-      this.highlightService.highlight(['', this.logService.getLog()].join('\n'), 'log');
+      this.highlightService.highlight(['', ...this.logService.getLog()].join('\n'), 'log');
   }
 
   lastScroolTop = 0;

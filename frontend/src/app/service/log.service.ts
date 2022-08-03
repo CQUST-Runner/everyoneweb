@@ -49,7 +49,13 @@ export class LogService {
   }
   
   getLog(): string[] {
-    return [this.lines[this.index++%this.lines.length]];
+    let count=Math.floor(Math.random()*10);
+    let results: string[] = [];
+    
+    for (let i = 0; i < count; i ++){
+      results.push(this.lines[(this.index+i)%this.lines.length]);
+    }
+    this.index+=count;
+    return results;
   }
-  
 }
