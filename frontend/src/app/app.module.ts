@@ -11,7 +11,7 @@ import { SavePageComponent } from './save-page/save-page.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LogsComponent } from './logs/logs.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { HighlightService } from './service/highlight.service';
 import { LogService } from './service/log.service';

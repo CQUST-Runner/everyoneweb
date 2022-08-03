@@ -11,7 +11,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
   selectFile(ev: Event) {
     alert('请打开桌面版使用该功能');
   }

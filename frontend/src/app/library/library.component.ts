@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {ThemePalette} from '@angular/material/core';
-import {MatSelectionList} from '@angular/material/list';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import { ViewChild} from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { ThemePalette } from '@angular/material/core';
+import { MatSelectionList } from '@angular/material/list';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ViewChild } from '@angular/core';
 
 export interface UserData {
   id: string;
@@ -52,47 +52,47 @@ const NAMES: string[] = [
   templateUrl: './library.component.html',
   styleUrls: ['./library.component.css']
 })
-export class LibraryComponent implements OnInit,AfterViewInit {
+export class LibraryComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
   }
   typesOfShoes: string[] = [
     'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers',
-     'Clogs', 'Loafers', 'Moccasins', 'Sneakers', 'Clogs',
-      'Loafers', 'Moccasins', 'Sneakers', 'Clogs', 'Loafers',
-       'Moccasins', 'Sneakers', 'Clogs', 'Loafers', 'Moccasins',
-        'Sneakers'];
+    'Clogs', 'Loafers', 'Moccasins', 'Sneakers', 'Clogs',
+    'Loafers', 'Moccasins', 'Sneakers', 'Clogs', 'Loafers',
+    'Moccasins', 'Sneakers', 'Clogs', 'Loafers', 'Moccasins',
+    'Sneakers'];
 
-        fruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-        allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-      
-      
-        
-        add(event: MatChipInputEvent): void {
-          const value = (event.value || '').trim();
-      
-          // Add our fruit
-          if (value) {
-            this.fruits.push(value);
-          }
-      
-          // Clear the input value
-          event.chipInput!.clear();
-      
-        }
-      
-        color: ThemePalette = 'accent';
-        
-        select(b:boolean,t:MatSelectionList) {
-          if (b){
-            t.selectAll();
-          }else{
-            t.deselectAll();
-          }
-        }
-        
-        displayedColumns: string[] = ['name', 'progress', 'fruit', 'menu'];
+  fruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+  }
+
+  color: ThemePalette = 'accent';
+
+  select(b: boolean, t: MatSelectionList) {
+    if (b) {
+      t.selectAll();
+    } else {
+      t.deselectAll();
+    }
+  }
+
+  displayedColumns: string[] = ['name', 'progress', 'fruit', 'menu'];
   dataSource: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -100,7 +100,7 @@ export class LibraryComponent implements OnInit,AfterViewInit {
 
   constructor() {
     // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
@@ -119,7 +119,7 @@ export class LibraryComponent implements OnInit,AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  
+
 }
 
 

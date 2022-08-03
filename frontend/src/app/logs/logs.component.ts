@@ -27,7 +27,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     //   this.highlightService.highlightElement(this.code.nativeElement);
     //   this.highlighted = true;
     // }
-    if (this.autoScroll &&!this.paused) {
+    if (this.autoScroll && !this.paused) {
       this.pre.nativeElement.scrollTop = this.pre.nativeElement.scrollHeight;
     }
   }
@@ -55,9 +55,9 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.id = setTimeout(() => { this.autoScroll = true; this.id = undefined; }, 3000);
     }
   }
-  paused=false;
-  pauseLog(ev:Event) {
-    this.paused=!this.paused;
+  paused = false;
+  pauseLog(ev: Event) {
+    this.paused = !this.paused;
   }
   ngOnDestroy(): void {
     clearInterval(this.timer)

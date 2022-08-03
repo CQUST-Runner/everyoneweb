@@ -17,9 +17,9 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor( public router: Router,  private breakpointObserver: BreakpointObserver) {
+  constructor(public router: Router, private breakpointObserver: BreakpointObserver) {
   }
-  
+
   title: string = 'frontend';
 
 }

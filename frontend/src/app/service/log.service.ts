@@ -41,21 +41,21 @@ const LOG = `
 
 @Injectable()
 export class LogService {
-  
-    lines :string[];
-    index=0;
-    constructor() {
-    this.lines=LOG.split('\n');
+
+  lines: string[];
+  index = 0;
+  constructor() {
+    this.lines = LOG.split('\n');
   }
-  
+
   getLog(): string[] {
-    let count=Math.floor(Math.random()*10);
+    let count = Math.floor(Math.random() * 10);
     let results: string[] = [];
-    
-    for (let i = 0; i < count; i ++){
-      results.push(this.lines[(this.index+i)%this.lines.length]);
+
+    for (let i = 0; i < count; i++) {
+      results.push(this.lines[(this.index + i) % this.lines.length]);
     }
-    this.index+=count;
+    this.index += count;
     return results;
   }
 }
