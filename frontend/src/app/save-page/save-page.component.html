@@ -1,1 +1,24 @@
-<p>save-page works!</p>
+<div class="container" fxLayout="column">
+    <div fxLayout="row">
+        <mat-form-field fxFlex="1 1 auto" appearance="fill">
+            <mat-label>url</mat-label>
+            <input [(ngModel)]="value" type="url" matInput [formControl]="emailFormControl"
+                [errorStateMatcher]="matcher" placeholder="Ex. http://abc.com">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="emailFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
+                Please enter a valid url
+            </mat-error>
+            <!-- <mat-error *ngIf="emailFormControl.hasError('required')">
+            Url is <strong>required</strong>
+          </mat-error> -->
+        </mat-form-field>
+
+        <input #select_file style="display:none;" type="file" (change)="onFolderSelected($event)" webkitdirectory
+            multiple />
+        <button mat-icon-button (click)="select_file.click();">
+            <mat-icon>folder</mat-icon>
+        </button>
+    </div>
+</div>
