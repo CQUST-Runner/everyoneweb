@@ -1,7 +1,11 @@
-<span>
-    <strong class="filename">filename: c://2022-08-03.log</strong>
+<span class="controller">
+    <strong class="filename">filename: c://2022-08-03.log
+        <!-- <span *ngIf="paused">(已暂停)</span> -->
+    </strong>
+
     <button mat-icon-button (click)="pauseLog($event);" color="primary">
-        <mat-icon>pause</mat-icon>
+        <mat-icon *ngIf="paused">play_arrow</mat-icon>
+        <mat-icon *ngIf="!paused">pause</mat-icon>
     </button>
 </span>
 <pre #pre (scroll)="tmpDisableAutoScroll($event);">
