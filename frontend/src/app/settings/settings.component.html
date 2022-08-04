@@ -39,10 +39,11 @@
           <input matInput #message maxlength="256" placeholder="Ex. I need help with..." value="C:\\xxx">
           <mat-hint align="start"><strong>若目录为同步目录，则数据将在设备间同步。</strong> </mat-hint>
           <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+
+          <button matSuffix mat-icon-button (click)="selectFile($event);">
+            <mat-icon>folderopen</mat-icon>
+          </button>
         </mat-form-field>
-        <button mat-icon-button (click)="selectFile($event);">
-          <mat-icon>folderopen</mat-icon>
-        </button>
 
       </div>
 
@@ -50,7 +51,7 @@
         <mat-label>机器名：</mat-label>
         <input matInput placeholder="" value="machine0">
       </mat-form-field>
-      
+
       <button mat-raised-button fxFlexAlign="start">导出所有数据</button>
     </div>
   </div>
