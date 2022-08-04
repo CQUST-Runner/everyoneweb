@@ -3,8 +3,26 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    /*https://www.pexels.com/photo/snow-covered-mountains-with-leafless-trees-8230825/*/
+    background-image: url(src/assets/pexels-tobias-bjørkli-8230825.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .container {
-    padding: 10% 30% 10px 30%;
+    padding: 8% 28% 10px 28%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.input-box {
+    background-color: rgba(255, 255, 255, .6);
+    padding-bottom: 0;
+}
+
+.options {
+    padding: 10px 10px;
+    margin: 5% 10% 0 10%;
+    background-color: rgba(255, 255, 255, .6);
 }

@@ -1,24 +1,62 @@
 <div class="container" fxLayout="column">
-    <div fxLayout="row">
-        <mat-form-field fxFlex="1 1 auto" appearance="fill">
-            <mat-label>url</mat-label>
-            <input [(ngModel)]="value" type="url" matInput [formControl]="emailFormControl"
-                [errorStateMatcher]="matcher" placeholder="Ex. http://abc.com">
-            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-                <mat-icon>close</mat-icon>
-            </button>
-            <mat-error *ngIf="emailFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
-                Please enter a valid url
-            </mat-error>
-            <!-- <mat-error *ngIf="emailFormControl.hasError('required')">
-            Url is <strong>required</strong>
-          </mat-error> -->
-        </mat-form-field>
+  <mat-card fxLayout="row" class="input-box">
+    <mat-form-field fxFlex="1 1 auto" appearance="fill">
+      <mat-label>url</mat-label>
+      <input [(ngModel)]="value" type="url" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+        placeholder="Ex. http://abc.com">
+      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="emailFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
+        Please enter a valid url
+      </mat-error>
 
-        <input #select_file style="display:none;" type="file" (change)="onFolderSelected($event)" webkitdirectory
-            multiple />
-        <button mat-icon-button (click)="select_file.click();">
-            <mat-icon>folder</mat-icon>
-        </button>
-    </div>
+      <input #select_file style="display:none;" type="file" (change)="onFolderSelected($event)" webkitdirectory
+        multiple />
+      <button matSuffix mat-icon-button (click)="select_file.click();">
+        <mat-icon>folder</mat-icon>
+      </button>
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card fxLayout="column" fxLayoutGap="15px" class="options">
+    <mat-form-field appearance="fill">
+      <mat-label>标签：</mat-label>
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+          {{fruit.name}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="新标签...（回车创建）" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+    </mat-form-field>
+
+    <p>
+      保存格式:
+      <mat-button-toggle-group name="fileFormat" value="singleFile">
+        <mat-button-toggle value="singleFile">单文件HTML</mat-button-toggle>
+        <mat-button-toggle value="html">HTML+资产文件夹</mat-button-toggle>
+        <mat-button-toggle value="pdf">PDF</mat-button-toggle>
+      </mat-button-toggle-group>
+    </p>
+
+    <p>
+      提醒我阅读：
+      <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
+          [disabled]="disabled">
+        <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+        </mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="stepHour"
+          [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="color">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+    </p>
+
+    <button mat-raised-button fxFlexAlign="start" style="min-width:150px; min-height:40px;">保存</button>
+  </mat-card>
 </div>

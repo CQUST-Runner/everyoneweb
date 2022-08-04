@@ -15,6 +15,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { HighlightService } from './service/highlight.service';
 import { LogService } from './service/log.service';
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,9 @@ import { LogService } from './service/log.service';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    ClipboardModule,
+    NgxMatDatetimePickerModule,
+    NgxMatMomentModule,
   ],
   providers: [HighlightService, LogService],
   bootstrap: [AppComponent]
