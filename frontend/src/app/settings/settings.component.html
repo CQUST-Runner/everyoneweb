@@ -5,8 +5,8 @@
     <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
       <mat-form-field appearance="fill">
         <mat-label>首屏界面：</mat-label>
-        <mat-select matNativeControl>
-          <mat-option value="save-page" selected>新建</mat-option>
+        <mat-select matNativeControl value="save-page">
+          <mat-option value="save-page">新建</mat-option>
           <mat-option value="library">已保存的网页</mat-option>
           <mat-option value="settings">设置</mat-option>
           <mat-option value="logs">日志</mat-option>
@@ -15,8 +15,8 @@
 
       <mat-form-field appearance="fill">
         <mat-label>语言</mat-label>
-        <mat-select matNativeControl>
-          <mat-option value="sc" selected>中文（简体）</mat-option>
+        <mat-select matNativeControl value="sc">
+          <mat-option value="sc">中文（简体）</mat-option>
           <mat-option value="tc">中文（繁体）</mat-option>
           <mat-option value="english">English</mat-option>
           <mat-option value="jp">日本語</mat-option>
@@ -50,6 +50,8 @@
         <mat-label>机器名：</mat-label>
         <input matInput placeholder="" value="machine0">
       </mat-form-field>
+      
+      <button mat-raised-button fxFlexAlign="start">导出所有数据</button>
     </div>
   </div>
 
