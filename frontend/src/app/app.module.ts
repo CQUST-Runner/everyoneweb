@@ -19,6 +19,12 @@ import { NgxMatDatetimePickerModule } from '@angular-material-components/datetim
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { PagePreviewComponent } from './page-preview/page-preview.component';
+import { PageInfoComponent } from './page-info/page-info.component';
+import { ConflictsComponent } from './conflicts/conflicts.component';
+import { VersionInfoComponent } from './version-info/version-info.component';
+import { EditPageInfoComponent } from './edit-page-info/edit-page-info.component';
+import { ExportAsComponent } from './export-as/export-as.component';
+import { SetReminderComponent } from './set-reminder/set-reminder.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +34,13 @@ import { PagePreviewComponent } from './page-preview/page-preview.component';
     SavePageComponent,
     SettingsComponent,
     LogsComponent,
-    PagePreviewComponent
+    PagePreviewComponent,
+    PageInfoComponent,
+    ConflictsComponent,
+    VersionInfoComponent,
+    EditPageInfoComponent,
+    ExportAsComponent,
+    SetReminderComponent
   ],
   imports: [
     BrowserModule,
