@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -86,5 +86,14 @@ export class SavePageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  @ViewChild("options_container") d: ElementRef;
+  showOptions() {
+      this.d.nativeElement.classList.add('options-anim');
+  }
+  
+  hideOptions() {
+    this.d.nativeElement.classList.remove('options-anim');
   }
 }

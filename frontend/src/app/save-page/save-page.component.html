@@ -19,47 +19,50 @@
     </mat-form-field>
   </mat-card>
 
-  <mat-card fxLayout="column" fxLayoutGap="15px" class="options">
-    <mat-form-field appearance="fill">
-      <mat-label>标签：</mat-label>
-      <mat-chip-list #chipList>
-        <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
-          {{fruit.name}}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        <input placeholder="新标签...（回车创建）" [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-          (matChipInputTokenEnd)="add($event)">
-      </mat-chip-list>
-    </mat-form-field>
-
-    <p>
-      保存格式:
-      <mat-button-toggle-group name="fileFormat" value="singleFile">
-        <mat-button-toggle value="singleFile">单文件HTML</mat-button-toggle>
-        <mat-button-toggle value="html">HTML+资产文件夹</mat-button-toggle>
-        <mat-button-toggle value="pdf">PDF</mat-button-toggle>
-      </mat-button-toggle-group>
-    </p>
-
-    <p>
-      提醒我阅读：
-      <mat-form-field>
-        <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
-          [disabled]="disabled">
-        <mat-datepicker-toggle matSuffix [for]="$any(picker)">
-        </mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="stepHour"
-          [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="color">
-        </ngx-mat-datetime-picker>
+  <div #options_container [class]="(emailFormControl.hasError('pattern') || emailFormControl.hasError('required')) ? 'options-container' : 'options-container options-anim'">
+    <mat-card fxLayout="column" fxLayoutGap="15px" class="options">
+      <mat-form-field appearance="fill">
+        <mat-label>标签：</mat-label>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+            {{fruit.name}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input placeholder="新标签...（回车创建）" [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
       </mat-form-field>
-    </p>
 
-    <div fxFlexAlign="end" fxLayout="row" fxLayoutGap="20px">
-      <button (click)="openPreview();" mat-stroked-button style="min-width:150px; min-height:40px;">预览</button>
-      <button mat-flat-button style="min-width:150px; min-height:40px;">保存</button>
-    </div>
-  </mat-card>
+      <p>
+        保存格式:
+        <mat-button-toggle-group name="fileFormat" value="singleFile">
+          <mat-button-toggle value="singleFile">单文件HTML</mat-button-toggle>
+          <mat-button-toggle value="html">HTML+资产文件夹</mat-button-toggle>
+          <mat-button-toggle value="pdf">PDF</mat-button-toggle>
+        </mat-button-toggle-group>
+      </p>
+
+      <p>
+        提醒我阅读：
+        <mat-form-field>
+          <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
+            [disabled]="disabled">
+          <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+          </mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+            [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"
+            [color]="color">
+          </ngx-mat-datetime-picker>
+        </mat-form-field>
+      </p>
+
+      <div fxFlexAlign="end" fxLayout="row" fxLayoutGap="20px">
+        <button (click)="openPreview();" mat-stroked-button style="min-width:150px; min-height:40px;">预览</button>
+        <button mat-flat-button style="min-width:150px; min-height:40px;">保存</button>
+      </div>
+    </mat-card>
+  </div>
 </div>
