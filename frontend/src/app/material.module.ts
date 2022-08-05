@@ -19,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatCardModule,
     MatButtonToggleModule,
     MatDatepickerModule,
+    MatDialogModule,
   ],
   exports: [
     MatToolbarModule,
@@ -66,6 +68,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatCardModule,
     MatButtonToggleModule,
     MatDatepickerModule,
+    MatDialogModule,
   ]
 })
 export class MaterialModule { }

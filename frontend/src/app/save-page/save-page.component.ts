@@ -5,6 +5,8 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import * as moment from 'moment';
 import { ThemePalette } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PagePreviewComponent } from '../page-preview/page-preview.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -25,7 +27,7 @@ export interface Fruit {
 })
 export class SavePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -77,4 +79,12 @@ export class SavePageComponent implements OnInit {
   public color: ThemePalette = 'primary';
 
   public dateControl = new FormControl(new Date(2021, 9, 4, 5, 6, 7));
+
+  openPreview() {
+    const dialogRef = this.dialog.open(PagePreviewComponent, { width: "80vw" });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }

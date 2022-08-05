@@ -18,6 +18,7 @@ import { LogService } from './service/log.service';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { PagePreviewComponent } from './page-preview/page-preview.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     LibraryComponent,
     SavePageComponent,
     SettingsComponent,
-    LogsComponent
+    LogsComponent,
+    PagePreviewComponent
   ],
   imports: [
     BrowserModule,
