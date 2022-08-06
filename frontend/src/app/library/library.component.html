@@ -59,11 +59,24 @@
 
     <div fxFlex="1 1 auto" style="overflow-y:auto;">
 
-      <mat-form-field appearance="standard">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <span fxFlexAlign="center">rating:</span>
+        <mat-button-toggle-group fxFlexAlign="center" multiple>
+          <mat-button-toggle value="1">1</mat-button-toggle>
+          <mat-button-toggle value="2">2</mat-button-toggle>
+          <mat-button-toggle value="3">3</mat-button-toggle>
+          <mat-button-toggle value="4">4</mat-button-toggle>
+          <mat-button-toggle value="5">5</mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <div fxFlex="1 1 auto"></div>
+
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
 
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>

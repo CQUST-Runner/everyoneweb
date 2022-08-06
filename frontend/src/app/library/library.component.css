@@ -25,3 +25,7 @@ a {
 .copy-button {
     font-size: 1em;
 }
+
+mat-button-toggle {
+    min-width: 3em;
+}
