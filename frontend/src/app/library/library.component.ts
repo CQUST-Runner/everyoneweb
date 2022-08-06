@@ -18,7 +18,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
+import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
 
 const FRUITS: string[] = [
   'blueberry',
@@ -221,87 +221,3 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 }
 
-const RANDOM_ID_SOURCE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789__________";
-const RANDOM_STRING_SOURCE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz     ";
-
-function randomID(length: number): string {
-  let s = '';
-  for (let i = 0; i < length; i++) {
-    s += choose(RANDOM_ID_SOURCE.split(''));
-  }
-  return s;
-}
-
-function randomString(length: number): string {
-  let s = '';
-  for (let i = 0; i < length; i++) {
-    s += choose(RANDOM_STRING_SOURCE.split(''));
-  }
-  return s;
-}
-
-function randomStringMinMax(minLength: number, maxLength: number): string {
-  if (minLength < 0 || maxLength < 0) {
-    throw Error('');
-  }
-  if (minLength > maxLength) {
-    let tmp = minLength;
-    minLength = maxLength;
-    maxLength = tmp;
-  }
-  let length = minLength + Math.floor(Math.random() * (maxLength - minLength + 1));
-  return randomString(length);
-}
-
-let CATEGORIES: string[] = [
-  'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
-
-let TAGS: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
-function choose<T>(a: T[]): T {
-  if (a.length <= 0) {
-    throw Error('');
-  }
-  return a[Math.floor(Math.random() * a.length)];
-}
-
-function randomUrl(): string {
-  let procotols = ['http', 'https'];
-  let sub_domains = ['www.', ''];
-  let top_domains = ['.com', '.org', '.net', '.gov', '.edu', '.io'];
-  let domainName = randomID(3 + Math.floor(Math.random() * 10));
-  let path = randomID(3 + Math.floor(Math.random() * 10));
-  return `${choose(procotols)}://${choose(sub_domains)}${domainName}${choose(top_domains)}/${path}`
-}
-
-function enumValues(a: any) {
-  return Object.keys(a).filter(x => isNaN(Number(x))).map(x => a[x]);
-}
-
-function createRandomPage(): Page {
-  let tags: string[] = [];
-  let tagNumbers: number[] = [0, 0, 0, 1, 1, 1, 1, 2, 2, 3];
-  let tagNumber = choose(tagNumbers);
-  for (let i = 0; i < tagNumber; i++) {
-    tags.push(choose(TAGS));
-  }
-  let id = randomID(6);
-  let saveTime = Math.floor(Math.random() * 31);
-  let updateTime = Math.floor(Math.random() * saveTime);
-  return {
-    sourceUrl: randomUrl(),
-    id: id,
-    saveTime: moment().subtract(saveTime, 'days'),
-    updateTime: choose([moment().subtract(updateTime), undefined, undefined]),
-    remindReadingTime: choose([moment().add(Math.floor(Math.random() * 8), 'days'), undefined, undefined, undefined, undefined]),
-    filePath: id + '.html',
-    type: choose(enumValues(PageType)) as PageType,
-    source: choose(enumValues(PageSource)) as PageSource,
-    method: choose(enumValues(ImportMethod)) as ImportMethod,
-    tags: tags,
-    category: choose(CATEGORIES),
-    title: randomStringMinMax(5, 15),
-    desc: randomStringMinMax(50, 100),
-    rating: choose(enumValues(Rating)) as Rating,
-  };
-}
