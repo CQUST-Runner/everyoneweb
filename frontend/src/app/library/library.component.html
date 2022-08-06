@@ -3,7 +3,7 @@
 
     <div style="overflow-y: auto;">
       <mat-selection-list #list (selectionChange)="selectCategory($event,list);" *ngIf="toggle.checked" #shoes multiple="true">
-        <mat-list-option (selectedChange)="select($event, list);" value="_all">
+        <mat-list-option (selectedChange)="select($event, list);" selected value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>
@@ -13,7 +13,7 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-selection-list #list  (selectionChange)="selectCategory($event,list);" *ngIf="!toggle.checked" #shoes multiple="false">
-        <mat-list-option value="_all">
+        <mat-list-option value="_all" selected>
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>

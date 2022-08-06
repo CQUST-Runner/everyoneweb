@@ -19,6 +19,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
+import { randomString } from '../common';
 
 const FRUITS: string[] = [
   'blueberry',
@@ -108,7 +109,45 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     );
 
     this.form.valueChanges.subscribe((value: any): void => {
-      console.log(value)
+      this.dataSource.filterPredicate = (data: Page, filter: string): boolean => {
+        let isSearchMatch = (): boolean => {
+          let search = value['search'] as string;
+          search = search.toLowerCase();
+          return search.length === 0 ||
+            data.title.toLowerCase().includes(search) ||
+            data.sourceUrl.toLowerCase().includes(search) /*||
+            data.desc.toLowerCase().includes(search)*/;
+        }
+
+        let isTagsMatch = (): boolean => {
+          let tags = value['tags'] as string[];
+          let allMatch = value['matchAll'] as boolean;
+          if (!allMatch) {
+            return tags.length === 0 || tags.some(tag => tag !== '无标签' && data.tags.some(t => t === tag ||
+              tag === '无标签' && data.tags.length === 0));
+          } else {
+            return !tags.some(tag => tag === '无标签' && data.tags.length !== 0 ||
+              tag !== '无标签' && !data.tags.some(t => t === tag));
+          }
+        }
+
+        let isCategoryMatch = (): boolean => {
+          let category = value['category'] as string[];
+          return category.some(x => x === '_all' || x === data.category);
+        }
+
+        let isRatingMatch = (): boolean => {
+          let rating = value['rating'] as string[];
+          return rating.length === 0 || rating.some(x => data.rating.toString() === x);
+        }
+
+        return isCategoryMatch() && isTagsMatch() && isRatingMatch() && isSearchMatch();
+      }
+
+      this.dataSource.filter = randomString(10);
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     });
   }
 
@@ -120,7 +159,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   searchFormControl = new FormControl('');
   ratingFormControl = new FormControl([] as number[]);
   tagsFormControl = new FormControl([] as string[]);
-  categoryFormControl = new FormControl([] as string[]);
+  categoryFormControl = new FormControl(['_all']);
   matchAllFormControl = new FormControl(false);
   form: FormGroup = new FormGroup({
     search: this.searchFormControl,
@@ -131,13 +170,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   });
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    // this.dataSource.filterPredicate = (data: Page, filter: string): boolean => {
-
-    //   return true
-    // }
+    // const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
