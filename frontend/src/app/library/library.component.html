@@ -103,16 +103,16 @@
                   <mat-icon>open_in_browser</mat-icon>
                   <span>浏览器打开</span>
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="openEditDialog();">
                   <mat-icon>edit
                   </mat-icon>
                   <span>编辑</span>
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="confirmDeletion();">
                   <mat-icon>delete</mat-icon>
                   <span>删除</span>
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="openExportDialog();">
                   <mat-icon>upload</mat-icon>
                   <span>导出</span>
                 </button>
@@ -120,14 +120,27 @@
                   <mat-icon>print</mat-icon>
                   <span>打印</span>
                 </button>
-                <button mat-menu-item>
-                  <mat-icon>notifications</mat-icon>
-                  <span>提醒</span>
-                </button>
-                <button mat-menu-item>
+
+                <button mat-menu-item (click)="openPageInfoDialog();">
                   <mat-icon>info</mat-icon>
                   <span>详情</span>
                 </button>
+
+                <mat-divider></mat-divider>
+
+                <div mat-menu-item style="padding: 8px 16px 0 16px;" (click)="preventMenuClosing($event);">提醒:
+                  <mat-form-field>
+                    <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate"
+                      [max]="maxDate" [disabled]="disabled">
+                    <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+                    </mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                      [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"
+                      [color]="color">
+                    </ngx-mat-datetime-picker>
+                  </mat-form-field>
+                </div>
+
               </mat-menu>
             </td>
           </ng-container>

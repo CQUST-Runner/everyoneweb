@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>确认</h2>
+<mat-dialog-content class="mat-typography">
+    {{data.prompt}}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="false">{{data.yesText}}</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{data.noText}}</button>
+</mat-dialog-actions>

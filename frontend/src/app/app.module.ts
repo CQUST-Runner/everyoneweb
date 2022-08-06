@@ -24,7 +24,8 @@ import { ConflictsComponent } from './conflicts/conflicts.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
 import { EditPageInfoComponent } from './edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from './export-as/export-as.component';
-import { SetReminderComponent } from './set-reminder/set-reminder.component';
+import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
+import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SetReminderComponent } from './set-reminder/set-reminder.component';
     VersionInfoComponent,
     EditPageInfoComponent,
     ExportAsComponent,
-    SetReminderComponent
+    MakeConfirmComponent,
+    PageInfoDialogComponent
   ],
   imports: [
     BrowserModule,

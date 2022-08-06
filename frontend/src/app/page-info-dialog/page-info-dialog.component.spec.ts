@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SetReminderComponent } from './set-reminder.component';
+import { PageInfoDialogComponent } from './page-info-dialog.component';
 
-describe('SetReminderComponent', () => {
-  let component: SetReminderComponent;
-  let fixture: ComponentFixture<SetReminderComponent>;
+describe('PageInfoDialogComponent', () => {
+  let component: PageInfoDialogComponent;
+  let fixture: ComponentFixture<PageInfoDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SetReminderComponent ]
+      declarations: [ PageInfoDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SetReminderComponent);
+    fixture = TestBed.createComponent(PageInfoDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

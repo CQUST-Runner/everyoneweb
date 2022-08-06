@@ -6,6 +6,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
+import { ExportAsComponent } from '../export-as/export-as.component';
+import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
+import * as moment from 'moment';
+import { FormControl } from '@angular/forms';
+import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 
 export interface UserData {
   id: string;
@@ -98,7 +105,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
@@ -120,6 +127,59 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     }
   }
 
+  openEditDialog() {
+    const dialogRef = this.dialog.open(EditPageInfoComponent, { width: "80vw" });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openExportDialog() {
+    const dialogRef = this.dialog.open(ExportAsComponent, { width: "80vw" });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  confirmDeletion() {
+    const dialogRef = this.dialog.open(MakeConfirmComponent, {
+      width: "80vw",
+      data: { prompt: "真的要删除吗？", yesText: "确认", noText: "取消" } as ConfirmData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openPageInfoDialog() {
+    const dialogRef = this.dialog.open(PageInfoDialogComponent, { width: "80vw" });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  public date: moment.Moment;
+  public disabled = false;
+  public showSpinners = true;
+  public showSeconds = false;
+  public touchUi = false;
+  public enableMeridian = false;
+  public minDate: moment.Moment;
+  public maxDate: moment.Moment;
+  public stepHour = 1;
+  public stepMinute = 1;
+  public stepSecond = 1;
+
+  public dateControl = new FormControl(new Date(2021, 9, 4, 5, 6, 7));
+
+  preventMenuClosing(ev: Event) {
+    ev.stopPropagation();
+  }
 }
 
 
