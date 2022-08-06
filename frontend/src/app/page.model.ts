@@ -1,19 +1,37 @@
 import * as moment from "moment"
 
-export type PageType = 'pdf' | 'singlePage' | 'html+assets'
+export enum PageType {
+    PDF = 'pdf',
+    SinglePage = 'singlePage',
+    HtmlAssets = 'html+assets',
+};
 
-export type PageSource = 'chrome-extension' | 'firefox-extension' | 'desktop-app' | 'web-app'
+export enum PageSource {
+    ChromeExtension = 'chrome-extension',
+    FirefoxExtension = 'firefox-extension',
+    DesktopApp = 'desktop-app',
+    WebApp = 'web-app',
+};
 
-export type ImportMethod = 'save' | 'import'
+export enum ImportMethod {
+    Save = 'save',
+    Import = 'import',
+};
 
-export type Rating = 1 | 2 | 3 | 4 | 5;
+export enum Rating {
+    One = 1,
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+};
 
 export interface Page {
     sourceUrl: string
     id: string
     saveTime: moment.Moment
-    updateTime: moment.Moment
-    remindReadingTime: moment.Moment
+    updateTime: moment.Moment | undefined
+    remindReadingTime: moment.Moment | undefined
     filePath: string
     type: PageType
     source: PageSource
@@ -23,4 +41,4 @@ export interface Page {
     title: string
     desc: string
     rating: Rating
-}
+};
