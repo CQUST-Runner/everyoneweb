@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ThemePalette } from '@angular/material/core';
-import { MatSelectionList } from '@angular/material/list';
+import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,7 +14,7 @@ import * as moment from 'moment';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ElementRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -66,7 +66,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   typesOfShoes: string[] = [
     'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
-  fruits: string[] = [];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', '无标签'];
 
 
@@ -78,6 +77,15 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     } else {
       t.deselectAll();
     }
+  }
+
+  selectCategory(ev: MatSelectionListChange, t: MatSelectionList) {
+    if (t._value === null) {
+      return;
+    }
+    this.categoryFormControl.value?.splice(0, this.categoryFormControl.value?.length);
+    this.categoryFormControl.value?.push(...t._value);
+    this.categoryFormControl.updateValueAndValidity();
   }
 
   displayedColumns: string[] = ['title', 'category', 'id', 'sourceUrl', 'rating', 'remindReadingTime', 'menu'];
@@ -98,6 +106,10 @@ export class LibraryComponent implements OnInit, AfterViewInit {
       startWith(null),
       map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
     );
+
+    this.form.valueChanges.subscribe((value: any): void => {
+      console.log(value)
+    });
   }
 
   ngAfterViewInit() {
@@ -105,9 +117,27 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  searchFormControl = new FormControl('');
+  ratingFormControl = new FormControl([] as number[]);
+  tagsFormControl = new FormControl([] as string[]);
+  categoryFormControl = new FormControl([] as string[]);
+  matchAllFormControl = new FormControl(false);
+  form: FormGroup = new FormGroup({
+    search: this.searchFormControl,
+    rating: this.ratingFormControl,
+    tags: this.tagsFormControl,
+    category: this.categoryFormControl,
+    matchAll: this.matchAllFormControl,
+  });
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    // this.dataSource.filterPredicate = (data: Page, filter: string): boolean => {
+
+    //   return true
+    // }
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -168,7 +198,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     ev.stopPropagation();
   }
 
-
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
@@ -180,7 +209,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.tagsFormControl.value?.push(value);
+      this.tagsFormControl.updateValueAndValidity();
     }
 
     // Clear the input value
@@ -190,15 +220,19 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-
+    const index = this.tagsFormControl.value?.indexOf(fruit);
+    if (index === undefined) {
+      return;
+    }
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.tagsFormControl.value?.splice(index, 1);
+      this.categoryFormControl.updateValueAndValidity();
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
+    this.tagsFormControl.value?.push(event.option.viewValue);
+    this.tagsFormControl.updateValueAndValidity();
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
   }

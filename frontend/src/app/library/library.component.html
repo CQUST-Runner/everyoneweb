@@ -2,23 +2,22 @@
   <div fxFlex="15%" fxLayout="column" style="overflow: hidden;">
 
     <div style="overflow-y: auto;">
-
-      <mat-selection-list #list *ngIf="toggle.checked" #shoes multiple="true">
-        <mat-list-option (selectedChange)="select($event, list);">
+      <mat-selection-list #list (selectionChange)="selectCategory($event,list);" *ngIf="toggle.checked" #shoes multiple="true">
+        <mat-list-option (selectedChange)="select($event, list);" value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>
-        <mat-list-option *ngFor="let shoe of typesOfShoes">
+        <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe">
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
         </mat-list-option>
       </mat-selection-list>
-      <mat-selection-list #list *ngIf="!toggle.checked" #shoes multiple="false">
-        <mat-list-option>
+      <mat-selection-list #list  (selectionChange)="selectCategory($event,list);" *ngIf="!toggle.checked" #shoes multiple="false">
+        <mat-list-option value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>
-        <mat-list-option *ngFor="let shoe of typesOfShoes">
+        <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe">
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
         </mat-list-option>
@@ -45,7 +44,7 @@
       <mat-expansion-panel-header>
         <mat-form-field appearance="standard">
           <mat-label>搜索</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          <input [formControl]="searchFormControl" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </mat-expansion-panel-header>
@@ -53,7 +52,7 @@
       <div fxLayout="column">
         <div>
           <span>rating:</span>
-          <mat-button-toggle-group multiple>
+          <mat-button-toggle-group [formControl]="ratingFormControl" multiple>
             <mat-button-toggle value="1">1</mat-button-toggle>
             <mat-button-toggle value="2">2</mat-button-toggle>
             <mat-button-toggle value="3">3</mat-button-toggle>
@@ -65,8 +64,8 @@
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-form-field fxFlex="1 1 50%" appearance="standard">
             <mat-label>标签：</mat-label>
-            <mat-chip-list #chipList>
-              <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+            <mat-chip-list #chipList >
+              <mat-chip *ngFor="let fruit of tagsFormControl.value" (removed)="remove(fruit)" selectable="false">
                 {{fruit}}
                 <button matChipRemove>
                   <mat-icon>cancel</mat-icon>
@@ -82,7 +81,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <mat-slide-toggle color="accent">
+          <mat-slide-toggle [formControl]="matchAllFormControl"color="accent">
             同时满足
           </mat-slide-toggle>
         </div>
