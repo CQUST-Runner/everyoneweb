@@ -11,8 +11,13 @@ import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.componen
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
 import * as moment from 'moment';
-import { FormControl } from '@angular/forms';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ElementRef} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 export interface UserData {
   id: string;
@@ -65,29 +70,11 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
   typesOfShoes: string[] = [
-    'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers',
-    'Clogs', 'Loafers', 'Moccasins', 'Sneakers', 'Clogs',
-    'Loafers', 'Moccasins', 'Sneakers', 'Clogs', 'Loafers',
-    'Moccasins', 'Sneakers', 'Clogs', 'Loafers', 'Moccasins',
-    'Sneakers'];
+    'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
-  fruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  fruits: string[] = [];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', '无标签'];
 
-
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our fruit
-    if (value) {
-      this.fruits.push(value);
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-  }
 
   color: ThemePalette = 'accent';
 
@@ -111,6 +98,11 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
+    
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+    );
   }
 
   ngAfterViewInit() {
@@ -179,6 +171,47 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   preventMenuClosing(ev: Event) {
     ev.stopPropagation();
+  }
+  
+  
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl('');
+  filteredFruits: Observable<string[]>;
+
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 }
 

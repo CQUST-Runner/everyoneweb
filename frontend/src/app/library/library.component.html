@@ -1,33 +1,25 @@
-<div fxLayout="row" fxLayoutGap="10px" style="overflow: hidden;">
+<div fxLayout="row" fxLayoutGap="10px" style="overflow: hidden; height: 100%;">
   <div fxFlex="15%" fxLayout="column" style="overflow: hidden;">
 
-    <div fxFlex="1 1 auto" style="overflow-y: auto;">
+    <div style="overflow-y: auto;">
 
       <mat-selection-list #list *ngIf="toggle.checked" #shoes multiple="true">
         <mat-list-option (selectedChange)="select($event, list);">
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>
-        <mat-list-option>
-          <mat-icon mat-list-icon>priority_high</mat-icon>
-          <div mat-line>无标签</div>
-        </mat-list-option>
         <mat-list-option *ngFor="let shoe of typesOfShoes">
-          <mat-icon mat-list-icon>tag</mat-icon>
+          <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
         </mat-list-option>
       </mat-selection-list>
       <mat-selection-list #list *ngIf="!toggle.checked" #shoes multiple="false">
-        <mat-list-option (selectedChange)="select($event, list);">
+        <mat-list-option>
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>
-        <mat-list-option>
-          <mat-icon mat-list-icon>priority_high</mat-icon>
-          <div mat-line>无标签</div>
-        </mat-list-option>
         <mat-list-option *ngFor="let shoe of typesOfShoes">
-          <mat-icon mat-list-icon>tag</mat-icon>
+          <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
         </mat-list-option>
       </mat-selection-list>
@@ -36,47 +28,68 @@
       </p>
     </div>
 
-    <mat-divider fxFlex="0 0 auto"></mat-divider>
+    <div fxFlex="1 0 auto"></div>
+    <mat-divider></mat-divider>
 
-    <div style="padding: 10px 20px;" fxFlex="0 0 auto" fxFlexAlign="start">
+    <div style="padding: 10px 20px;" fxFlexAlign="start">
       <mat-slide-toggle #toggle color="accent">
         多选
       </mat-slide-toggle>
     </div>
-    <div style="padding: 10px 20px;" fxFlex="0 0 auto" fxFlexAlign="start">
-      <mat-slide-toggle [disabled]="!toggle.checked" color="primary">
-        同时满足
-      </mat-slide-toggle>
-    </div>
-
   </div>
-  <div fxFlex="1 1 auto" fxLayout="column" style="overflow:hidden; padding:5px 20px;">
-    <div fxLayout="row" fxLayoutGap="20px" style="align-items: center;">
-    </div>
+  <div fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="10px" style="overflow:hidden; padding:5px 20px;">
     <!-- 
     Table retrieving data through HTTP
     -->
-
-    <div fxFlex="1 1 auto" style="overflow-y:auto;">
-
-      <div fxLayout="row" fxLayoutGap="10px">
-        <span fxFlexAlign="center">rating:</span>
-        <mat-button-toggle-group fxFlexAlign="center" multiple>
-          <mat-button-toggle value="1">1</mat-button-toggle>
-          <mat-button-toggle value="2">2</mat-button-toggle>
-          <mat-button-toggle value="3">3</mat-button-toggle>
-          <mat-button-toggle value="4">4</mat-button-toggle>
-          <mat-button-toggle value="5">5</mat-button-toggle>
-        </mat-button-toggle-group>
-
-        <div fxFlex="1 1 auto"></div>
-
+    <mat-expansion-panel fxFlex="0 0 auto">
+      <mat-expansion-panel-header>
         <mat-form-field appearance="standard">
           <mat-label>Filter</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
+      </mat-expansion-panel-header>
+
+      <div fxLayout="column">
+        <div>
+          <span>rating:</span>
+          <mat-button-toggle-group multiple>
+            <mat-button-toggle value="1">1</mat-button-toggle>
+            <mat-button-toggle value="2">2</mat-button-toggle>
+            <mat-button-toggle value="3">3</mat-button-toggle>
+            <mat-button-toggle value="4">4</mat-button-toggle>
+            <mat-button-toggle value="5">5</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="1 1 50%" appearance="standard">
+            <mat-label>标签：</mat-label>
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+                {{fruit}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="增加标签...（回车输入）" #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
+                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                {{fruit}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-slide-toggle color="accent">
+            同时满足
+          </mat-slide-toggle>
+        </div>
       </div>
+    </mat-expansion-panel>
+
+    <div fxFlex="1 1 auto" style="overflow-y:auto;">
 
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
