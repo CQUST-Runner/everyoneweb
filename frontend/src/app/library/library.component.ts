@@ -1,25 +1,23 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { AfterContentInit, AfterViewInit, Component, Directive, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ThemePalette } from '@angular/material/core';
-import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
+import { MatDialog } from '@angular/material/dialog';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { randomString } from '../common';
 import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
-import * as moment from 'moment';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ElementRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
-import { randomString } from '../common';
+import { createRandomPage, Page } from '../page.model';
 
 const FRUITS: string[] = [
   'blueberry',
@@ -72,20 +70,39 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   color: ThemePalette = 'accent';
 
-  select(b: boolean, t: MatSelectionList) {
-    if (b) {
+  select(option: MatListOption, t: MatSelectionList) {
+    if (option.selected) {
       t.selectAll();
     } else {
       t.deselectAll();
     }
+    this.selectCategory('');
   }
 
-  selectCategory(ev: MatSelectionListChange, t: MatSelectionList) {
-    if (t._value === null) {
+  unselectSelectAll(self:MatListOption, option: MatListOption) {
+    if (!self.selected && option.selected) {
+      option.selected = false;
+    }
+    this.selectCategory('');
+  }
+
+  list22: MatSelectionList;
+
+  @ViewChild('list22', { static: false }) set content(content: MatSelectionList) {
+    if (content) {
+      this.list22 = content;
+    }
+  }
+  
+  selectCategory(where: string) {
+    console.log(where);
+    if (!this.list22) {
       return;
     }
+    let values = this.list22.options.filter((item) => item.selected).map((item) => item.value);
+    console.log(values);
     this.categoryFormControl.value?.splice(0, this.categoryFormControl.value?.length);
-    this.categoryFormControl.value?.push(...t._value);
+    this.categoryFormControl.value?.push(...values);
     this.categoryFormControl.updateValueAndValidity();
   }
 

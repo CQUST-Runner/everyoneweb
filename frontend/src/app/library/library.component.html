@@ -2,17 +2,20 @@
   <div fxFlex="15%" fxLayout="column" style="overflow: hidden;">
 
     <div style="overflow-y: auto;">
-      <mat-selection-list #list (selectionChange)="selectCategory($event,list);" *ngIf="toggle.checked" #shoes multiple="true">
-        <mat-list-option (selectedChange)="select($event, list);" selected value="_all">
+      <mat-selection-list #list22 *ngIf="toggle.checked" #shoes multiple="true"
+        (after-if)="selectCategory('after-if');">
+        <mat-list-option #select_all (click)="select(select_all, list22);" value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
         </mat-list-option>
-        <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe">
+        <mat-list-option #self (click)="unselectSelectAll(self,select_all);" *ngFor="let shoe of typesOfShoes"
+          [value]="shoe">
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{shoe}}</div>
         </mat-list-option>
       </mat-selection-list>
-      <mat-selection-list #list  (selectionChange)="selectCategory($event,list);" *ngIf="!toggle.checked" #shoes multiple="false">
+      <mat-selection-list #list22 (selectionChange)="selectCategory('change');" *ngIf="!toggle.checked"
+        (after-if)="selectCategory('after-if');" #shoes multiple="false">
         <mat-list-option value="_all" selected>
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全部</div>
@@ -64,7 +67,7 @@
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-form-field fxFlex="1 1 50%" appearance="standard">
             <mat-label>标签：</mat-label>
-            <mat-chip-list #chipList >
+            <mat-chip-list #chipList>
               <mat-chip *ngFor="let fruit of tagsFormControl.value" (removed)="remove(fruit)" selectable="false">
                 {{fruit}}
                 <button matChipRemove>
@@ -81,7 +84,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <mat-slide-toggle [formControl]="matchAllFormControl"color="accent">
+          <mat-slide-toggle [formControl]="matchAllFormControl" color="accent">
             同时满足
           </mat-slide-toggle>
         </div>
