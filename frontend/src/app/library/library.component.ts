@@ -123,8 +123,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
           let tags = value['tags'] as string[];
           let allMatch = value['matchAll'] as boolean;
           if (!allMatch) {
-            return tags.length === 0 || tags.some(tag => tag !== '无标签' && data.tags.some(t => t === tag ||
-              tag === '无标签' && data.tags.length === 0));
+            return tags.length === 0 || tags.some(tag => tag !== '无标签' && data.tags.some(t => t === tag) ||
+              tag === '无标签' && data.tags.length === 0);
           } else {
             return !tags.some(tag => tag === '无标签' && data.tags.length !== 0 ||
               tag !== '无标签' && !data.tags.some(t => t === tag));
