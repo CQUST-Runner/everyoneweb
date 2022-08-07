@@ -51,7 +51,6 @@ const NAMES: string[] = [
   'Elizabeth',
 ];
 
-
 @Component({
   selector: 'app-library',
   templateUrl: './library.component.html',
@@ -79,7 +78,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.selectCategory('');
   }
 
-  unselectSelectAll(self:MatListOption, option: MatListOption) {
+  unselectSelectAll(self: MatListOption, option: MatListOption) {
     if (!self.selected && option.selected) {
       option.selected = false;
     }
@@ -93,7 +92,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
       this.list22 = content;
     }
   }
-  
+
   selectCategory(where: string) {
     console.log(where);
     if (!this.list22) {

@@ -26,6 +26,7 @@ import { EditPageInfoComponent } from './edit-page-info/edit-page-info.component
 import { ExportAsComponent } from './export-as/export-as.component';
 import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
+import { AfterIfDirective } from './after-if.directive';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.com
     ExportAsComponent,
     MakeConfirmComponent,
     PageInfoDialogComponent,
+    AfterIfDirective,
   ],
   imports: [
     BrowserModule,
