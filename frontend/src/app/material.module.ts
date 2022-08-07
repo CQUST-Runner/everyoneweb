@@ -21,7 +21,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { matSortAnimations, MatSortModule } from '@angular/material/sort';
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -47,6 +47,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
+    MatSortModule,
   ],
   exports: [
     MatToolbarModule,
@@ -72,6 +73,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
+    MatSortModule,
   ]
 })
 export class MaterialModule { }
