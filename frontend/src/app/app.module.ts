@@ -42,7 +42,7 @@ import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.com
     EditPageInfoComponent,
     ExportAsComponent,
     MakeConfirmComponent,
-    PageInfoDialogComponent
+    PageInfoDialogComponent,
   ],
   imports: [
     BrowserModule,
