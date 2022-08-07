@@ -121,7 +121,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this._filter(''))),
     );
 
     this.form.valueChanges.subscribe((value: any): void => {
@@ -290,7 +290,9 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    
+    
+    return this.allFruits.filter(fruit=> this.tagsFormControl.value?!this.tagsFormControl.value.some(f=>f===fruit):true ). filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
   effectiveRemindTime(m: moment.Moment | undefined): moment.Moment | undefined {
