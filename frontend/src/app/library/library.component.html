@@ -119,6 +119,14 @@
             </td>
           </ng-container>
 
+          <!-- SaveTime Column -->
+          <ng-container matColumnDef="saveTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> 保存时间
+            </th>
+            <td mat-cell *matCellDef="let row"> {{row.saveTime?.format('YYYY/MM/DD hh:mm')}}
+            </td>
+          </ng-container>
+
           <!-- SourceUrl Column -->
           <ng-container matColumnDef="sourceUrl">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> 原链接 </th>

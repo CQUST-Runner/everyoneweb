@@ -105,7 +105,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.categoryFormControl.updateValueAndValidity();
   }
 
-  displayedColumns: string[] = ['title', 'category', 'id', 'sourceUrl', 'rating', 'remindReadingTime', 'menu'];
+  displayedColumns: string[] = ['title', 'category', 'id', /*'sourceUrl',*/ 'saveTime', 'rating', 'remindReadingTime', 'menu'];
   dataSource: MatTableDataSource<Page>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
