@@ -24,12 +24,7 @@
       <app-tags-input></app-tags-input>
 
       <p>
-        保存格式:
-        <mat-button-toggle-group name="fileFormat" value="singleFile">
-          <mat-button-toggle value="singleFile">单文件HTML</mat-button-toggle>
-          <mat-button-toggle value="html">HTML+资产文件夹</mat-button-toggle>
-          <mat-button-toggle value="pdf">PDF</mat-button-toggle>
-        </mat-button-toggle-group>
+        保存格式:<app-format-selection></app-format-selection>
       </p>
 
       <p>

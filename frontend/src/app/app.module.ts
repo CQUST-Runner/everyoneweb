@@ -29,6 +29,7 @@ import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.com
 import { AfterIfDirective } from './after-if.directive';
 import { RatingComponent } from './rating/rating.component';
 import { TagsInputComponent } from './tags-input/tags-input.component';
+import { FormatSelectionComponent } from './format-selection/format-selection.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { TagsInputComponent } from './tags-input/tags-input.component';
     AfterIfDirective,
     RatingComponent,
     TagsInputComponent,
+    FormatSelectionComponent,
   ],
   imports: [
     BrowserModule,
