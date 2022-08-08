@@ -159,8 +159,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openExportDialog() {
-    const dialogRef = this.dialog.open(ExportAsComponent, { width: "80vw" });
+  openExportDialog(row:Page) {
+    const dialogRef = this.dialog.open(ExportAsComponent, { maxWidth: "60vw", data: row });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -169,7 +169,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   confirmDeletion(row:Page) {
     const dialogRef = this.dialog.open(MakeConfirmComponent, {
-      width: "80vw",
+      maxWidth: "60vw",
       data: { prompt: "真的要删除吗？", yesText: "确认", noText: "取消" } as ConfirmData
     });
 
@@ -182,7 +182,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   openPageInfoDialog(row: Page) {
-    const dialogRef = this.dialog.open(PageInfoDialogComponent, { maxWidth: "75vw", data: row });
+    const dialogRef = this.dialog.open(PageInfoDialogComponent, { maxWidth: "60vw", data: row });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

@@ -1,7 +1,9 @@
 <h2 mat-dialog-title>Export AS</h2>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content fxLayout="column" fxLayoutGap="10px" class="mat-typography">
+    <app-format-selection></app-format-selection>
+    <span *ngIf="exported">文件已导出为：<strong>{{data.filePath}}</strong></span>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="false">关闭</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>导出</button>
+    <button mat-button (click)="export();">导出</button>
 </mat-dialog-actions>
