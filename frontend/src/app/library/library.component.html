@@ -138,7 +138,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>
+                <button mat-menu-item (click)="openInBrowser(row)">
                   <mat-icon>open_in_browser</mat-icon>
                   <span>浏览器打开</span>
                 </button>

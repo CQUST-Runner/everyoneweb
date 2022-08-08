@@ -151,6 +151,10 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     }
   }
 
+  openInBrowser(row: Page) {
+    window.open(`http://localhost:4200/page/${row.id}`, '_blank');
+  }
+
   openEditDialog() {
     const dialogRef = this.dialog.open(EditPageInfoComponent, { width: "80vw" });
 
@@ -159,7 +163,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openExportDialog(row:Page) {
+  openExportDialog(row: Page) {
     const dialogRef = this.dialog.open(ExportAsComponent, { maxWidth: "60vw", data: row });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -167,16 +171,16 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  confirmDeletion(row:Page) {
+  confirmDeletion(row: Page) {
     const dialogRef = this.dialog.open(MakeConfirmComponent, {
       maxWidth: "60vw",
       data: { prompt: "真的要删除吗？", yesText: "确认", noText: "取消" } as ConfirmData
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result){
+      if (result) {
         // console.log('true');
-        this.dataSource.data = this.dataSource.data.filter(x=>x.id!=row.id);
+        this.dataSource.data = this.dataSource.data.filter(x => x.id != row.id);
       }
     });
   }
