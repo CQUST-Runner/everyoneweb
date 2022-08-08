@@ -12,8 +12,14 @@ export class RatingComponent implements OnInit {
   @Input() rating: Rating = FIVE;
   constructor() { }
 
-  @Input() click: (rating: Rating)=>void;
+  @Input() click: (rating: Rating) => void;
   ngOnInit(): void {
   }
 
+  onClick(i: number) {
+    this.rating = i;
+    if (this.click) {
+      this.click(i);
+    }
+  }
 }
