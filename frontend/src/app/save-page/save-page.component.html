@@ -24,7 +24,7 @@
       <mat-form-field appearance="fill">
         <mat-label>标签：</mat-label>
         <mat-chip-list #chipList>
-          <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+          <mat-chip *ngFor="let fruit of fruits" [selectable]="false" (removed)="remove(fruit)">
             {{fruit.name}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>

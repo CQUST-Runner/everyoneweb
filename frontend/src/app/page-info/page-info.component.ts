@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Page } from '../page.model';
 
 @Component({
   selector: 'app-page-info',
@@ -7,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageInfoComponent implements OnInit {
 
+  @Input() page: Page;
+  @Input() full: boolean = false;
+  @Input() thumbnail: boolean = true;
+  
   constructor() { }
 
   ngOnInit(): void {

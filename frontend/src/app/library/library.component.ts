@@ -221,8 +221,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openPageInfoDialog() {
-    const dialogRef = this.dialog.open(PageInfoDialogComponent, { width: "80vw" });
+  openPageInfoDialog(row:Page) {
+    const dialogRef = this.dialog.open(PageInfoDialogComponent, { maxWidth:"75vw", data:row });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

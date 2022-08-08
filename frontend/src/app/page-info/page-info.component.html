@@ -1,1 +1,77 @@
-<p>page-info works!</p>
+<div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="0 0 300px" fxLayout="column" fxLayoutGap="10px">
+        <mat-form-field appearance="standard">
+            <mat-label>标题</mat-label>
+            <input matInput [value]="page.title">
+        </mat-form-field>
+        
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>原链接</mat-label>
+            <input matInput [value]="page.sourceUrl">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>文件存放路径</mat-label>
+            <input matInput [value]="page.filePath">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>短链接</mat-label>
+            <input matInput [value]="page.id">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>类别</mat-label>
+            <input matInput [value]="page.category">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>描述</mat-label>
+            <input matInput [value]="page.desc">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>保存方法</mat-label>
+            <input matInput [value]="page.method">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>评级</mat-label>
+            <input matInput [value]="page.rating">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>提醒阅读</mat-label>
+            <input matInput [value]="page.remindReadingTime">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>保存时间</mat-label>
+            <input matInput [value]="page.saveTime">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>保存来源</mat-label>
+            <input matInput [value]="page.source">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>标签</mat-label>
+            <input matInput [value]="page.tags">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>文件类型</mat-label>
+            <input matInput [value]="page.type">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="full" appearance="standard">
+            <mat-label>更新时间</mat-label>
+            <input matInput [value]="page.updateTime">
+        </mat-form-field>
+
+    </div>
+    <div *ngIf="thumbnail" fxLayout="column" fxLayoutGap="10px">
+        <img src="https://placehold.co/600x400">
+    </div>
+</div>
