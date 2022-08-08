@@ -39,6 +39,7 @@ export interface Page {
     method: ImportMethod
     tags: string[]
     category: string
+    sourceTitle: string
     title: string
     desc: string
     rating: Rating
@@ -59,6 +60,7 @@ export function createRandomPage(): Page {
     let id = randomID(6);
     let saveTime = Math.floor(Math.random() * 31);
     let updateTime = Math.floor(Math.random() * saveTime);
+    let title = randomStringMinMax(5, 15);
     return {
         sourceUrl: randomUrl(),
         id: id,
@@ -71,7 +73,8 @@ export function createRandomPage(): Page {
         method: choose(enumValues(ImportMethod)) as ImportMethod,
         tags: tags,
         category: choose(CATEGORIES),
-        title: randomStringMinMax(5, 15),
+        title: title,
+        sourceTitle: title,
         desc: randomStringMinMax(50, 100),
         rating: choose(enumValues(Rating)) as Rating,
     };
