@@ -64,6 +64,7 @@ export class TagsInputComponent implements OnInit,AfterViewInit {
     if (index >= 0) {
       this.control.value?.splice(index, 1);
       this.control.updateValueAndValidity();
+      this.fruitCtrl.updateValueAndValidity();
     }
   }
 
