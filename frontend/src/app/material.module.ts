@@ -21,7 +21,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { matSortAnimations, MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -48,6 +50,7 @@ import { matSortAnimations, MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatExpansionModule,
     MatSortModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     MatToolbarModule,
@@ -74,6 +77,7 @@ import { matSortAnimations, MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatExpansionModule,
     MatSortModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class MaterialModule { }

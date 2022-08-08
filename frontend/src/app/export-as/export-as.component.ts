@@ -10,12 +10,19 @@ import { Page } from '../page.model';
 export class ExportAsComponent implements OnInit {
 
   exported = false;
+  isExporting = false;
   constructor(@Inject(MAT_DIALOG_DATA) public data: Page) { }
 
   ngOnInit(): void {
   }
 
+  selected: string = 'html';
+  
   export() {
-    this.exported = true;
+    this.isExporting = true;
+    setTimeout(() => {
+      this.isExporting = false;
+      this.exported = true;
+    }, 2000);
   }
 }

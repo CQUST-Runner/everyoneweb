@@ -1,9 +1,21 @@
-<h2 mat-dialog-title>Export AS</h2>
+<h2 mat-dialog-title>导出为：</h2>
 <mat-dialog-content fxLayout="column" fxLayoutGap="10px" class="mat-typography">
-    <app-format-selection></app-format-selection>
-    <span *ngIf="exported">文件已导出为：<strong>{{data.filePath}}</strong></span>
+
+    <div class="example-loading-shade" *ngIf="isExporting">
+        <mat-spinner *ngIf="isExporting"></mat-spinner>
+    </div>
+
+    <mat-button-toggle-group name="exportFormat" [(value)]="selected">
+        <mat-button-toggle value="html">单文件HTML</mat-button-toggle>
+        <mat-button-toggle value="pdf">PDF文档</mat-button-toggle>
+        <mat-button-toggle value="png">PNG图片</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <span>路径：<strong>Downloads\{{data.title}}.{{selected}}</strong></span>
+
+    <span *ngIf="exported">文件已导出</span>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="false">关闭</button>
-    <button mat-button (click)="export();">导出</button>
+    <button mat-button cdkFocusInitial (click)="export();">导出</button>
 </mat-dialog-actions>
