@@ -81,7 +81,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
-
     this.form.valueChanges.subscribe((value: any): void => {
       this.dataSource.filterPredicate = (data: Page, filter: string): boolean => {
         let isSearchMatch = (): boolean => {
@@ -168,14 +167,17 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  confirmDeletion() {
+  confirmDeletion(row:Page) {
     const dialogRef = this.dialog.open(MakeConfirmComponent, {
       width: "80vw",
       data: { prompt: "真的要删除吗？", yesText: "确认", noText: "取消" } as ConfirmData
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result){
+        // console.log('true');
+        this.dataSource.data = this.dataSource.data.filter(x=>x.id!=row.id);
+      }
     });
   }
 
@@ -217,4 +219,3 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     }
   }
 }
-
