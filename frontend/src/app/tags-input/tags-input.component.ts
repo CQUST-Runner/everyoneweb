@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -12,7 +12,7 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './tags-input.component.html',
   styleUrls: ['./tags-input.component.css']
 })
-export class TagsInputComponent implements OnInit {
+export class TagsInputComponent implements OnInit,AfterViewInit {
 
   constructor() { }
 
@@ -24,8 +24,17 @@ export class TagsInputComponent implements OnInit {
     );
 
   }
+  
+  ngAfterViewInit(): void {
+    this.control.value?.push(...this.initialTags);
+  }
+  
+  @Input() initialTags: string[] = [];
+  
   @Input() control = new FormControl([] as string[]);
 
+  
+  
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
