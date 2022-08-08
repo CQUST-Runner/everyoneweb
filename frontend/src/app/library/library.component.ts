@@ -1,8 +1,5 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { AfterContentInit, AfterViewInit, Component, Directive, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
@@ -10,46 +7,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { randomString } from '../common';
 import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 import { createRandomPage, Page } from '../page.model';
-
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
 
 @Component({
   selector: 'app-library',
@@ -216,8 +179,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openPageInfoDialog(row:Page) {
-    const dialogRef = this.dialog.open(PageInfoDialogComponent, { maxWidth:"75vw", data:row });
+  openPageInfoDialog(row: Page) {
+    const dialogRef = this.dialog.open(PageInfoDialogComponent, { maxWidth: "75vw", data: row });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

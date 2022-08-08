@@ -21,20 +21,7 @@
 
   <div #options_container [class]="(emailFormControl.hasError('pattern') || emailFormControl.hasError('required')) ? 'options-container' : 'options-container options-anim'">
     <mat-card fxLayout="column" fxLayoutGap="15px" class="options">
-      <mat-form-field appearance="fill">
-        <mat-label>标签：</mat-label>
-        <mat-chip-list #chipList>
-          <mat-chip *ngFor="let fruit of fruits" [selectable]="false" (removed)="remove(fruit)">
-            {{fruit.name}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input placeholder="新标签...（回车创建）" [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-      </mat-form-field>
+      <app-tags-input></app-tags-input>
 
       <p>
         保存格式:
