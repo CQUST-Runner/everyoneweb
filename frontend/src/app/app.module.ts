@@ -27,6 +27,7 @@ import { ExportAsComponent } from './export-as/export-as.component';
 import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
 import { AfterIfDirective } from './after-if.directive';
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AfterIfDirective } from './after-if.directive';
     MakeConfirmComponent,
     PageInfoDialogComponent,
     AfterIfDirective,
+    RatingComponent,
   ],
   imports: [
     BrowserModule,

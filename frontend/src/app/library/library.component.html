@@ -137,11 +137,8 @@
           <ng-container matColumnDef="rating">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> 评级 </th>
             <td mat-cell *matCellDef="let row">
-              <span *ngFor="let i of [1,2,3,4,5]">
-                <button mat-icon-button disableRipple="true" class="mat-rating-button" (click)="row.rating=i;">
-                  <mat-icon [style]="i<=row.rating ? 'color:coral;' : 'color: darkgray;'">star</mat-icon>
-                </button>
-              </span>
+              <app-rating [rating]="row.rating"></app-rating>
+              
             </td>
           </ng-container>
 
