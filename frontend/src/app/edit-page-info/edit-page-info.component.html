@@ -1,7 +1,37 @@
-<h2 mat-dialog-title>Edit</h2>
-<mat-dialog-content class="mat-typography">
+<h2 mat-dialog-title>编辑文档【{{data.sourceTitle}}】的属性</h2>
+<mat-dialog-content fxLayout="column" fxLayoutGap="10px" class="mat-typography">
+    <mat-form-field appearance="standard">
+        <mat-label>标题</mat-label>
+        <input matInput [value]="data.title" [placeholder]="data.title">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+        <mat-label>备注</mat-label>
+        <textarea matInput [value]="data.desc" [placeholder]="data.desc"></textarea>
+    </mat-form-field>
+
+    评级：
+    <app-rating [rating]="data.rating"></app-rating>
+
+    <app-tags-input [initialTags]="data.tags"></app-tags-input>
+
+    <mat-form-field appearance="standard">
+        <mat-label>类别</mat-label>
+        <input matInput [value]="data.category" [placeholder]="data.category">
+    </mat-form-field>
+
+    提醒阅读：
+    <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
+            [disabled]="disabled">
+        <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+        </mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="stepHour"
+            [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="'primary'">
+        </ngx-mat-datetime-picker>
+    </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="false">关闭</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>保存</button>
+    <button mat-button cdkFocusInitial>保存</button>
 </mat-dialog-actions>

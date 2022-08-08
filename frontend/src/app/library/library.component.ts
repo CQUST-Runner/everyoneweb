@@ -155,8 +155,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     window.open(`http://localhost:4200/page/${row.id}`, '_blank');
   }
 
-  openEditDialog() {
-    const dialogRef = this.dialog.open(EditPageInfoComponent, { width: "80vw" });
+  openEditDialog(row: Page) {
+    const dialogRef = this.dialog.open(EditPageInfoComponent, { width: "40vw", maxWidth: "60vw", data: row });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
