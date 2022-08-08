@@ -1,0 +1,19 @@
+<mat-form-field appearance="standard">
+    <mat-label>标签：</mat-label>
+    <mat-chip-list #chipList>
+        <mat-chip *ngFor="let fruit of control.value" (removed)="remove(fruit)" selectable="false">
+            {{fruit}}
+            <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip>
+        <input placeholder="增加标签...（回车输入）" #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
+            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+            {{fruit}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

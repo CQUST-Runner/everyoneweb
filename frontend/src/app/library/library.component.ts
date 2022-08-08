@@ -119,11 +119,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
 
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this._filter(''))),
-    );
-
     this.form.valueChanges.subscribe((value: any): void => {
       this.dataSource.filterPredicate = (data: Page, filter: string): boolean => {
         let isSearchMatch = (): boolean => {
@@ -246,53 +241,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   preventMenuClosing(ev: Event) {
     ev.stopPropagation();
-  }
-
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl('');
-  filteredFruits: Observable<string[]>;
-
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our fruit
-    if (value) {
-      this.tagsFormControl.value?.push(value);
-      this.tagsFormControl.updateValueAndValidity();
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-    this.fruitCtrl.setValue(null);
-  }
-
-  remove(fruit: string): void {
-    const index = this.tagsFormControl.value?.indexOf(fruit);
-    if (index === undefined) {
-      return;
-    }
-    if (index >= 0) {
-      this.tagsFormControl.value?.splice(index, 1);
-      this.categoryFormControl.updateValueAndValidity();
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.tagsFormControl.value?.push(event.option.viewValue);
-    this.tagsFormControl.updateValueAndValidity();
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    
-    
-    return this.allFruits.filter(fruit=> this.tagsFormControl.value?!this.tagsFormControl.value.some(f=>f===fruit):true ). filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
   effectiveRemindTime(m: moment.Moment | undefined): moment.Moment | undefined {

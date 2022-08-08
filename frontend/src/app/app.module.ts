@@ -28,6 +28,7 @@ import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
 import { AfterIfDirective } from './after-if.directive';
 import { RatingComponent } from './rating/rating.component';
+import { TagsInputComponent } from './tags-input/tags-input.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { RatingComponent } from './rating/rating.component';
     PageInfoDialogComponent,
     AfterIfDirective,
     RatingComponent,
+    TagsInputComponent,
   ],
   imports: [
     BrowserModule,
