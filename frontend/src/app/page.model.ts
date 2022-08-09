@@ -1,5 +1,6 @@
 import * as moment from "moment"
 import { choose, enumValues, randomID, randomStringMinMax, randomUrl } from "./common"
+import * as faker from "@faker-js/faker"
 
 export enum PageType {
     PDF = 'pdf',
@@ -60,9 +61,9 @@ export function createRandomPage(): Page {
     let id = randomID(6);
     let saveTime = Math.floor(Math.random() * 31);
     let updateTime = Math.floor(Math.random() * saveTime);
-    let title = randomStringMinMax(5, 15);
+    let title = faker.faker.hacker.phrase();
     return {
-        sourceUrl: randomUrl(),
+        sourceUrl: faker.faker.internet.url(),
         id: id,
         saveTime: moment().subtract(saveTime, 'days'),
         updateTime: choose([moment().subtract(updateTime), undefined, undefined]),
@@ -75,7 +76,8 @@ export function createRandomPage(): Page {
         category: choose(CATEGORIES),
         title: title,
         sourceTitle: title,
-        desc: randomStringMinMax(50, 100),
+        desc: faker.faker.hacker.phrase(),
         rating: choose(enumValues(Rating)) as Rating,
     };
+
 }
