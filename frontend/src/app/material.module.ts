@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatExpansionModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    DragDropModule,
   ],
   exports: [
     MatToolbarModule,
@@ -78,6 +80,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatExpansionModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    DragDropModule,
   ]
 })
 export class MaterialModule { }

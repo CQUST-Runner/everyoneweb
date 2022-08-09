@@ -1,3 +1,5 @@
+import { group } from '@angular/animations';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
@@ -169,6 +171,12 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  onDroped(ev: CdkDragDrop<any, any, Page>, shoe: string) {
+    // console.log(ev);
+    ev.item.data.category = shoe;
+    this.form.updateValueAndValidity();
   }
 
   confirmDeletion(row: Page) {
