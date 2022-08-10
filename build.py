@@ -3,6 +3,7 @@
 
 import os
 import sys
+import subprocess
 
 g_front_end = 'frontend/'
 g_back_end = 'backend/'
@@ -19,7 +20,8 @@ g_back_end = 'backend/'
 
 # 2. 直接将 node.exe 和源代码一起打包, 体积大，文件多
 
-def run_cmd(cmd,wd):
+def run_cmd(wd,cmd):
+    subprocess.check_call(['sh','-c',cmd],cwd=wd)
     pass
     
 def build_front_end():
@@ -30,9 +32,16 @@ def build_back_end():
     global g_back_end
     pass
 
+def build_server():
+    global g_back_end
+    global g_front_end
+    run_cmd(g_front_end, 'ng build')
+    run_cmd(g_back_end, 'go build')
+
 if __name__ == '__main__':
-    build_back_end()
-    build_front_end()
+    # build_back_end()
+    # build_front_end()
+    build_server()
     
     print('build success')
     
