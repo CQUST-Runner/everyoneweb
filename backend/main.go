@@ -7,6 +7,8 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	"github.com/CQUST-Runner/datacross/storage"
 )
 
 type httpHandler struct {
@@ -17,7 +19,7 @@ func serveSite(w http.ResponseWriter, req *http.Request) {
 	p = strings.TrimSpace(p)
 	p = path.Clean(p)
 	if len(p) == 0 || p == "/" {
-		f, err := ioutil.ReadFile("../frontend/dist/frontend/index.html")
+		f, err := ioutil.ReadFile("./app/index.html")
 		if err != nil {
 			fmt.Fprintln(w, "read file error", err)
 			fmt.Fprintln(os.Stderr, "read file error", err)
@@ -28,7 +30,18 @@ func serveSite(w http.ResponseWriter, req *http.Request) {
 		if path.Ext(p) == ".js" {
 			w.Header().Set("Content-Type", "text/javascript")
 		}
-		p = path.Join("../frontend/dist/frontend", p)
+		if path.Ext(p) == ".css" {
+			w.Header().Set("Content-Type", "text/css")
+
+		}
+		p = "." + p
+		if storage.IsDir(p) {
+			p = p + "/index.html"
+		}
+		if !storage.IsFile(p) {
+			p = "./app/index.html"
+		}
+
 		fmt.Printf("loading %v", p)
 		f, err := ioutil.ReadFile(p)
 		if err != nil {
