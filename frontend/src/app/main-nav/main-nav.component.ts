@@ -20,6 +20,8 @@ export class MainNavComponent {
   constructor(public router: Router, private breakpointObserver: BreakpointObserver) {
   }
 
-  title: string = 'frontend';
-
+  title: string;
+  onActivated(ev: any) {
+    this.title = ev.title || "";
+  }
 }

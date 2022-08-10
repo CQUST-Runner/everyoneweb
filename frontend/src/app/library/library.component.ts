@@ -23,6 +23,7 @@ import { createRandomPage, Page } from '../page.model';
 })
 export class LibraryComponent implements OnInit, AfterViewInit {
 
+  title = '已保存的网页';
 
   ngOnInit(): void {
   }

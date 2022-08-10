@@ -27,6 +27,7 @@ export class SavePageComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
 
+  title = '首页';
   ngOnInit(): void {
   }
 

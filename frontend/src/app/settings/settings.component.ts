@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
+  title = '设置';
   constructor() { }
 
   ngOnInit(): void {

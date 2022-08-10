@@ -9,6 +9,9 @@ import { LogService } from '../service/log.service';
 })
 export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
+  
+  title = '日志';
+  
   constructor(private logService: LogService, private highlightService: HighlightService) { }
 
   @ViewChild('code') code: ElementRef = { nativeElement: {} };

@@ -14,10 +14,10 @@
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>{{router.url}}</span>
+      <span>{{title}}</span>
     </mat-toolbar>
     <div fxFlex="1 1 auto" fxLayout="column" style="overflow: hidden;">
-      <router-outlet></router-outlet>
+      <router-outlet (activate)="onActivated($event)"></router-outlet>
     </div>
     <!-- Add Content Here -->
     <footer fxFlex="0 0 20px">asd</footer>
