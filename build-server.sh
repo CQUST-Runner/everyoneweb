@@ -24,10 +24,10 @@ if [ ! -d $build ]; then
 fi
 
 if [ "$1" == 'frontend' ]; then
-    echo '###### building backend ######'
+    echo '###### building frontend ######'
     build_frontend
 elif [ "$1" == "backend" ]; then
-    echo '###### building frontend ######'
+    echo '###### building backend ######'
     build_backend
 else
     build_frontend
