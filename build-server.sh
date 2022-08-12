@@ -16,10 +16,7 @@ build_backend() {
     cp -f $backend/server $build/server
 }
 
-CWD=$(pwd)
-build=$CWD/build/server
-frontend=$CWD/frontend
-backend=$CWD/backend
+. env.sh
 
 if [ ! -d $build ]; then
     mkdir -p $build
