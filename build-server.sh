@@ -14,6 +14,7 @@ build_backend() {
     cd $backend
     go build -o server
     cp -f $backend/server $build/server
+    cp -f $backend/config.yaml $build/config.yaml
 }
 
 . env.sh
