@@ -18,6 +18,7 @@ const IDLength = 8
 
 // pattern: /api/
 func serveAPI(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("serveAPI", req.Method)
 }
 
 var pd pageDao
@@ -298,6 +299,8 @@ func getLogByPos(pos int64) (*GetLogResp, int) {
 
 func getLog(w http.ResponseWriter, req *http.Request) {
 	pos := req.URL.Query().Get("pos")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	var iPos int64
 	if len(pos) == 0 {
 		iPos = 0
@@ -319,7 +322,6 @@ func getLog(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(ret)
 		return
 	}
-
 	val, err := json.Marshal(&log)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
