@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -35,7 +34,7 @@ func getPage(w http.ResponseWriter, req *http.Request) {
 	p, err := pd.get(id)
 	if err != nil {
 		fmt.Println(err)
-		if errors.Is(err, fmt.Errorf("not exist")) {
+		if err.Error() == "not exist" {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
@@ -98,24 +97,13 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 
 // /api/page/<id>
 func deletePage(w http.ResponseWriter, req *http.Request) {
-	r, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	p := Page{}
-	err = json.Unmarshal(r, &p)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	err = checkPage(&p)
-	if err != nil {
+	id := path.Base(req.URL.Path)
+	if len(id) != IDLength {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	err = pd.delete(p.Id)
+	err := pd.delete(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
