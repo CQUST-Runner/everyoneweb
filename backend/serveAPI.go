@@ -148,13 +148,13 @@ func page(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case "":
 		getPage(w, req)
-	case "GET":
+	case http.MethodGet:
 		getPage(w, req)
-	case "POST":
+	case http.MethodPost:
 		savePage(w, req)
-	case "DELETE":
+	case http.MethodDelete:
 		deletePage(w, req)
-	case "PATCH":
+	case http.MethodPatch:
 		updatePage(w, req)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -183,12 +183,56 @@ func pageList(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case "":
 		getAllPages(w, req)
-	case "GET":
+	case http.MethodGet:
 		getAllPages(w, req)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 
+// GET /api/settings
+func getSettings(w http.ResponseWriter, req *http.Request) {
+	v, err := json.Marshal(config().Settings)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(v)
+}
+
+// PATCH /api/settings/
+func updateSettings(w http.ResponseWriter, req *http.Request) {
+	r, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	s := Settings{}
+	err = json.Unmarshal(r, &s)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	setConfig(func(old *Config) *Config {
+		old.Settings = s
+		return old
+	})
+	w.WriteHeader(http.StatusOK)
+	w.Write(r)
+}
+
 func settings(w http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case "":
+		getSettings(w, req)
+	case http.MethodGet:
+		getSettings(w, req)
+	case http.MethodPatch:
+		updateSettings(w, req)
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
 }

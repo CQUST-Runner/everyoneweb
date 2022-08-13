@@ -32,7 +32,20 @@ func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 
 const configFile = "config.yaml"
 
-var config *Config
+var _config *Config
+var rw sync.RWMutex
+
+func config() *Config {
+	rw.RLock()
+	defer rw.RUnlock()
+	return _config
+}
+
+func setConfig(do func(old *Config) *Config) {
+	rw.Lock()
+	defer rw.Unlock()
+	_config = do(_config)
+}
 
 func check(c *Config) error {
 	if len(c.Settings.DataDirectory) == 0 {
@@ -63,7 +76,7 @@ func mustLoadConfig() {
 		os.Exit(1)
 	}
 
-	config = &c
+	setConfig(func(old *Config) *Config { return &c })
 }
 
 // TODO: Close
@@ -80,13 +93,13 @@ func releaseDB() {
 }
 
 func mustInitParticipant() {
-	if config == nil {
+	if config() == nil {
 		fmt.Fprintln(os.Stderr, "load config file first")
 		os.Exit(1)
 	}
 
 	tmp := storage.Participant{}
-	err := tmp.Init(config.Settings.DataDirectory, config.Settings.MachineID)
+	err := tmp.Init(config().Settings.DataDirectory, config().Settings.MachineID)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "init storage failed, err:%v\n", err)
 		os.Exit(1)
@@ -100,8 +113,8 @@ func serve() {
 	http.DefaultServeMux.HandleFunc("/api/pageList/", pageList)
 	http.DefaultServeMux.HandleFunc("/api/settings/", settings)
 	http.DefaultServeMux.HandleFunc("/app/", serveSite)
-	fmt.Printf("server running on 127.0.0.1:%v\n", config.Settings.ServeLibraryPort)
-	err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config.Settings.ServeLibraryPort), nil)
+	fmt.Printf("server running on 127.0.0.1:%v\n", config().Settings.ServeLibraryPort)
+	err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config().Settings.ServeLibraryPort), nil)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
