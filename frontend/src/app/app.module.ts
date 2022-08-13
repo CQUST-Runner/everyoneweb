@@ -30,6 +30,8 @@ import { AfterIfDirective } from './after-if.directive';
 import { RatingComponent } from './rating/rating.component';
 import { TagsInputComponent } from './tags-input/tags-input.component';
 import { FormatSelectionComponent } from './format-selection/format-selection.component';
+import { HttpClientModule } from '@angular/common/http';
+import { RealLogService } from './service/reallog.service';
 
 @NgModule({
   declarations: [
@@ -64,8 +66,9 @@ import { FormatSelectionComponent } from './format-selection/format-selection.co
     ClipboardModule,
     NgxMatDatetimePickerModule,
     NgxMatMomentModule,
+    HttpClientModule,
   ],
-  providers: [HighlightService, LogService],
+  providers: [HighlightService, LogService, RealLogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

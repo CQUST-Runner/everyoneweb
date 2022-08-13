@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HighlightService } from '../service/highlight.service';
 import { LogService } from '../service/log.service';
+import { RealLogService } from '../service/reallog.service';
 
 @Component({
   selector: 'app-logs',
@@ -9,17 +10,21 @@ import { LogService } from '../service/log.service';
 })
 export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
-  
+
   title = '日志';
-  
-  constructor(private logService: LogService, private highlightService: HighlightService) { }
+
+  constructor(private logService: LogService, private realLogService: RealLogService, private highlightService: HighlightService) { }
 
   @ViewChild('code') code: ElementRef = { nativeElement: {} };
   @ViewChild('pre') pre: ElementRef = { nativeElement: {} };
 
   timer: any;
   ngOnInit(): void {
-    this.timer = setInterval(() => { this.fetchLog(); }, 1000);
+    // this.timer = setInterval(() => { this.fetchLog(); }, 1000);
+    this.realLogService.getLog().subscribe(x => {
+      this.pre.nativeElement.innerHTML +=
+        this.highlightService.highlight(['', ...x].join('\n'), 'log');
+    });
   }
 
   highlighted = false;
@@ -38,8 +43,11 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (this.paused) {
       return;
     }
-    this.code.nativeElement.innerHTML +=
-      this.highlightService.highlight(['', ...this.logService.getLog()].join('\n'), 'log');
+    // this.code.nativeElement.innerHTML +=
+    //   this.highlightService.highlight(['', ...this.logService.getLog()].join('\n'), 'log');
+
+
+
   }
 
   lastScroolTop = 0;

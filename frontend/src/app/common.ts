@@ -50,3 +50,5 @@ export function randomUrl(): string {
 export function enumValues(a: any) {
     return Object.keys(a).filter(x => isNaN(Number(x))).map(x => a[x]);
 }
+
+export const API_SERVER = "http://127.0.0.1:16224/api";
