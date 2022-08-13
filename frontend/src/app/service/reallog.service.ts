@@ -18,13 +18,13 @@ export class RealLogService {
 
     sendReq(): Observable<GetLogResp> {
         this.previousDone = false;
-        return this.client.get<GetLogResp>(API_SERVER + '/log/');
+        return this.client.get<GetLogResp>(API_SERVER + `/log/?pos=${this.pos}`);
     }
 
     processResp(resp: GetLogResp): string[] {
         this.pos = resp.pos;
         this.previousDone = true;
-        return resp.lines;
+        return resp.lines || [];
     }
 
     getLog(): Observable<string[]> {
