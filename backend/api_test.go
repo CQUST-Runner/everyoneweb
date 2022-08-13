@@ -198,3 +198,82 @@ func TestGetAllPages(t *testing.T) {
 	assert.Greater(t, len(pages), 0)
 	t.Logf("page number is %v", len(pages))
 }
+
+func testGetSettings() (*Settings, error) {
+	resp, err := http.Get(apiPrefix + "/settings")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("status code:%v", resp.StatusCode)
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	// fmt.Println(string(body))
+	s := Settings{}
+	err = json.Unmarshal(body, &s)
+	if err != nil {
+		return nil, err
+	}
+	return &s, nil
+}
+
+func TestGetSettings(t *testing.T) {
+	s, err := testGetSettings()
+	assert.Nil(t, err)
+	fmt.Println(s)
+}
+
+func testUpdateSettings(s *Settings) error {
+	val, err := json.Marshal(s)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, apiPrefix+"/settings/patch", bytes.NewReader(val))
+	if err != nil {
+		return err
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("status code:%v", resp.StatusCode)
+	}
+
+	v, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	updatedSettings := Settings{}
+	err = json.Unmarshal(v, &updatedSettings)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func TestUpdateSettings(t *testing.T) {
+	s, err := testGetSettings()
+	assert.Nil(t, err)
+
+	s.FirstScreen = FirstScreenLogs
+	err = testUpdateSettings(s)
+	assert.Nil(t, err)
+	check, err := testGetSettings()
+	assert.Nil(t, err)
+	assert.Equal(t, s.FirstScreen, check.FirstScreen)
+
+	s.FirstScreen = FirstScreenSettings
+	err = testUpdateSettings(s)
+	assert.Nil(t, err)
+	check, err = testGetSettings()
+	assert.Nil(t, err)
+	assert.Equal(t, s.FirstScreen, check.FirstScreen)
+}

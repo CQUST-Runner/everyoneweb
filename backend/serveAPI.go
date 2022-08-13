@@ -202,7 +202,7 @@ func getSettings(w http.ResponseWriter, req *http.Request) {
 	w.Write(v)
 }
 
-// PATCH /api/settings/
+// PATCH /api/settings/patch
 func updateSettings(w http.ResponseWriter, req *http.Request) {
 	r, err := ioutil.ReadAll(req.Body)
 	if err != nil {
