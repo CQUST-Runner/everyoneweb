@@ -45,3 +45,29 @@ type Page struct {
 	Desc              string     `json:"desc"`
 	Rating            int        `json:"rating"`
 }
+
+const (
+	FirstScreenNew      = "new"
+	FirstScreenLibrary  = "library"
+	FirstScreenSettings = "settings"
+	FirstScreenLogs     = "logs"
+)
+
+const (
+	LanguageAuto               = "auto"
+	LanguageSimplifiedChinese  = "sc"
+	LanguageTraditionalChinese = "tc"
+	LanguageEnglish            = "en"
+	LanguageJapanese           = "jp"
+)
+
+// Settings ...
+// server settings need restart to take effect
+type Settings struct {
+	FirstScreen      string `json:"firstScreen" yaml:"firstScreen" default:"new"`
+	Language         string `json:"language" yaml:"language" default:"auto"`
+	DataDirectory    string `json:"dataDirectory" yaml:"dataDirectory"`
+	MachineID        string `json:"machineID" yaml:"machineID"`
+	ServeLibrary     bool   `json:"serveLibrary" yaml:"serveLibrary" default:"true"`
+	ServeLibraryPort int    `json:"serveLibraryPort" yaml:"serveLibraryPort" default:"16224"`
+}

@@ -190,10 +190,5 @@ func pageList(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// Settings ...
-type Settings struct {
-	Port int
-}
-
 func settings(w http.ResponseWriter, req *http.Request) {
 }

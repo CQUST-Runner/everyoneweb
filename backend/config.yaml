@@ -1,2 +1,4 @@
-wd: .
-machine_id: machine0
+
+settings:
+  dataDirectory: .
+  machineID: machine0

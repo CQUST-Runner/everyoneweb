@@ -13,10 +13,8 @@ import (
 )
 
 type Config struct {
-	ServeRoot        string `yaml:"-" default:"."`
-	Port             int    `yaml:"-" default:"16224"`
-	WorkingDirectory string `yaml:"wd"`
-	MachineID        string `yaml:"machine_id"`
+	ServeRoot string   `yaml:"-" default:"."`
+	Settings  Settings `yaml:"settings" default:"{}"`
 }
 
 func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -37,10 +35,10 @@ const configFile = "config.yaml"
 var config *Config
 
 func check(c *Config) error {
-	if len(c.WorkingDirectory) == 0 {
+	if len(c.Settings.DataDirectory) == 0 {
 		return fmt.Errorf("working directory is required")
 	}
-	if len(c.MachineID) == 0 {
+	if len(c.Settings.MachineID) == 0 {
 		return fmt.Errorf("machine id is required")
 	}
 	return nil
@@ -88,7 +86,7 @@ func mustInitParticipant() {
 	}
 
 	tmp := storage.Participant{}
-	err := tmp.Init(config.WorkingDirectory, config.MachineID)
+	err := tmp.Init(config.Settings.DataDirectory, config.Settings.MachineID)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "init storage failed, err:%v\n", err)
 		os.Exit(1)
@@ -102,8 +100,8 @@ func serve() {
 	http.DefaultServeMux.HandleFunc("/api/pageList/", pageList)
 	http.DefaultServeMux.HandleFunc("/api/settings/", settings)
 	http.DefaultServeMux.HandleFunc("/app/", serveSite)
-	fmt.Printf("server running on 127.0.0.1:%v\n", config.Port)
-	err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config.Port), nil)
+	fmt.Printf("server running on 127.0.0.1:%v\n", config.Settings.ServeLibraryPort)
+	err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config.Settings.ServeLibraryPort), nil)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
