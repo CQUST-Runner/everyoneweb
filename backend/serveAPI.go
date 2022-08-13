@@ -1,11 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path"
+	"strconv"
+
+	"github.com/CQUST-Runner/datacross/storage"
 )
 
 const IDLength = 8
@@ -232,6 +238,103 @@ func settings(w http.ResponseWriter, req *http.Request) {
 		getSettings(w, req)
 	case http.MethodPatch:
 		updateSettings(w, req)
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func getLogByPos(pos int64) (*GetLogResp, int) {
+	if !storage.IsFile(logFile) {
+		return &GetLogResp{Pos: 0}, http.StatusOK
+	}
+
+	f, err := os.Open(logFile)
+	if err != nil {
+		return nil, http.StatusInternalServerError
+	}
+	defer f.Close()
+
+	sz, err := f.Seek(0, io.SeekEnd)
+	if err != nil {
+		return nil, http.StatusInternalServerError
+	}
+	if pos < 0 || pos > sz {
+		return nil, http.StatusBadRequest
+	}
+	if pos == sz {
+		return &GetLogResp{Pos: pos}, http.StatusOK
+	}
+
+	truncated := false
+	if pos+getLogMaxBytes < sz {
+		pos = sz - getLogMaxBytes
+		truncated = true
+	}
+
+	_, err = f.Seek(pos, io.SeekStart)
+	if err != nil {
+		return nil, http.StatusInternalServerError
+	}
+
+	reader := bufio.NewReader(f)
+	lines := []string{}
+	firstLine := true
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			break
+		}
+		if !firstLine {
+			lines = append(lines, line)
+		}
+		firstLine = false
+		pos += int64(len(line))
+	}
+	if truncated && len(lines) > 0 {
+		lines = append([]string{"............truncated............"}, lines...)
+	}
+	return &GetLogResp{Lines: lines, Pos: pos}, http.StatusOK
+}
+
+func getLog(w http.ResponseWriter, req *http.Request) {
+	pos := req.URL.Query().Get("pos")
+	var iPos int64
+	if len(pos) == 0 {
+		iPos = 0
+	} else {
+		var err error
+		iPos, err = strconv.ParseInt(pos, 10, 64)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		if iPos < 0 {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}
+
+	log, ret := getLogByPos(iPos)
+	if ret != http.StatusOK {
+		w.WriteHeader(ret)
+		return
+	}
+
+	val, err := json.Marshal(&log)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(val)
+}
+
+func log(w http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case "":
+		getLog(w, req)
+	case http.MethodGet:
+		getLog(w, req)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}

@@ -71,3 +71,9 @@ type Settings struct {
 	ServeLibrary     bool   `json:"serveLibrary" yaml:"serveLibrary" default:"true"`
 	ServeLibraryPort int    `json:"serveLibraryPort" yaml:"serveLibraryPort" default:"16224"`
 }
+
+type GetLogResp struct {
+	// pos from where next read starts
+	Pos   int64    `json:"pos"`
+	Lines []string `json:"lines"`
+}

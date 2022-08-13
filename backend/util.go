@@ -1,6 +1,8 @@
 package main
 
-import "crypto/rand"
+import (
+	"crypto/rand"
+)
 
 func randID(length int) string {
 	var dict = [256]byte{
