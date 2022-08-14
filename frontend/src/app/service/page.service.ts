@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { Observable, Observer, take } from 'rxjs';
 import { API_SERVER } from '../common';
+import { Page } from '../page.model';
 
 @Injectable()
 export class PageService {
@@ -14,5 +15,9 @@ export class PageService {
 
     pageList(): Observable<any[]> {
         return this.client.get<any[]>(API_SERVER + '/pageList/').pipe(take(1));
+    }
+
+    save(p: Page): Observable<Page> {
+        return this.client.post<Page>(API_SERVER + '/page/', p);
     }
 }

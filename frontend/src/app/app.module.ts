@@ -33,6 +33,7 @@ import { FormatSelectionComponent } from './format-selection/format-selection.co
 import { HttpClientModule } from '@angular/common/http';
 import { RealLogService } from './service/reallog.service';
 import { PageService } from './service/page.service';
+import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-spinner.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { PageService } from './service/page.service';
     RatingComponent,
     TagsInputComponent,
     FormatSelectionComponent,
+    FullScreenSpinnerComponent,
   ],
   imports: [
     BrowserModule,
