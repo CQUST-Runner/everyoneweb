@@ -17,6 +17,7 @@ import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
 import { PageService } from '../service/page.service';
+import { ToolBoxService } from '../tool-box.service';
 
 @Component({
   selector: 'app-library',
@@ -101,12 +102,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  }
-
   isLoading = false;
-  constructor(private _snackBar: MatSnackBar, private pageService: PageService, public dialog: MatDialog) {
+  constructor(private toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());
@@ -240,11 +237,11 @@ export class LibraryComponent implements OnInit, AfterViewInit {
           complete() {
             thisRef.dataSource.data = thisRef.dataSource.data.filter(x => x.id != row.id);
             thisRef.isLoading = false;
-            thisRef.openSnackBar('已删除', 'OK');
+            thisRef.toolbox.openSnackBar('已删除', 'OK');
           },
           error(err) {
             thisRef.isLoading = false;
-            thisRef.openSnackBar('删除失败，请重试', 'OK');
+            thisRef.toolbox.openSnackBar('删除失败，请重试', 'OK');
           },
         } as Observer<void>);
       }
