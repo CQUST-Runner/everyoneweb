@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/rand"
+	"net/http"
 )
 
 func randID(length int) string {
@@ -26,4 +27,11 @@ func randID(length int) string {
 		id[i] = dict[id[i]]
 	}
 	return string(id[:])
+}
+
+func withCORS(f func(w http.ResponseWriter, req *http.Request)) func(w http.ResponseWriter, req *http.Request) {
+	return func(w http.ResponseWriter, req *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		f(w, req)
+	}
 }

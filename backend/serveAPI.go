@@ -170,8 +170,6 @@ func page(w http.ResponseWriter, req *http.Request) {
 
 // /api/pageList/
 func getAllPages(w http.ResponseWriter, req *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	pages, err := pd.all()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -301,7 +299,6 @@ func getLogByPos(pos int64) (*GetLogResp, int) {
 
 func getLog(w http.ResponseWriter, req *http.Request) {
 	pos := req.URL.Query().Get("pos")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	var iPos int64
 	if len(pos) == 0 {
