@@ -1,4 +1,3 @@
-import { group } from '@angular/animations';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -9,12 +8,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
+import { map, startWith } from 'rxjs';
 import { randomString } from '../common';
 import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
-import { createRandomPage, Page } from '../page.model';
+import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
+import { PageService } from '../service/page.service';
 
 @Component({
   selector: 'app-library',
@@ -22,6 +23,28 @@ import { createRandomPage, Page } from '../page.model';
   styleUrls: ['./library.component.css']
 })
 export class LibraryComponent implements OnInit, AfterViewInit {
+
+  unmarshalPage(objs: any[]): Page[] {
+    return objs.map(x => {
+      return {
+        sourceUrl: x.sourceUrl,
+        id: x.id,
+        saveTime: moment(x.saveTime),
+        updateTime: x.updateTime ? moment(x.updateTime) : undefined,
+        remindReadingTime: x.remindReadingTime ? moment(x.remindReadingTime) : undefined,
+        filePath: x.filePath,
+        type: x.type as PageType,
+        source: x.source as PageSource,
+        method: x.method as ImportMethod,
+        tags: x.tags,
+        category: x.category,
+        sourceTitle: x.sourceTitle,
+        title: x.title,
+        desc: x.desc,
+        rating: x.rating as Rating,
+      } as Page
+    });
+  }
 
   title = '已保存的网页';
 
@@ -77,13 +100,26 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public dialog: MatDialog) {
+  constructor(private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
+
+
+    this.pageService.pageList().pipe(
+      map(x => this.unmarshalPage(x)),
+      startWith(function () {
+        return [];
+      }())
+    ).subscribe(
+      x => {
+        this.dataSource.data = x;
+      }
+    )
+
     this.form.valueChanges.subscribe((value: any): void => {
       this.dataSource.filterPredicate = (data: Page, filter: string): boolean => {
         let isSearchMatch = (): boolean => {

@@ -170,6 +170,8 @@ func page(w http.ResponseWriter, req *http.Request) {
 
 // /api/pageList/
 func getAllPages(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	pages, err := pd.all()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

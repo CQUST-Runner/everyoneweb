@@ -32,6 +32,7 @@ import { TagsInputComponent } from './tags-input/tags-input.component';
 import { FormatSelectionComponent } from './format-selection/format-selection.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RealLogService } from './service/reallog.service';
+import { PageService } from './service/page.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import { RealLogService } from './service/reallog.service';
     NgxMatMomentModule,
     HttpClientModule,
   ],
-  providers: [HighlightService, LogService, RealLogService],
+  providers: [HighlightService, LogService, RealLogService, PageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
