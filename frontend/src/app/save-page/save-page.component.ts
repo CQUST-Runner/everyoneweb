@@ -5,6 +5,12 @@ import * as moment from 'moment';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PagePreviewComponent } from '../page-preview/page-preview.component';
+import { PageService } from '../service/page.service';
+import { Page } from '../page.model';
+import { Observer } from 'rxjs';
+import { TagsInputComponent } from '../tags-input/tags-input.component';
+import { FormatSelectionComponent } from '../format-selection/format-selection.component';
+import { ToolBoxService } from '../tool-box.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -25,7 +31,7 @@ export interface Fruit {
 })
 export class SavePageComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private toolbox: ToolBoxService, public dialog: MatDialog, private pageService: PageService) { }
 
   title = '首页';
   ngOnInit(): void {
@@ -65,10 +71,40 @@ export class SavePageComponent implements OnInit {
 
   @ViewChild("options_container") d: ElementRef;
   showOptions() {
-      this.d.nativeElement.classList.add('options-anim');
+    this.d.nativeElement.classList.add('options-anim');
   }
-  
+
   hideOptions() {
     this.d.nativeElement.classList.remove('options-anim');
+  }
+  isLoading = false;
+
+  @ViewChild(TagsInputComponent) tags: TagsInputComponent;
+  @ViewChild(FormatSelectionComponent) format: FormatSelectionComponent;
+  savePage() {
+    let p = {
+      sourceUrl: this.value,
+      tags: this.tags.control?.value,
+      type: this.format.selected,
+      saveTime: moment(),
+      remindReadingTime: this.dateControl.value ? moment(this.dateControl.value) : undefined,
+    } as Page;
+
+    console.log(p);
+
+    this.isLoading = true;
+    let thisRef = this;
+    this.pageService.save(p).subscribe({
+      next(x: Page) {
+      },
+      complete() {
+        thisRef.toolbox.openSnackBar("保存成功", "OK");
+        thisRef.isLoading = false;
+      },
+      error(err) {
+        thisRef.toolbox.openSnackBar("保存失败，请重试", "OK");
+        thisRef.isLoading = false;
+      },
+    } as Observer<Page>)
   }
 }
