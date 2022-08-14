@@ -8,7 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { map, startWith } from 'rxjs';
+import { delay, map, startWith } from 'rxjs';
 import { randomString } from '../common';
 import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
@@ -100,23 +100,27 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  isLoading = false;
   constructor(private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());
 
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
-
+    // this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource([] as Page[]);
 
     this.pageService.pageList().pipe(
       map(x => this.unmarshalPage(x)),
-      startWith(function () {
+      startWith(function (c: LibraryComponent) {
+        c.isLoading = true;
         return [];
-      }())
+      }(this)),
+      delay(1000),
     ).subscribe(
       x => {
         this.dataSource.data = x;
+        this.isLoading = false;
       }
     )
 
