@@ -8,6 +8,10 @@ export class PageService {
     constructor(private client: HttpClient) {
     }
 
+    delete(id: string): Observable<void> {
+        return this.client.delete<void>(API_SERVER + `/page/${id}`)
+    }
+
     pageList(): Observable<any[]> {
         return this.client.get<any[]>(API_SERVER + '/pageList/').pipe(take(1));
     }

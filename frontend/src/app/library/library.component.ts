@@ -5,10 +5,11 @@ import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { delay, map, startWith } from 'rxjs';
+import { delay, map, Observer, startWith } from 'rxjs';
 import { randomString } from '../common';
 import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
@@ -100,8 +101,12 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+
   isLoading = false;
-  constructor(private pageService: PageService, public dialog: MatDialog) {
+  constructor(private _snackBar: MatSnackBar, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());
@@ -229,7 +234,19 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // console.log('true');
-        this.dataSource.data = this.dataSource.data.filter(x => x.id != row.id);
+        this.isLoading = true;
+        let thisRef = this;
+        this.pageService.delete(row.id).subscribe({
+          complete() {
+            thisRef.dataSource.data = thisRef.dataSource.data.filter(x => x.id != row.id);
+            thisRef.isLoading = false;
+            thisRef.openSnackBar('已删除', 'OK');
+          },
+          error(err) {
+            thisRef.isLoading = false;
+            thisRef.openSnackBar('删除失败，请重试', 'OK');
+          },
+        } as Observer<void>);
       }
     });
   }
