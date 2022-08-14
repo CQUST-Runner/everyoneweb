@@ -105,6 +105,7 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 // /api/page/<id>
 func deletePage(w http.ResponseWriter, req *http.Request) {
 	id := path.Base(req.URL.Path)
+	fmt.Printf("delete %v\n", id)
 	if len(id) != IDLength {
 		w.WriteHeader(http.StatusBadRequest)
 		return

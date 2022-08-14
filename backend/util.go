@@ -32,6 +32,11 @@ func randID(length int) string {
 func withCORS(f func(w http.ResponseWriter, req *http.Request)) func(w http.ResponseWriter, req *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		if req.Method == http.MethodOptions {
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PATCH, DELETE")
+			w.WriteHeader(http.StatusOK)
+			return
+		}
 		f(w, req)
 	}
 }
