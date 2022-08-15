@@ -7,24 +7,24 @@
         (after-if)="selectCategory('after-if');">
         <mat-list-option #select_all (click)="select(select_all, list22);" value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
-          <div mat-line>全部</div>
+          <div mat-line>不限类别</div>
         </mat-list-option>
-        <mat-list-option #self (click)="unselectSelectAll(self,select_all);" *ngFor="let shoe of typesOfShoes"
-          [value]="shoe">
+        <mat-list-option #self (click)="unselectSelectAll(self,select_all);" *ngFor="let category of categories"
+          [value]="category">
           <mat-icon mat-list-icon>folder</mat-icon>
-          <div mat-line>{{shoe}}</div>
+          <div mat-line>{{category}}</div>
         </mat-list-option>
       </mat-selection-list>
       <mat-selection-list #list22 (selectionChange)="selectCategory('change');" *ngIf="!toggle.checked"
         (after-if)="selectCategory('after-if');" #shoes multiple="false">
         <mat-list-option value="_all" selected>
           <mat-icon mat-list-icon>select_all</mat-icon>
-          <div mat-line>全部</div>
+          <div mat-line>不限类别</div>
         </mat-list-option>
-        <mat-list-option cdkDropList dropToHereToSetCategory [id]="shoe" (cdkDropListDropped)="onDroped($event,shoe)"
-          *ngFor="let shoe of typesOfShoes" [value]="shoe">
+        <mat-list-option cdkDropList dropToHereToSetCategory [id]="category"
+          (cdkDropListDropped)="onDroped($event,category)" *ngFor="let category of categories" [value]="category">
           <mat-icon mat-list-icon>folder</mat-icon>
-          <div mat-line>{{shoe}}</div>
+          <div mat-line>{{category}}</div>
         </mat-list-option>
       </mat-selection-list>
       <p>
@@ -67,7 +67,7 @@
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-          <app-tags-input fxFlex="0 0 50%" [control]="tagsFormControl"></app-tags-input>
+          <app-tags-input fxFlex="0 0 50%" [control]="tagsFormControl" [availableTags]="tags"></app-tags-input>
 
           <mat-slide-toggle [formControl]="matchAllFormControl" color="accent">
             同时满足
@@ -79,7 +79,7 @@
     <div fxFlex="1 1 auto" style="overflow-y:auto;">
 
       <div class="mat-elevation-z8">
-        <table cdkDropList [cdkDropListSortingDisabled]="true" [cdkDropListConnectedTo]="typesOfShoes" mat-table
+        <table cdkDropList [cdkDropListSortingDisabled]="true" [cdkDropListConnectedTo]="categories" mat-table
           [dataSource]="dataSource" matSort>
 
           <!-- Title Column -->

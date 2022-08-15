@@ -52,11 +52,9 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
   }
-  typesOfShoes: string[] = [
-    'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', '无标签'];
-
+  categories: string[] = [];
+  tags: string[] = [];
 
   color: ThemePalette = 'accent';
 
@@ -118,10 +116,12 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         c.isLoading = true;
         return [];
       }(this)),
-      delay(1000),
+      // delay(1000),
     ).subscribe(
       x => {
         this.dataSource.data = x;
+        this.categories = [...new Set(x.map(x => x.category).filter(x => x.length > 0))];
+        this.tags = [...new Set(x.map(x => x.tags).flat().filter(x => x.length > 0))];
         this.isLoading = false;
       }
     )

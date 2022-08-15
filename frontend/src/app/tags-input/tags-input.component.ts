@@ -12,29 +12,27 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './tags-input.component.html',
   styleUrls: ['./tags-input.component.css']
 })
-export class TagsInputComponent implements OnInit,AfterViewInit {
+export class TagsInputComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
   ngOnInit(): void {
-    
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => (fruit ? this._filter(fruit) : this._filter(''))),
     );
-
   }
-  
+
   ngAfterViewInit(): void {
     this.control.value?.push(...this.initialTags);
   }
-  
+
   @Input() initialTags: string[] = [];
-  
+
   @Input() control = new FormControl([] as string[]);
 
-  
-  
+
+
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
@@ -74,14 +72,11 @@ export class TagsInputComponent implements OnInit,AfterViewInit {
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
   }
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', '无标签'];
+
+  @Input() availableTags: string[] = [];
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
-    
-    
-    return this.allFruits.filter(fruit=> this.control.value?!this.control.value.some(f=>f===fruit):true ). filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.availableTags.filter(fruit => this.control.value ? !this.control.value.some(f => f === fruit) : true).filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
-
 }
