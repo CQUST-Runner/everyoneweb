@@ -71,6 +71,7 @@ type Settings struct {
 	MachineID        string `json:"machineID" yaml:"machineID"`
 	ServeLibrary     bool   `json:"serveLibrary" yaml:"serveLibrary" default:"true"`
 	ServeLibraryPort int    `json:"serveLibraryPort" yaml:"serveLibraryPort" default:"16224"`
+	ShowLogsEntry    bool   `json:"showLogsEntry" yaml:"showLogsEntry" default:"false"`
 }
 
 type GetLogResp struct {
