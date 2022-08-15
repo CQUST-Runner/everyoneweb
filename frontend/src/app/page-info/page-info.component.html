@@ -4,7 +4,7 @@
             <mat-label>标题</mat-label>
             <input matInput [value]="page.title">
         </mat-form-field>
-        
+
         <mat-form-field *ngIf="full" appearance="standard">
             <mat-label>原链接</mat-label>
             <input matInput [value]="page.sourceUrl">
@@ -41,7 +41,7 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>提醒阅读</mat-label>
+            <mat-label>计划阅读</mat-label>
             <input matInput [value]="page.remindReadingTime">
         </mat-form-field>
 
