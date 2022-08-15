@@ -74,6 +74,7 @@ type Settings struct {
 
 type GetLogResp struct {
 	// pos from where next read starts
-	Pos   int64    `json:"pos"`
-	Lines []string `json:"lines"`
+	Pos      int64    `json:"pos"`
+	Lines    []string `json:"lines"`
+	FileName string   `json:"filename"`
 }

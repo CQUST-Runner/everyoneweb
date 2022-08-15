@@ -278,8 +278,13 @@ func settings(w http.ResponseWriter, req *http.Request) {
 }
 
 func getLogByPos(pos int64) (*GetLogResp, int) {
+	absFileName, err := storage.ToAbs(logFile)
+	if err != nil {
+		logger.Error("get log abs file name failed:%v", err)
+		return nil, http.StatusInternalServerError
+	}
 	if !storage.IsFile(logFile) {
-		return &GetLogResp{Pos: 0}, http.StatusOK
+		return &GetLogResp{Pos: 0, FileName: absFileName}, http.StatusOK
 	}
 
 	f, err := os.Open(logFile)
@@ -296,7 +301,7 @@ func getLogByPos(pos int64) (*GetLogResp, int) {
 		return nil, http.StatusBadRequest
 	}
 	if pos == sz {
-		return &GetLogResp{Pos: pos}, http.StatusOK
+		return &GetLogResp{Pos: pos, FileName: absFileName}, http.StatusOK
 	}
 
 	truncated := false
@@ -328,7 +333,7 @@ func getLogByPos(pos int64) (*GetLogResp, int) {
 	if truncated && len(lines) > 0 {
 		lines = append([]string{"............truncated............"}, lines...)
 	}
-	return &GetLogResp{Lines: lines, Pos: pos}, http.StatusOK
+	return &GetLogResp{Lines: lines, Pos: pos, FileName: absFileName}, http.StatusOK
 }
 
 func getLog(w http.ResponseWriter, req *http.Request) {
