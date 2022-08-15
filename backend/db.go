@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path"
 	"sync"
 
 	"github.com/CQUST-Runner/datacross/storage"
@@ -28,7 +29,7 @@ func mustInitParticipant() {
 	}
 
 	tmp := storage.Participant{}
-	err := tmp.Init(config().Settings.DataDirectory, config().Settings.MachineID)
+	err := tmp.Init(path.Join(config().Settings.DataDirectory, "db"), config().Settings.MachineID)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "init storage failed, err:%v\n", err)
 		os.Exit(1)
