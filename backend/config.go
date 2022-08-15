@@ -10,9 +10,15 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+const configFile = "config.yaml"
+const logFile = "nohup.out"
+const getLogMaxBytes = 4096
+
 type Config struct {
-	ServeRoot string   `yaml:"-" default:"."`
-	Settings  Settings `yaml:"settings" default:"{}"`
+	ServeRoot     string   `yaml:"-" default:"."`
+	SingleFileCli string   `yaml:"-" default:"./single-file-cli"`
+	ChromePath    string   `yaml:"chrome_path"`
+	Settings      Settings `yaml:"settings" default:"{}"`
 }
 
 func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -27,10 +33,6 @@ func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 	return nil
 }
-
-const configFile = "config.yaml"
-const logFile = "nohup.out"
-const getLogMaxBytes = 4096
 
 var _config *Config
 var rw sync.RWMutex

@@ -1,4 +1,4 @@
-
+chrome_path: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 settings:
-  dataDirectory: .
+  dataDirectory: ./data
   machineID: machine0
