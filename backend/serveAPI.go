@@ -59,6 +59,17 @@ func getPage(w http.ResponseWriter, req *http.Request) {
 	w.Write(val)
 }
 
+func doFakeSave(p *Page) (*Page, error) {
+	p.Id = randID(IDLength)
+	filename := p.Id + ".html"
+	title := randID(IDLength)
+	p.FilePath = filename
+	p.SourceTitle = title
+	p.Title = title
+	p.UpdateTime = p.SaveTime
+	return p, nil
+}
+
 func doSave(p *Page) (*Page, error) {
 	p.Id = randID(IDLength)
 	filename, err := doSavePage(context.Background(), config().SingleFileCli, config().Settings.DataDirectory,
@@ -98,10 +109,15 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	newPage, err := doSave(&p)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+	var newPage *Page
+	if config().TestMode && p.SourceUrl == "http://test" {
+		newPage, err = doFakeSave(&p)
+	} else {
+		newPage, err = doSave(&p)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
 	val, err := json.Marshal(newPage)
 	if err != nil {
