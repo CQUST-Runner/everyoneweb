@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>{{data.dialogTitle}}</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-form-field appearance="fill">
+        <mat-label>{{data.fieldName}}</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="value">确认</button>
+    <button mat-button cdkFocusInitial [mat-dialog-close]="undefined"></button>
+</mat-dialog-actions>

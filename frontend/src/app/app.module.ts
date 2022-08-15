@@ -34,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RealLogService } from './service/reallog.service';
 import { PageService } from './service/page.service';
 import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-spinner.component';
+import { GeneralInputDialogComponent } from './general-input-dialog/general-input-dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-sp
     TagsInputComponent,
     FormatSelectionComponent,
     FullScreenSpinnerComponent,
+    GeneralInputDialogComponent,
   ],
   imports: [
     BrowserModule,
