@@ -364,7 +364,7 @@ func getLog(w http.ResponseWriter, req *http.Request) {
 	w.Write(val)
 }
 
-func log(w http.ResponseWriter, req *http.Request) {
+func Log(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case "":
 		getLog(w, req)
