@@ -102,7 +102,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
 
   createNewCategoryAndSet(ev: CdkDragDrop<any, any, Page>) {
-    const dialogRef = this.dialog.open(GeneralInputDialogComponent, { width: "40vw", maxWidth: "60vw", data: { dialogTitle: "创建新类别", fieldName: "类别" } as GeneralInputOptions });
+    const dialogRef = this.dialog.open(GeneralInputDialogComponent, { width: "300px", maxWidth: "40vw", data: { dialogTitle: "创建新类别", fieldName: "请输入" } as GeneralInputOptions });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
