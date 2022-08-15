@@ -19,11 +19,13 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('pre') pre: ElementRef = { nativeElement: {} };
 
   timer: any;
+  filename: string;
   ngOnInit(): void {
     // this.timer = setInterval(() => { this.fetchLog(); }, 1000);
     this.realLogService.getLog().subscribe(x => {
+      this.filename = x.filename;
       this.pre.nativeElement.innerHTML +=
-        this.highlightService.highlight(['', ...x].join('\n'), 'log');
+        this.highlightService.highlight(['', ...(x.lines || [])].join('\n'), 'log');
     });
   }
 

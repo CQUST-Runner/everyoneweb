@@ -6,6 +6,7 @@ import { API_SERVER } from '../common';
 interface GetLogResp {
     lines: string[]
     pos: number
+    filename: string
 }
 
 @Injectable()
@@ -21,13 +22,13 @@ export class RealLogService {
         return this.client.get<GetLogResp>(API_SERVER + `/log/?pos=${this.pos}`);
     }
 
-    processResp(resp: GetLogResp): string[] {
+    processResp(resp: GetLogResp): GetLogResp {
         this.pos = resp.pos;
         this.previousDone = true;
-        return resp.lines || [];
+        return resp;
     }
 
-    getLog(): Observable<string[]> {
+    getLog(): Observable<GetLogResp> {
         return interval(1000).pipe(
             filter(_ => this.previousDone),
             map(_ => this.sendReq()),
