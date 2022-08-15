@@ -21,6 +21,11 @@
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>不限类别</div>
         </mat-list-option>
+        <mat-list-option [disabled]="!showCreateCategory" cdkDropList dropToHereToSetCategory id="_newCategory"
+          (cdkDropListDropped)="createNewCategoryAndSet($event);">
+          <mat-icon mat-list-icon>add</mat-icon>
+          <div mat-line>新建</div>
+        </mat-list-option>
         <mat-list-option cdkDropList dropToHereToSetCategory [id]="category"
           (cdkDropListDropped)="onDroped($event,category)" *ngFor="let category of categories" [value]="category">
           <mat-icon mat-list-icon>folder</mat-icon>
@@ -79,8 +84,8 @@
     <div fxFlex="1 1 auto" style="overflow-y:auto;">
 
       <div class="mat-elevation-z8">
-        <table cdkDropList [cdkDropListSortingDisabled]="true" [cdkDropListConnectedTo]="categories" mat-table
-          [dataSource]="dataSource" matSort>
+        <table cdkDropList [cdkDropListSortingDisabled]="true"
+          [cdkDropListConnectedTo]="['_newCategory'].concat(categories)" mat-table [dataSource]="dataSource" matSort>
 
           <!-- Title Column -->
           <ng-container matColumnDef="title">
@@ -188,7 +193,8 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr cdkDrag [cdkDragData]="row" dropToSetCategory mat-row *matRowDef="let row; columns: displayedColumns;">
+          <tr cdkDrag (cdkDragStarted)="dragStarted();" (cdkDragEnded)="dragEnded();" [cdkDragData]="row"
+            dropToSetCategory mat-row *matRowDef="let row; columns: displayedColumns;">
             <div *cdkDragPlaceholder></div>
           </tr>
 

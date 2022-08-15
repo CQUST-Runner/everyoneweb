@@ -1,18 +1,18 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { delay, map, Observer, startWith } from 'rxjs';
+import { map, Observer, startWith } from 'rxjs';
 import { randomString } from '../common';
 import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
+import { GeneralInputDialogComponent, GeneralInputOptions } from '../general-input-dialog/general-input-dialog.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
@@ -99,6 +99,42 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+
+  createNewCategoryAndSet(ev: CdkDragDrop<any, any, Page>) {
+    const dialogRef = this.dialog.open(GeneralInputDialogComponent, { width: "40vw", maxWidth: "60vw", data: { dialogTitle: "创建新类别", fieldName: "类别" } as GeneralInputOptions });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        let page = ev.item.data;
+
+        let thisRef = this;
+        let old = page.category;
+        page.category = result;
+        this.pageService.update(page).subscribe({
+          next(value) {
+          },
+          complete() {
+          },
+          error(err) {
+            page.category = old;
+            thisRef.toolbox.openSnackBar('创建失败', 'OK');
+          },
+        } as Observer<Page>)
+      }
+    });
+  }
+
+  showCreateCategory = false;
+
+  dragStarted() {
+    this.showCreateCategory = true;
+  }
+
+  dragEnded() {
+    this.showCreateCategory = false;
+  }
 
   onChangeRating(r: Rating, row: Page) {
     let old = row.rating;
