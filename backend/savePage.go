@@ -3,9 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path"
+	"regexp"
+	"strings"
 
 	"github.com/CQUST-Runner/datacross/storage"
 )
@@ -16,6 +19,7 @@ import (
 // ./single-file --browser-executable-path=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome https://www.github.com
 func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string, chromePath string, url string, id string) (string, error) {
 	htmlFile := fmt.Sprintf("%v.html", id)
+	htmlFile = path.Join(dataDirectory, htmlFile)
 	if storage.IsFile(htmlFile) {
 		return "", fmt.Errorf("file exists")
 	}
@@ -28,7 +32,6 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 
 	// TODO: support windows batch files
 	cmd := exec.CommandContext(ctx, singleFile, url, htmlFile, "--browser-executable-path="+chromePath)
-	cmd.Dir = dataDirectory
 	cmd.Stdin = nil
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -43,4 +46,19 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 		return "", fmt.Errorf("page not saved properly")
 	}
 	return htmlFile, nil
+}
+
+func getPageTitle(filename string) (string, error) {
+	r := regexp.MustCompile("<title>(.*?)</title>")
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return "", err
+	}
+	matches := r.FindStringSubmatch(string(bytes))
+	if matches == nil || len(matches) < 2 {
+		return "", fmt.Errorf("cannot find title")
+	}
+	title := matches[1]
+	title = strings.TrimSpace(title)
+	return title, nil
 }

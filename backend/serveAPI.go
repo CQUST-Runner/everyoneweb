@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -60,16 +61,31 @@ func getPage(w http.ResponseWriter, req *http.Request) {
 
 func doSave(p *Page) (*Page, error) {
 	p.Id = randID(IDLength)
-	// fake
-	p.FilePath = p.Id + ".html"
-	p.SourceTitle = randID(IDLength)
-	p.Title = p.SourceTitle
+	filename, err := doSavePage(context.Background(), config().SingleFileCli, config().Settings.DataDirectory,
+		config().ChromePath, p.SourceUrl, p.Id)
+	if err != nil {
+		return nil, err
+	}
+	title, err := getPageTitle(filename)
+	if err != nil {
+		os.Remove(filename)
+		return nil, err
+	}
+	p.FilePath = filename
+	p.SourceTitle = title
+	p.Title = title
 	p.UpdateTime = p.SaveTime
 	return p, nil
 }
 
 // /api/page/new
 func savePage(w http.ResponseWriter, req *http.Request) {
+	var err error
+	defer func() {
+		if err != nil {
+			fmt.Printf("save page failed:%v\n", err)
+		}
+	}()
 	r, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
