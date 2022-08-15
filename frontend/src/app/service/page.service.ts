@@ -20,4 +20,8 @@ export class PageService {
     save(p: Page): Observable<Page> {
         return this.client.post<Page>(API_SERVER + '/page/', p);
     }
+
+    update(p: Page): Observable<Page> {
+        return this.client.patch<Page>(API_SERVER + `/page/${p.id}`, p);
+    }
 }

@@ -100,6 +100,23 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  onChangeRating(r: Rating, row: Page) {
+    let old = row.rating;
+    let thisRef = this;
+    row.rating = r;
+    this.pageService.update(row).subscribe(
+      {
+        next(x: Page) {
+        },
+        complete() {
+        },
+        error(err) {
+          row.rating = old;
+          thisRef.toolbox.openSnackBar('修改失败', 'OK');
+        },
+      } as Observer<Page>);
+  }
+
   isLoading = false;
   constructor(private toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
