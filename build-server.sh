@@ -11,10 +11,13 @@ build_frontend() {
 }
 
 build_backend() {
+    cd $singleFileCli
+    npm install
     cd $backend
     go build -o server
     cp -f $backend/server $build/server
     cp -f $backend/config.yaml $build/config.yaml
+    cp -rf $singleFileCli $build/single-file-cli
 }
 
 . env.sh
