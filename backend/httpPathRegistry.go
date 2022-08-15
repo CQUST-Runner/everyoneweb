@@ -14,10 +14,10 @@ func serve() {
 	http.DefaultServeMux.HandleFunc("/api/log/", withCORS(Log))
 	http.DefaultServeMux.HandleFunc("/app/", serveSite)
 	http.DefaultServeMux.HandleFunc("/view/", serveSavedPage)
-	fmt.Printf("server running on 127.0.0.1:%v\n", config().Settings.ServeLibraryPort)
+	logger.Info("server running on 127.0.0.1:%v\n", config().Settings.ServeLibraryPort)
 	err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config().Settings.ServeLibraryPort), nil)
 	if err != nil {
-		fmt.Println(err)
+		logger.Error(err.Error())
 		os.Exit(1)
 	}
 }

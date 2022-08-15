@@ -39,8 +39,8 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 	if err != nil {
 		return "", err
 	}
-	fmt.Println("run cmd:")
-	fmt.Println(cmd.String())
+	logger.Info("run cmd:")
+	logger.Info(cmd.String())
 
 	if !storage.IsFile(htmlFile) {
 		return "", fmt.Errorf("page not saved properly")

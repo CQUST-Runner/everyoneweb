@@ -31,7 +31,7 @@ func serveSavedPage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Printf("loading %v\n\n", page.FilePath)
+	logger.Info("loading %v", page.FilePath)
 	f, err := ioutil.ReadFile(page.FilePath)
 	if err != nil {
 		fmt.Fprintln(w, "read file error", err)

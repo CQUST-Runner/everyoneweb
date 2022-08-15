@@ -27,7 +27,7 @@ func serveSite(w http.ResponseWriter, req *http.Request) {
 		p = "./app/index.html"
 	}
 
-	fmt.Printf("loading %v\n\n", p)
+	logger.Info("loading %v\n", p)
 	f, err := ioutil.ReadFile(p)
 	if err != nil {
 		fmt.Fprintln(w, "read file error", err)

@@ -19,7 +19,7 @@ const IDLength = 8
 
 // pattern: /api/
 func serveAPI(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("serveAPI", req.Method)
+	logger.Info("serveAPI", req.Method)
 }
 
 var pd pageDao
@@ -41,7 +41,7 @@ func getPage(w http.ResponseWriter, req *http.Request) {
 
 	p, err := pd.get(id)
 	if err != nil {
-		fmt.Println(err)
+		logger.Error(err.Error())
 		if err.Error() == "not exist" {
 			w.WriteHeader(http.StatusNotFound)
 			return
@@ -94,7 +94,7 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 	var err error
 	defer func() {
 		if err != nil {
-			fmt.Printf("save page failed:%v\n", err)
+			logger.Error("save page failed:%v", err)
 		}
 	}()
 	r, err := ioutil.ReadAll(req.Body)
@@ -137,7 +137,7 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 // /api/page/<id>
 func deletePage(w http.ResponseWriter, req *http.Request) {
 	id := path.Base(req.URL.Path)
-	fmt.Printf("delete %v\n", id)
+	logger.Info("delete %v", id)
 	if len(id) != IDLength {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -184,7 +184,7 @@ func updatePage(w http.ResponseWriter, req *http.Request) {
 }
 
 func page(w http.ResponseWriter, req *http.Request) {
-	fmt.Printf("%v %v\n", req.Method, req.URL.Path)
+	logger.Info("%v %v", req.Method, req.URL.Path)
 	switch req.Method {
 	case "":
 		getPage(w, req)
