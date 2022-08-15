@@ -85,7 +85,8 @@
 
       <div class="mat-elevation-z8">
         <table cdkDropList [cdkDropListSortingDisabled]="true"
-          [cdkDropListConnectedTo]="['_newCategory'].concat(categories)" mat-table [dataSource]="dataSource" matSort>
+          [cdkDropListConnectedTo]="['_newCategory'].concat(categories)" mat-table [dataSource]="dataSource" matSort
+          [matSortActive]="defaultSortColumn" matSortDirection="desc">
 
           <!-- Title Column -->
           <ng-container matColumnDef="title">

@@ -96,6 +96,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   displayedColumns: string[] = ['title', 'category', 'id', /*'sourceUrl',*/ 'saveTime', 'rating', 'markedAsRead', 'remindReadingTime', 'menu'];
+  defaultSortColumn = 'saveTime';
   dataSource: MatTableDataSource<Page>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
