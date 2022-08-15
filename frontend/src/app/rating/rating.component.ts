@@ -18,9 +18,11 @@ export class RatingComponent implements OnInit {
   }
 
   onClick(i: number) {
-    if (this.rating != i) {
+    if (this.rating == i) {
+      this.rating = i - 1;
+    } else {
       this.rating = i;
-      this.change.emit(i);
     }
+    this.change.emit(this.rating);
   }
 }
