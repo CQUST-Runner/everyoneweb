@@ -34,3 +34,7 @@ mat-button-toggle {
 [dropToHereToSetCategory] [dropToSetCategory] {
   display: none;
 }
+
+.mat-list-base .mat-list-item-disabled {
+  background-color: inherit;
+}
