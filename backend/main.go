@@ -7,7 +7,7 @@ import (
 	"github.com/CQUST-Runner/datacross/storage"
 )
 
-func prepareDataDirecotry() {
+func prepareDataDirectory() {
 	path := config().Settings.DataDirectory
 	if !storage.IsDir(path) {
 		err := os.MkdirAll(path, 0777)
@@ -20,7 +20,7 @@ func prepareDataDirecotry() {
 
 func main() {
 	mustLoadConfig()
-	prepareDataDirecotry()
+	prepareDataDirectory()
 	mustInitParticipant()
 	serve()
 }
