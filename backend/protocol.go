@@ -44,6 +44,7 @@ type Page struct {
 	Title             string     `json:"title"`
 	Desc              string     `json:"desc"`
 	Rating            int        `json:"rating"`
+	MarkedAsRead      bool       `json:"markedAsRead"`
 }
 
 const (

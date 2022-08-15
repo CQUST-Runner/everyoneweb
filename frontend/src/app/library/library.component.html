@@ -139,6 +139,17 @@
             <td mat-cell *matCellDef="let row">{{effectiveRemindTime(row.remindReadingTime)?.fromNow()}}</td>
           </ng-container>
 
+          <!-- MarkedAsRead Column -->
+          <ng-container matColumnDef="markedAsRead">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> 已读 </th>
+            <td mat-cell *matCellDef="let row">
+              <button (click)="toggleMarkedAsRead(row);" mat-icon-button>
+                <mat-icon *ngIf="row.markedAsRead">check_box</mat-icon>
+                <mat-icon *ngIf="!row.markedAsRead">check_box_outline_blank</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="menu">
             <th mat-header-cell *matHeaderCellDef> 选项 </th>
             <td mat-cell *matCellDef="let row">

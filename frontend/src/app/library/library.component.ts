@@ -44,6 +44,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         title: x.title,
         desc: x.desc,
         rating: x.rating as Rating,
+        markedAsRead: x.markedAsRead,
       } as Page
     });
   }
@@ -94,7 +95,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.categoryFormControl.updateValueAndValidity();
   }
 
-  displayedColumns: string[] = ['title', 'category', 'id', /*'sourceUrl',*/ 'saveTime', 'rating', 'remindReadingTime', 'menu'];
+  displayedColumns: string[] = ['title', 'category', 'id', /*'sourceUrl',*/ 'saveTime', 'rating', 'markedAsRead', 'remindReadingTime', 'menu'];
   dataSource: MatTableDataSource<Page>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -354,6 +355,29 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   preventMenuClosing(ev: Event) {
     ev.stopPropagation();
+  }
+
+  toggleMarkedAsRead(page: Page) {
+
+    let thisRef = this;
+    let old = page.markedAsRead;
+    page.markedAsRead = !page.markedAsRead;
+    this.pageService.update(page).subscribe({
+      next(value) {
+
+      },
+      complete() {
+
+      },
+      error(err) {
+        page.markedAsRead = old;
+        thisRef.toolbox.openSnackBar('标记失败', 'OK');
+        thisRef.form.updateValueAndValidity();
+
+      },
+    } as Observer<Page>)
+
+    this.form.updateValueAndValidity();
   }
 
   effectiveRemindTime(m: moment.Moment | undefined): moment.Moment | undefined {

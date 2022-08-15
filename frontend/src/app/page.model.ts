@@ -44,6 +44,7 @@ export interface Page {
     title: string
     desc: string
     rating: Rating
+    markedAsRead: boolean
 };
 
 let CATEGORIES: string[] = [
@@ -78,6 +79,7 @@ export function createRandomPage(): Page {
         sourceTitle: title,
         desc: faker.faker.hacker.phrase(),
         rating: choose(enumValues(Rating)) as Rating,
+        markedAsRead: false,
     };
 
 }
