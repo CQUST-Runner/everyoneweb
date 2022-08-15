@@ -79,11 +79,14 @@ export class SavePageComponent implements OnInit {
   }
   isLoading = false;
 
+  category: string;
+
   @ViewChild(TagsInputComponent) tags: TagsInputComponent;
   @ViewChild(FormatSelectionComponent) format: FormatSelectionComponent;
   savePage() {
     let p = {
       sourceUrl: this.value,
+      category: this.category,
       tags: this.tags.control?.value,
       type: this.format.selected,
       saveTime: moment(),
