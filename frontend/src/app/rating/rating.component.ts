@@ -1,5 +1,5 @@
 import { FIVE } from '@angular/cdk/keycodes';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Rating } from '../page.model';
 
 @Component({
@@ -12,14 +12,15 @@ export class RatingComponent implements OnInit {
   @Input() rating: Rating = FIVE;
   constructor() { }
 
-  @Input() click: (rating: Rating) => void;
+
+  @Output() change: EventEmitter<Rating> = new EventEmitter<Rating>();
   ngOnInit(): void {
   }
 
   onClick(i: number) {
-    this.rating = i;
-    if (this.click) {
-      this.click(i);
+    if (this.rating != i) {
+      this.rating = i;
+      this.change.emit(i);
     }
   }
 }
