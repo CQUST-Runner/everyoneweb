@@ -114,16 +114,23 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         page.category = result;
         this.pageService.update(page).subscribe({
           next(value) {
+
           },
           complete() {
+
           },
           error(err) {
             page.category = old;
             thisRef.toolbox.openSnackBar('创建失败', 'OK');
+            thisRef.form.updateValueAndValidity();
+
           },
         } as Observer<Page>)
+
+        this.form.updateValueAndValidity();
       }
     });
+
   }
 
   showCreateCategory = false;
@@ -273,7 +280,26 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   onDroped(ev: CdkDragDrop<any, any, Page>, shoe: string) {
     // console.log(ev);
-    ev.item.data.category = shoe;
+
+    let page = ev.item.data;
+
+
+    let thisRef = this;
+    let old = page.category;
+    page.category = shoe;
+    this.pageService.update(page).subscribe({
+      next(value) {
+      },
+      complete() {
+      },
+      error(err) {
+        page.category = old;
+        thisRef.toolbox.openSnackBar('修改失败', 'OK');
+        thisRef.form.updateValueAndValidity();
+      },
+    } as Observer<Page>)
+
+
     this.form.updateValueAndValidity();
   }
 
