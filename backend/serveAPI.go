@@ -318,6 +318,7 @@ func getLogByPos(pos int64) (*GetLogResp, int) {
 		if err != nil {
 			break
 		}
+		line = line[0 : len(line)-1]
 		if !firstLine {
 			lines = append(lines, line)
 		}
