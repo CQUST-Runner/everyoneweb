@@ -109,6 +109,8 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	logger.Info("save page:%v", string(r))
+
 	var newPage *Page
 	if config().TestMode && p.SourceUrl == "http://test" {
 		newPage, err = doFakeSave(&p)
