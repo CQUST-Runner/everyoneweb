@@ -182,7 +182,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     ).subscribe(
       x => {
         this.dataSource.data = x;
-        this.categories = [...new Set(x.map(x => x.category).filter(x => x.length > 0))];
+        this.categories = [...new Set(x.map(x => x.category))];
         this.tags = [...new Set(x.map(x => x.tags).flat().filter(x => x.length > 0))];
         this.isLoading = false;
       }
@@ -229,6 +229,10 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         this.dataSource.paginator.firstPage();
       }
     });
+  }
+
+  getCategoryDisplayName(category: string): string {
+    return category.length > 0 ? category : '无类别';
   }
 
   ngAfterViewInit() {
