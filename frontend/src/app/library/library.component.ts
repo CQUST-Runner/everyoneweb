@@ -147,17 +147,18 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
           },
           complete() {
-
           },
           error(err) {
             page.category = old;
             thisRef.toolbox.openSnackBar('创建失败', 'OK');
             thisRef.form.updateValueAndValidity();
+            thisRef.onDataUpdated();
 
           },
         } as Observer<Page>)
 
         this.form.updateValueAndValidity();
+        thisRef.onDataUpdated();
       }
     });
 
@@ -186,8 +187,18 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         error(err) {
           row.rating = old;
           thisRef.toolbox.openSnackBar('修改失败', 'OK');
+          thisRef.form.updateValueAndValidity();
+          thisRef.onDataUpdated();
         },
       } as Observer<Page>);
+    this.form.updateValueAndValidity();
+    this.onDataUpdated();
+  }
+
+  onDataUpdated() {
+    let x = this.dataSource.data;
+    this.categories = [...new Set(x.map(x => x.category))];
+    this.tags = [...new Set(x.map(x => x.tags).flat().filter(x => x.length > 0))];
   }
 
   isLoading = false;
@@ -213,8 +224,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     ).subscribe(
       x => {
         this.dataSource.data = x;
-        this.categories = [...new Set(x.map(x => x.category))];
-        this.tags = [...new Set(x.map(x => x.tags).flat().filter(x => x.length > 0))];
+        this.onDataUpdated();
         this.isLoading = false;
       }
     )
@@ -333,11 +343,13 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         page.category = old;
         thisRef.toolbox.openSnackBar('修改失败', 'OK');
         thisRef.form.updateValueAndValidity();
+        thisRef.onDataUpdated();
       },
     } as Observer<Page>)
 
 
     this.form.updateValueAndValidity();
+    this.onDataUpdated();
   }
 
   confirmDeletion(row: Page) {
@@ -394,11 +406,12 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         page.markedAsRead = old;
         thisRef.toolbox.openSnackBar('标记失败', 'OK');
         thisRef.form.updateValueAndValidity();
-
+        thisRef.onDataUpdated();
       },
     } as Observer<Page>)
 
     this.form.updateValueAndValidity();
+    this.onDataUpdated();
   }
 
   effectiveRemindTime(m: moment.Moment | undefined): moment.Moment | undefined {
