@@ -1,4 +1,4 @@
-import { CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
@@ -18,6 +18,12 @@ import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.co
 import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
 import { PageService } from '../service/page.service';
 import { ToolBoxService } from '../tool-box.service';
+
+interface Column {
+  id: string
+  widthWeight: number
+  display: boolean
+}
 
 @Component({
   selector: 'app-library',
@@ -95,7 +101,31 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.categoryFormControl.updateValueAndValidity();
   }
 
-  displayedColumns: string[] = ['title', 'category', 'id', /*'sourceUrl',*/ 'saveTime', 'rating', 'markedAsRead', 'remindReadingTime', 'menu'];
+  columnDefine: Column[] = [{
+    id: 'title', widthWeight: 40, display: true
+  },
+  { id: 'category', widthWeight: 10, display: true },
+  { id: 'id', widthWeight: 8, display: true },
+  { id: 'sourceUrl', widthWeight: 30, display: false },
+  { id: 'saveTime', widthWeight: 10, display: true },
+  { id: 'rating', widthWeight: 10, display: true },
+  { id: 'markedAsRead', widthWeight: 5, display: true },
+  { id: 'remindReadingTime', widthWeight: 5, display: true },
+  { id: 'menu', widthWeight: 5, display: true }];
+
+  getDisplayedColumnWidth(id: string): string {
+    let column = this.columnDefine.find(x => x.id == id)
+    if (!column) {
+      return 'width:0%;';
+    }
+    let sumOfWeights = this.columnDefine.filter(x => x.display).reduce<number>((x, y) => { return x + y.widthWeight; }, 0);
+    if (sumOfWeights > 0) {
+      // console.log(`${id} ${column.widthWeight} / ${sumOfWeights}`);
+      return `width: ${Math.floor(column.widthWeight / sumOfWeights * 100)}%;`;
+    }
+    return 'width:0%';
+  }
+  displayedColumns: string[];
   defaultSortColumn = 'saveTime';
   dataSource: MatTableDataSource<Page>;
 
@@ -107,7 +137,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(GeneralInputDialogComponent, { width: "300px", maxWidth: "40vw", data: { dialogTitle: "创建新类别", fieldName: "请输入" } as GeneralInputOptions });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${result} `);
       if (result) {
         let page = ev.item.data;
 
@@ -165,6 +195,9 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   isLoading = false;
   constructor(private toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
+
+    this.displayedColumns = this.columnDefine.filter(x => x.display).map(x => x.id);
+
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());
 

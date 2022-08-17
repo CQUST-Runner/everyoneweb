@@ -90,21 +90,23 @@
 
           <!-- Title Column -->
           <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef> 标题 </th>
-            <td mat-cell *matCellDef="let row"> <a [href]="'http://127.0.0.1:16224/view/'+row.id">{{row.title}}</a></td>
+            <th [style]="getDisplayedColumnWidth('title')" mat-header-cell *matHeaderCellDef> 标题 </th>
+            <td [style]="getDisplayedColumnWidth('title')" mat-cell *matCellDef="let row"> <a
+                [href]="'http://127.0.0.1:16224/view/'+row.id">{{row.title}}</a></td>
           </ng-container>
 
           <!-- Category Column -->
           <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef> 类别 </th>
-            <td mat-cell *matCellDef="let row">{{getCategoryDisplayName(row.category)}}</td>
+            <th [style]="getDisplayedColumnWidth('category')" mat-header-cell *matHeaderCellDef> 类别 </th>
+            <td [style]="getDisplayedColumnWidth('category')" mat-cell *matCellDef="let row">
+              {{getCategoryDisplayName(row.category)}}</td>
           </ng-container>
 
           <!-- Id Column -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> 短链接
+            <th [style]="getDisplayedColumnWidth('id')" mat-header-cell *matHeaderCellDef> 短链接
             </th>
-            <td mat-cell *matCellDef="let row"> {{row.id}}
+            <td [style]="getDisplayedColumnWidth('id')" mat-cell *matCellDef="let row"> {{row.id}}
               <button mat-icon-button [cdkCopyToClipboard]="'http://127.0.0.1:16224/view/'+row.id">
                 <mat-icon class="copy-button">content_copy</mat-icon>
               </button>
@@ -113,23 +115,25 @@
 
           <!-- SaveTime Column -->
           <ng-container matColumnDef="saveTime">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> 保存时间
+            <th [style]="getDisplayedColumnWidth('saveTime')" mat-header-cell *matHeaderCellDef mat-sort-header> 保存时间
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td [style]="getDisplayedColumnWidth('saveTime')" mat-cell *matCellDef="let row">
               {{row.saveTime?.format('YYYY/MM/DD HH:mm')}}
             </td>
           </ng-container>
 
           <!-- SourceUrl Column -->
           <ng-container matColumnDef="sourceUrl">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> 原链接 </th>
-            <td mat-cell *matCellDef="let row"><a href="#"> {{row.sourceUrl}}</a> </td>
+            <th [style]="getDisplayedColumnWidth('sourceUrl')" mat-header-cell *matHeaderCellDef mat-sort-header> 原链接
+            </th>
+            <td [style]="getDisplayedColumnWidth('sourceUrl')" mat-cell *matCellDef="let row"><a href="#">
+                {{row.sourceUrl}}</a> </td>
           </ng-container>
 
           <!-- Rating Column -->
           <ng-container matColumnDef="rating">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> 评级 </th>
-            <td mat-cell *matCellDef="let row">
+            <th [style]="getDisplayedColumnWidth('rating')" mat-header-cell *matHeaderCellDef mat-sort-header> 评级 </th>
+            <td [style]="getDisplayedColumnWidth('rating')" mat-cell *matCellDef="let row">
               <app-rating [rating]="row.rating" (change)="onChangeRating($event,row);"></app-rating>
 
             </td>
@@ -137,14 +141,17 @@
 
           <!-- RemindReadingTime Column -->
           <ng-container matColumnDef="remindReadingTime">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> 计划阅读 </th>
-            <td mat-cell *matCellDef="let row">{{effectiveRemindTime(row.remindReadingTime)?.fromNow()}}</td>
+            <th [style]="getDisplayedColumnWidth('remindReadingTime')" mat-header-cell *matHeaderCellDef
+              mat-sort-header> 计划阅读 </th>
+            <td [style]="getDisplayedColumnWidth('remindReadingTime')" mat-cell *matCellDef="let row">
+              {{effectiveRemindTime(row.remindReadingTime)?.fromNow()}}</td>
           </ng-container>
 
           <!-- MarkedAsRead Column -->
           <ng-container matColumnDef="markedAsRead">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> 已读 </th>
-            <td mat-cell *matCellDef="let row">
+            <th [style]="getDisplayedColumnWidth('markedAsRead')" mat-header-cell *matHeaderCellDef mat-sort-header> 已读
+            </th>
+            <td [style]="getDisplayedColumnWidth('markedAsRead')" mat-cell *matCellDef="let row">
               <button (click)="toggleMarkedAsRead(row);" mat-icon-button>
                 <mat-icon *ngIf="row.markedAsRead">check_box</mat-icon>
                 <mat-icon *ngIf="!row.markedAsRead">check_box_outline_blank</mat-icon>
@@ -153,8 +160,8 @@
           </ng-container>
 
           <ng-container matColumnDef="menu">
-            <th mat-header-cell *matHeaderCellDef> 选项 </th>
-            <td mat-cell *matCellDef="let row">
+            <th [style]="getDisplayedColumnWidth('menu')" mat-header-cell *matHeaderCellDef> 选项 </th>
+            <td [style]="getDisplayedColumnWidth('menu')" mat-cell *matCellDef="let row">
               <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
