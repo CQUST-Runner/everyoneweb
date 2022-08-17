@@ -1,7 +1,10 @@
 <div fxLayout="row" fxLayoutGap="10px" style="width: 100%;">
     <span fxFlex="1 1 auto">{{data.message}}</span>
-    <div fxFlex="0 0 auto">
-        <button mat-stroked-button (click)="openInNewTag();">打开</button>
-        <button mat-stroked-button (click)="navigateToLibrary();">网页库中查看</button>
-    </div>
+    <span fxFlex="0 0 auto">
+        <button mat-button (click)="openInNewTag();">打开</button>
+        <button mat-button (click)="navigateToLibrary();">网页库中查看</button>
+        <button mat-icon-button (click)="this.ref.dismiss()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </span>
 </div>

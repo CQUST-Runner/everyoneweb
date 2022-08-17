@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Page } from '../page.model';
 import { ToolBoxService } from '../tool-box.service';
@@ -16,7 +16,8 @@ export interface SavePageSuccessActionsData {
 })
 export class SavePageSuccessActionsComponent implements OnInit {
 
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SavePageSuccessActionsData, private router: Router, private toolbox: ToolBoxService) { }
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SavePageSuccessActionsData, private router: Router, private toolbox: ToolBoxService,
+    public ref: MatSnackBarRef<SavePageSuccessActionsComponent>) { }
 
   ngOnInit(): void {
   }

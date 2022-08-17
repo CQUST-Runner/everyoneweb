@@ -109,7 +109,7 @@ export class SavePageComponent implements OnInit {
           thisRef.toolbox.openComponentSnackBar(SavePageSuccessActionsComponent,
             {
               data: { page: savedPage, message: "保存成功" } as SavePageSuccessActionsData,
-              duration: 1000 * 3
+              duration: 1000 * 5
             } as MatSnackBarConfig);
         } else {
           thisRef.toolbox.openSnackBar("保存失败，请重试", "OK");
