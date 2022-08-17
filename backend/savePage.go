@@ -48,6 +48,26 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 	return htmlFile, nil
 }
 
+func getPageTitle2(filename string) (string, error) {
+	openingTag := regexp.MustCompile("<title>")
+	closingTag := regexp.MustCompile("</title>")
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return "", err
+	}
+	loc1 := openingTag.FindIndex(bytes)
+	if len(loc1) < 2 {
+		return "", fmt.Errorf("cannot find opening tag")
+	}
+	loc2 := closingTag.FindIndex(bytes[loc1[1]:])
+	if len(loc2) < 2 {
+		return "", fmt.Errorf("cannot find closing tag")
+	}
+	title := string(bytes[loc1[1] : loc1[1]+loc2[0]])
+	title = strings.TrimSpace(title)
+	return title, nil
+}
+
 func getPageTitle(filename string) (string, error) {
 	r := regexp.MustCompile("<title>(.*?)</title>")
 	bytes, err := ioutil.ReadFile(filename)

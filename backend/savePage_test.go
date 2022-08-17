@@ -23,3 +23,13 @@ func TestGetPageTitle(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "Google", title)
 }
+
+func TestGetPageTitle2(t *testing.T) {
+	filename, err := doSavePage(context.Background(), "../third-party/single-file-cli", ".", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+		"https://google.com", randID(10))
+	assert.Nil(t, err)
+	defer os.Remove(filename)
+	title, err := getPageTitle2(filename)
+	assert.Nil(t, err)
+	assert.Equal(t, "Google", title)
+}
