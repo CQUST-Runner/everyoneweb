@@ -38,3 +38,7 @@ mat-button-toggle {
 .mat-list-base .mat-list-item-disabled {
   background-color: inherit;
 }
+
+.has-read-checkbox {
+  color: gray;
+}

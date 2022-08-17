@@ -154,8 +154,8 @@
             </th>
             <td [style]="getDisplayedColumnWidth('markedAsRead')" mat-cell *matCellDef="let row">
               <button (click)="toggleMarkedAsRead(row);" mat-icon-button>
-                <mat-icon *ngIf="row.markedAsRead">check_box</mat-icon>
-                <mat-icon *ngIf="!row.markedAsRead">check_box_outline_blank</mat-icon>
+                <mat-icon class="has-read-checkbox" *ngIf="row.markedAsRead">check_box</mat-icon>
+                <mat-icon class="has-read-checkbox" *ngIf="!row.markedAsRead">check_box_outline_blank</mat-icon>
               </button>
             </td>
           </ng-container>
