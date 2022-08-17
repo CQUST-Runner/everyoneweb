@@ -37,6 +37,8 @@ export class TagsInputComponent implements OnInit, AfterViewInit {
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
 
+  @Input() readonly: boolean;
+
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   add(event: MatChipInputEvent): void {

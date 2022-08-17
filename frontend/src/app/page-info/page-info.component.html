@@ -55,10 +55,7 @@
             <input matInput [value]="page.source">
         </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>标签</mat-label>
-            <input matInput [value]="page.tags">
-        </mat-form-field>
+        <app-tags-input [readonly]="true" [initialTags]="page.tags || []"></app-tags-input>
 
         <mat-form-field appearance="standard">
             <mat-label>文件类型</mat-label>
