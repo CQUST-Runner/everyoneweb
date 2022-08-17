@@ -35,6 +35,7 @@ import { RealLogService } from './service/reallog.service';
 import { PageService } from './service/page.service';
 import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-spinner.component';
 import { GeneralInputDialogComponent } from './general-input-dialog/general-input-dialog.component';
+import { SavePageSuccessActionsComponent } from './save-page-success-actions/save-page-success-actions.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { GeneralInputDialogComponent } from './general-input-dialog/general-inpu
     FormatSelectionComponent,
     FullScreenSpinnerComponent,
     GeneralInputDialogComponent,
+    SavePageSuccessActionsComponent,
   ],
   imports: [
     BrowserModule,

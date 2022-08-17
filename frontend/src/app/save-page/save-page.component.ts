@@ -11,6 +11,8 @@ import { Observer } from 'rxjs';
 import { TagsInputComponent } from '../tags-input/tags-input.component';
 import { FormatSelectionComponent } from '../format-selection/format-selection.component';
 import { ToolBoxService } from '../tool-box.service';
+import { SavePageSuccessActionsComponent, SavePageSuccessActionsData } from '../save-page-success-actions/save-page-success-actions.component';
+import { MatSnackBarConfig } from '@angular/material/snack-bar';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -97,12 +99,23 @@ export class SavePageComponent implements OnInit {
 
     this.isLoading = true;
     let thisRef = this;
+    let savedPage: Page | undefined = undefined;
     this.pageService.save(p).subscribe({
       next(x: Page) {
+        savedPage = x;
       },
       complete() {
-        thisRef.toolbox.openSnackBar("保存成功", "OK");
+        if (savedPage != undefined) {
+          thisRef.toolbox.openComponentSnackBar(SavePageSuccessActionsComponent,
+            {
+              data: { page: savedPage, message: "保存成功" } as SavePageSuccessActionsData,
+              duration: 1000 * 3
+            } as MatSnackBarConfig);
+        } else {
+          thisRef.toolbox.openSnackBar("保存失败，请重试", "OK");
+        }
         thisRef.isLoading = false;
+
       },
       error(err) {
         thisRef.toolbox.openSnackBar("保存失败，请重试", "OK");
