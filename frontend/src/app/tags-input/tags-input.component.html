@@ -9,7 +9,7 @@
         </mat-chip>
         <input placeholder="增加标签...（回车输入）" #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
+            (matChipInputTokenEnd)="add($event)" matChipInputAddOnBlur="true">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
