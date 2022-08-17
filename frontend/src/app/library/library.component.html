@@ -136,7 +136,7 @@
 
           <!-- RemindReadingTime Column -->
           <ng-container matColumnDef="remindReadingTime">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> 提醒阅读 </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> 计划阅读 </th>
             <td mat-cell *matCellDef="let row">{{effectiveRemindTime(row.remindReadingTime)?.fromNow()}}</td>
           </ng-container>
 

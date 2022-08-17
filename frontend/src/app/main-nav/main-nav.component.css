@@ -21,3 +21,12 @@ footer {
   background-color: gainsboro;
   border: 1px solid lightgoldenrodyellow;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a :visited {
+  color: inherit;
+}
