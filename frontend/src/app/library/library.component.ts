@@ -63,8 +63,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   categories: string[] = [];
   tags: string[] = [];
 
-  color: ThemePalette = 'accent';
-
   select(option: MatListOption, t: MatSelectionList) {
     if (option.selected) {
       t.selectAll();
@@ -375,21 +373,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-
-
-  public date: moment.Moment;
-  public disabled = false;
-  public showSpinners = true;
-  public showSeconds = false;
-  public touchUi = false;
-  public enableMeridian = false;
-  public minDate: moment.Moment;
-  public maxDate: moment.Moment;
-  public stepHour = 1;
-  public stepMinute = 1;
-  public stepSecond = 1;
-
-  public dateControl = new FormControl(new Date(2021, 9, 4, 5, 6, 7));
 
   preventMenuClosing(ev: Event) {
     ev.stopPropagation();

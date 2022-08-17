@@ -13,6 +13,7 @@ import { FormatSelectionComponent } from '../format-selection/format-selection.c
 import { ToolBoxService } from '../tool-box.service';
 import { SavePageSuccessActionsComponent, SavePageSuccessActionsData } from '../save-page-success-actions/save-page-success-actions.component';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { DateTimePickerComponent } from '../date-time-picker/date-time-picker.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -48,21 +49,6 @@ export class SavePageComponent implements OnInit {
 
   }
 
-  public date: moment.Moment;
-  public disabled = false;
-  public showSpinners = true;
-  public showSeconds = false;
-  public touchUi = false;
-  public enableMeridian = false;
-  public minDate: moment.Moment;
-  public maxDate: moment.Moment;
-  public stepHour = 1;
-  public stepMinute = 1;
-  public stepSecond = 1;
-  public color: ThemePalette = 'primary';
-
-  public dateControl = new FormControl(new Date(2021, 9, 4, 5, 6, 7));
-
   openPreview() {
     const dialogRef = this.dialog.open(PagePreviewComponent, { width: "80vw" });
 
@@ -85,6 +71,7 @@ export class SavePageComponent implements OnInit {
 
   @ViewChild(TagsInputComponent) tags: TagsInputComponent;
   @ViewChild(FormatSelectionComponent) format: FormatSelectionComponent;
+  @ViewChild(DateTimePickerComponent) picker: DateTimePickerComponent;
   savePage() {
     let p = {
       sourceUrl: this.value,
@@ -92,7 +79,7 @@ export class SavePageComponent implements OnInit {
       tags: this.tags.control?.value,
       type: this.format.selected,
       saveTime: moment(),
-      remindReadingTime: this.dateControl.value ? moment(this.dateControl.value) : undefined,
+      remindReadingTime: this.picker.dateControl.value ? moment(this.picker.dateControl.value) : undefined,
     } as Page;
 
     console.log(p);

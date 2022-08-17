@@ -36,6 +36,7 @@ import { PageService } from './service/page.service';
 import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-spinner.component';
 import { GeneralInputDialogComponent } from './general-input-dialog/general-input-dialog.component';
 import { SavePageSuccessActionsComponent } from './save-page-success-actions/save-page-success-actions.component';
+import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { SavePageSuccessActionsComponent } from './save-page-success-actions/sav
     FullScreenSpinnerComponent,
     GeneralInputDialogComponent,
     SavePageSuccessActionsComponent,
+    DateTimePickerComponent,
   ],
   imports: [
     BrowserModule,

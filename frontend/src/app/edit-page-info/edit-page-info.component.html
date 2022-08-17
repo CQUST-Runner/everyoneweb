@@ -21,15 +21,7 @@
     </mat-form-field>
 
     计划阅读：
-    <mat-form-field>
-        <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
-            [disabled]="disabled">
-        <mat-datepicker-toggle matSuffix [for]="$any(picker)">
-        </mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="stepHour"
-            [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="'primary'">
-        </ngx-mat-datetime-picker>
-    </mat-form-field>
+    <app-date-time-picker></app-date-time-picker>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="false">关闭</button>
