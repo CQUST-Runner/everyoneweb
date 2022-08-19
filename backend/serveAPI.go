@@ -150,6 +150,15 @@ func deletePage(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	filename := getPageFileNameById(id)
+	if storage.IsFile(filename) {
+		err = os.Remove(filename)
+		if err != nil {
+			logger.Warn("remove page file failed:%v", err)
+		}
+	}
+
 	w.WriteHeader(http.StatusOK)
 }
 

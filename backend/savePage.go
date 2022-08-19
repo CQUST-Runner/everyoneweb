@@ -13,12 +13,16 @@ import (
 	"github.com/CQUST-Runner/datacross/storage"
 )
 
+func getPageFileNameById(id string) string {
+	return fmt.Sprintf("%v.html", id)
+}
+
 // dependencies: Chrome，nodejs
 // --back-end=jsdom
 // or --browser-executable-path=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 // ./single-file --browser-executable-path=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome https://www.github.com
 func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string, chromePath string, url string, id string) (string, error) {
-	htmlFile := fmt.Sprintf("%v.html", id)
+	htmlFile := getPageFileNameById(id)
 	htmlFile = path.Join(dataDirectory, htmlFile)
 	if storage.IsFile(htmlFile) {
 		return "", fmt.Errorf("file exists")
