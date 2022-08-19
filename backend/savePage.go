@@ -86,3 +86,19 @@ func getPageTitle(filename string) (string, error) {
 	title = strings.TrimSpace(title)
 	return title, nil
 }
+
+func getPageDescription(filename string) string {
+	//this is not meant to be a very comprehensive method
+	r := regexp.MustCompile(`<meta name="description" content="(.*?)">`)
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return ""
+	}
+	matches := r.FindStringSubmatch(string(bytes))
+	if matches == nil || len(matches) < 2 {
+		return ""
+	}
+	description := matches[1]
+	description = strings.TrimSpace(description)
+	return description
+}

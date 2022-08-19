@@ -86,6 +86,7 @@ func doSave(p *Page) (*Page, error) {
 	p.SourceTitle = title
 	p.Title = title
 	p.UpdateTime = p.SaveTime
+	p.Desc = getPageDescription(filename)
 	return p, nil
 }
 
