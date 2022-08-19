@@ -60,6 +60,19 @@ func check(c *Config) error {
 	return nil
 }
 
+func writeConfig(config *Config) error {
+	bytes, err := yaml.Marshal(config)
+	if err != nil {
+		return err
+	}
+	tmpFile := configFile + ".tmp"
+	err = ioutil.WriteFile(tmpFile, bytes, 0666)
+	if err != nil {
+		return err
+	}
+	return os.Rename(tmpFile, configFile)
+}
+
 func mustLoadConfig() {
 	data, err := ioutil.ReadFile(configFile)
 	if err != nil {

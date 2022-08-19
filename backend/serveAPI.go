@@ -268,9 +268,25 @@ func updateSettings(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	newConfig := config()
+	newConfig.Settings = s
+
+	err = check(newConfig)
+	if err != nil {
+		logger.Info("config is invalid:%v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err = writeConfig(newConfig)
+	if err != nil {
+		logger.Error("write config failed:%v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	setConfig(func(old *Config) *Config {
-		old.Settings = s
-		return old
+		return newConfig
 	})
 	w.WriteHeader(http.StatusOK)
 	w.Write(r)
