@@ -46,7 +46,6 @@ export class SavePageComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   onFolderSelected(ev: Event) {
-
   }
 
   openPreview() {
@@ -68,6 +67,10 @@ export class SavePageComponent implements OnInit {
   isLoading = false;
 
   category: string;
+
+  onInput(ev: Event) {
+    this.emailFormControl.setValue(this.value);
+  }
 
   @ViewChild(TagsInputComponent) tags: TagsInputComponent;
   @ViewChild(FormatSelectionComponent) format: FormatSelectionComponent;

@@ -1,7 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatPaginator } from '@angular/material/paginator';
@@ -99,17 +98,16 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.categoryFormControl.updateValueAndValidity();
   }
 
-  columnDefine: Column[] = [{
-    id: 'title', widthWeight: 40, display: true
-  },
-  { id: 'category', widthWeight: 10, display: true },
-  { id: 'id', widthWeight: 8, display: true },
-  { id: 'sourceUrl', widthWeight: 30, display: false },
-  { id: 'saveTime', widthWeight: 10, display: true },
-  { id: 'rating', widthWeight: 10, display: true },
-  { id: 'markedAsRead', widthWeight: 5, display: true },
-  { id: 'remindReadingTime', widthWeight: 5, display: true },
-  { id: 'menu', widthWeight: 5, display: true }];
+  columnDefine: Column[] = [
+    { id: 'title', widthWeight: 40, display: true },
+    { id: 'category', widthWeight: 8, display: true },
+    { id: 'id', widthWeight: 10, display: true },
+    { id: 'sourceUrl', widthWeight: 30, display: false },
+    { id: 'saveTime', widthWeight: 10, display: true },
+    { id: 'rating', widthWeight: 10, display: true },
+    { id: 'markedAsRead', widthWeight: 5, display: true },
+    { id: 'remindReadingTime', widthWeight: 5, display: true },
+    { id: 'menu', widthWeight: 5, display: true }];
 
   getDisplayedColumnWidth(id: string): string {
     let column = this.columnDefine.find(x => x.id == id)

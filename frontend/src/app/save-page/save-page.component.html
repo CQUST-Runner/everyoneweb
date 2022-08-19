@@ -3,7 +3,7 @@
   <mat-card fxLayout="row" class="input-box">
     <mat-form-field fxFlex="1 1 auto" appearance="fill">
       <mat-label>url</mat-label>
-      <input [(ngModel)]="value" type="url" matInput [formControl]="emailFormControl" placeholder="Ex. http://abc.com"
+      <input [(ngModel)]="value" type="url" matInput (input)="onInput($event);" placeholder="Ex. http://abc.com"
         autocomplete="off">
       <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
         <mat-icon>close</mat-icon>
