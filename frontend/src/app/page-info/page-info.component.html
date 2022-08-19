@@ -5,20 +5,20 @@
             <input matInput [value]="page.title">
         </mat-form-field>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>原链接</mat-label>
-            <input matInput [value]="page.sourceUrl">
-        </mat-form-field>
-
+        <div *ngIf="full">
+            <mat-label for="page-source-url">原链接</mat-label>
+            <app-url-with-copy-btn id="page-source-url" [url]="page.sourceUrl"></app-url-with-copy-btn>
+        </div>
         <mat-form-field *ngIf="full" appearance="standard">
             <mat-label>文件存放路径</mat-label>
             <input matInput [value]="page.filePath">
         </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>短链接</mat-label>
-            <input matInput [value]="page.id">
-        </mat-form-field>
+        <div>
+            <mat-label for="page-id">短链接</mat-label>
+            <app-url-with-copy-btn id="page-id" [displayName]="page.id" [url]="this.toolbox.getLocalUrl(page)">
+            </app-url-with-copy-btn>
+        </div>
 
         <mat-form-field appearance="standard">
             <mat-label>类别</mat-label>

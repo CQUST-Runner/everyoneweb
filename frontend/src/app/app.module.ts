@@ -37,6 +37,7 @@ import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-sp
 import { GeneralInputDialogComponent } from './general-input-dialog/general-input-dialog.component';
 import { SavePageSuccessActionsComponent } from './save-page-success-actions/save-page-success-actions.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
+import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { DateTimePickerComponent } from './date-time-picker/date-time-picker.com
     GeneralInputDialogComponent,
     SavePageSuccessActionsComponent,
     DateTimePickerComponent,
+    UrlWithCopyBtnComponent,
   ],
   imports: [
     BrowserModule,

@@ -200,7 +200,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   isLoading = false;
-  constructor(private toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
+  constructor(public toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
 
     this.displayedColumns = this.columnDefine.filter(x => x.display).map(x => x.id);

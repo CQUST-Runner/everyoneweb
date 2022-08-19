@@ -1,0 +1,11 @@
+.copy-button {
+    font-size: 1em;
+}
+
+a {
+    color: rgba(0, 0, 0, .87);
+}
+
+span {
+    overflow-wrap: break-word;
+}

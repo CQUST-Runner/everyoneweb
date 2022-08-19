@@ -107,10 +107,9 @@
           <ng-container matColumnDef="id">
             <th [style]="getDisplayedColumnWidth('id')" mat-header-cell *matHeaderCellDef> 短链接
             </th>
-            <td [style]="getDisplayedColumnWidth('id')" mat-cell *matCellDef="let row"> {{row.id}}
-              <button mat-icon-button [cdkCopyToClipboard]="'http://127.0.0.1:16224/view/'+row.id">
-                <mat-icon class="copy-button">content_copy</mat-icon>
-              </button>
+            <td [style]="getDisplayedColumnWidth('id')" mat-cell *matCellDef="let row">
+              <app-url-with-copy-btn [displayName]="row.id" [url]="this.toolbox.getLocalUrl(row.id)">
+              </app-url-with-copy-btn>
             </td>
           </ng-container>
 
@@ -127,8 +126,9 @@
           <ng-container matColumnDef="sourceUrl">
             <th [style]="getDisplayedColumnWidth('sourceUrl')" mat-header-cell *matHeaderCellDef mat-sort-header> 原链接
             </th>
-            <td [style]="getDisplayedColumnWidth('sourceUrl')" mat-cell *matCellDef="let row"><a href="#">
-                {{row.sourceUrl}}</a> </td>
+            <td [style]="getDisplayedColumnWidth('sourceUrl')" mat-cell *matCellDef="let row">
+              <app-url-with-copy-btn [url]="row.sourceUrl" [clickable]="true"></app-url-with-copy-btn>
+            </td>
           </ng-container>
 
           <!-- Rating Column -->

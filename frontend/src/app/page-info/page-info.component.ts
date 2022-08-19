@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Page } from '../page.model';
+import { ToolBoxService } from '../tool-box.service';
 
 @Component({
   selector: 'app-page-info',
@@ -11,8 +12,8 @@ export class PageInfoComponent implements OnInit {
   @Input() page: Page;
   @Input() full: boolean = false;
   @Input() thumbnail: boolean = true;
-  
-  constructor() { }
+
+  constructor(public toolbox: ToolBoxService) { }
 
   ngOnInit(): void {
   }
