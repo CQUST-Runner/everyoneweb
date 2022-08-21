@@ -12,6 +12,7 @@ func serve() {
 	http.DefaultServeMux.HandleFunc("/api/pageList/", withCORS(pageList))
 	http.DefaultServeMux.HandleFunc("/api/settings/", withCORS(settings))
 	http.DefaultServeMux.HandleFunc("/api/log/", withCORS(Log))
+	http.DefaultServeMux.HandleFunc("/api/config.js", withCORS(ConfigFile))
 	http.DefaultServeMux.HandleFunc("/app/", serveSite)
 	http.DefaultServeMux.HandleFunc("/view/", serveSavedPage)
 	logger.Info("server running on 127.0.0.1:%v\n", config().Settings.ServeLibraryPort)

@@ -15,11 +15,11 @@ const logFile = "nohup.out"
 const getLogMaxBytes = 4096
 
 type Config struct {
-	TestMode      bool     `yaml:"-" default:"true"`
-	ServeRoot     string   `yaml:"-" default:"."`
-	SingleFileCli string   `yaml:"-" default:"./single-file-cli"`
-	ChromePath    string   `yaml:"chrome_path"`
-	Settings      Settings `yaml:"settings" default:"{}"`
+	TestMode      bool      `yaml:"-" default:"true"`
+	ServeRoot     string    `yaml:"-" default:"."`
+	SingleFileCli string    `yaml:"-" default:"./single-file-cli"`
+	ChromePath    string    `yaml:"chrome_path"`
+	Settings      *Settings `yaml:"settings" default:"{}"`
 }
 
 func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {

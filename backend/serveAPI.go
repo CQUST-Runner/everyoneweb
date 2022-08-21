@@ -269,7 +269,7 @@ func updateSettings(w http.ResponseWriter, req *http.Request) {
 	}
 
 	newConfig := config()
-	newConfig.Settings = s
+	newConfig.Settings = &s
 
 	err = check(newConfig)
 	if err != nil {
@@ -406,4 +406,23 @@ func Log(w http.ResponseWriter, req *http.Request) {
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
+}
+
+func ConfigFile(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	w.Header().Set("Content-Type", "text/javascript")
+	settings := config().Settings
+	jDoc, err := json.Marshal(settings)
+	if err != nil {
+		logger.Error("marshal json failed:%v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	js := fmt.Sprintf("let config=JSON.parse('%s');", string(jDoc))
+	w.Write([]byte(js))
+	w.WriteHeader(http.StatusOK)
 }
