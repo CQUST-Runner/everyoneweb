@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getConfig } from '../settings.model';
 
 @Component({
   selector: 'app-settings',
@@ -9,6 +10,8 @@ export class SettingsComponent implements OnInit {
 
   title = '设置';
   constructor() { }
+
+  settings = getConfig();
 
   ngOnInit(): void {
   }

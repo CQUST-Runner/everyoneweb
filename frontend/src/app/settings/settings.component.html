@@ -5,8 +5,8 @@
     <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
       <mat-form-field appearance="fill">
         <mat-label>首屏界面：</mat-label>
-        <mat-select matNativeControl value="save-page">
-          <mat-option value="save-page">新建</mat-option>
+        <mat-select matNativeControl [(ngModel)]="settings.firstScreen">
+          <mat-option value="new">新建</mat-option>
           <mat-option value="library">已保存的网页</mat-option>
           <mat-option value="settings">设置</mat-option>
           <mat-option value="logs">日志</mat-option>
@@ -15,15 +15,16 @@
 
       <mat-form-field appearance="fill">
         <mat-label>语言</mat-label>
-        <mat-select matNativeControl value="sc">
-          <mat-option value="sc">中文（简体）</mat-option>
-          <mat-option value="tc">中文（繁体）</mat-option>
+        <mat-select matNativeControl [(ngModel)]="settings.language">
+          <mat-option value="auto">自动（中文【简体】）</mat-option>
+          <mat-option value="sc">中文【简体】</mat-option>
+          <mat-option value="tc">中文【繁体】</mat-option>
           <mat-option value="english">English</mat-option>
           <mat-option value="jp">日本語</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-slide-toggle color="primary">启用日志页面</mat-slide-toggle>
+      <mat-slide-toggle color="primary" [(ngModel)]="settings.showLogsEntry">启用日志页面</mat-slide-toggle>
 
     </div>
   </div>
@@ -39,7 +40,8 @@
       <div fxLayout="row">
         <mat-form-field fxFlex="1 1 auto" appearance="fill">
           <mat-label>数据目录：</mat-label>
-          <input matInput #message maxlength="256" placeholder="Ex. I need help with..." value="C:\\xxx">
+          <input matInput #message maxlength="256" placeholder="Ex. I need help with..."
+            [(ngModel)]="settings.dataDirectory">
           <mat-hint align="start"><strong>若目录为同步目录，则数据将在设备间同步。</strong> </mat-hint>
           <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
 
@@ -52,7 +54,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>机器名：</mat-label>
-        <input matInput placeholder="" value="machine0">
+        <input matInput placeholder="" [(ngModel)]="settings.machineID">
       </mat-form-field>
 
       <button mat-raised-button fxFlexAlign="start">导出所有数据</button>
@@ -67,10 +69,10 @@
     </div>
     <div fxFlex="1 1 auto"></div>
     <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
-      <mat-slide-toggle color="primary" checked>HTTP服务</mat-slide-toggle>
+      <mat-slide-toggle color="primary" [(ngModel)]="settings.serveLibrary">HTTP服务</mat-slide-toggle>
       <mat-form-field appearance="fill">
         <mat-label>HTTP服务端口：</mat-label>
-        <input matInput placeholder="" value="51552">
+        <input matInput placeholder="" [(ngModel)]="settings.serveLibraryPort">
       </mat-form-field>
     </div>
   </div>
