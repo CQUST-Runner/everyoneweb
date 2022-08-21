@@ -98,6 +98,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.categoryFormControl.updateValueAndValidity();
   }
 
+  // weight should not be changed by users
   columnDefine: Column[] = [
     { id: 'title', widthWeight: 40, display: true },
     { id: 'category', widthWeight: 8, display: true },
