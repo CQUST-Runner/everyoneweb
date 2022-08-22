@@ -21,7 +21,3 @@ export function getConfig(): Settings {
         showLogsEntry: false
     };
 }
-
-export function setConfig(settings: Settings) {
-    (window as any).config = settings;
-}

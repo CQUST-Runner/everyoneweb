@@ -14,7 +14,7 @@ export class SettingsComponent implements OnInit {
   title = '设置';
   constructor(private settingsService: SettingsService, private toolbox: ToolBoxService) { }
 
-  settings = getConfig();
+  settings = { ...getConfig() };
 
   ngOnInit(): void {
   }
@@ -23,16 +23,24 @@ export class SettingsComponent implements OnInit {
     alert('请打开桌面版使用该功能');
   }
 
+  applyConfig() {
+    Object.entries(this.settings).forEach(
+      ([key, value]) => {
+        (getConfig() as any)[key] = value;
+      })
+  }
+
   isSaving = false;
   saveSettings() {
     this.isSaving = true;
     let thisRef = this;
-    this.settingsService.update(getConfig()).subscribe({
+    this.settingsService.update(this.settings).subscribe({
       next(value) {
       },
       complete() {
         thisRef.toolbox.openSnackBar('保存成功', 'OK');
         thisRef.isSaving = false;
+        thisRef.applyConfig();
       },
       error(err) {
         thisRef.toolbox.openSnackBar('保存失败，请重试', 'OK');
