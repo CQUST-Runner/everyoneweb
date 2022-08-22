@@ -414,6 +414,7 @@ func ConfigFile(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/javascript")
+	w.Header().Set("Cache-Control", "no-store")
 	settings := config().Settings
 	jDoc, err := json.Marshal(settings)
 	if err != nil {
