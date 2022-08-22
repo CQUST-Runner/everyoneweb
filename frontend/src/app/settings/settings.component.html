@@ -17,11 +17,11 @@
       <mat-form-field appearance="fill">
         <mat-label>语言</mat-label>
         <mat-select matNativeControl [(ngModel)]="settings.language">
-          <mat-option value="auto">自动（中文【简体】）</mat-option>
+          <mat-option value="auto">自动（{{currentLanguage()}}）</mat-option>
           <mat-option value="sc">中文【简体】</mat-option>
           <mat-option value="tc">中文【繁体】</mat-option>
-          <mat-option value="english">English</mat-option>
-          <mat-option value="jp">日本語</mat-option>
+          <mat-option value="en">English</mat-option>
+          <mat-option value="ja">日本語</mat-option>
         </mat-select>
       </mat-form-field>
 

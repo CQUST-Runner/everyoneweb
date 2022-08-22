@@ -40,4 +40,28 @@ export class SettingsComponent implements OnInit {
       },
     } as Observer<Settings>)
   }
+
+  mapBroswerLanguge(): string {
+    switch (navigator.language) {
+      case 'zh':
+      case 'zh-CN':
+        return 'sc';
+      case 'zh-HK':
+      case 'zh-TW':
+        return 'tc';
+      case 'ja':
+        return 'ja';
+    }
+    return 'en';
+  }
+
+  currentLanguage(): string {
+    switch (this.mapBroswerLanguge()) {
+      case 'en': return navigator.language;
+      case 'sc': return '中文【简体】';
+      case 'tc': return '中文【繁体】';
+      case 'ja': return '日本語';
+    }
+    return navigator.language;
+  }
 }
