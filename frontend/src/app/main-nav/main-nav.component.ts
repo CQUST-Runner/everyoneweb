@@ -35,4 +35,13 @@ export class MainNavComponent {
     drawer.close();
     this.dialog.open(AboutComponent, { width: "40vw" });
   }
+
+  lastUrlComponent(): string {
+    let position = this.router.url.lastIndexOf('/');
+    if (position >= 0) {
+      let last = this.router.url.substring(position + 1);
+      return last;
+    }
+    return '#';
+  }
 }

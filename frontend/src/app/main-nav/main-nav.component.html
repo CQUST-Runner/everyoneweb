@@ -15,7 +15,7 @@
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span><a [href]="router.url"> {{title}}</a></span>
+      <span><a [href]="lastUrlComponent()"> {{title}}</a></span>
     </mat-toolbar>
     <div fxFlex="1 1 auto" fxLayout="column" style="overflow: hidden;">
       <router-outlet (activate)="onActivated($event)"></router-outlet>
