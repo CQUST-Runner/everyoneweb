@@ -1,17 +1,31 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule, Routes } from '@angular/router';
 import { LibraryComponent } from './library/library.component';
 import { LogsComponent } from './logs/logs.component';
 import { SavePageComponent } from './save-page/save-page.component';
+import { getConfig } from './settings.model';
 import { SettingsComponent } from './settings/settings.component';
 
+const routeMap: Map<string, Route> = new Map([
+  ["default", { path: '', 'title': '首页', component: SavePageComponent }],
+  ["new", { path: 'save-page', 'title': '首页', component: SavePageComponent }],
+  ["library", { path: 'library', 'title': '已保存的网页', component: LibraryComponent }],
+  ["settings", { path: 'settings', 'title': '设置', component: SettingsComponent }],
+  ["logs", { path: 'logs', 'title': '日志', component: LogsComponent }],
+]);
+
 const routes: Routes = [
-  { path: '', 'title': '首页', component: SavePageComponent },
-  { path: 'save-page', 'title': '首页', component: SavePageComponent },
-  { path: 'library', 'title': '已保存的网页', component: LibraryComponent },
-  { path: 'settings', 'title': '设置', component: SettingsComponent },
-  { path: 'logs', 'title': '日志', component: LogsComponent },
+  routeMap.get("default")!,
+  routeMap.get("new")!,
+  routeMap.get("library")!,
+  routeMap.get("settings")!,
+  routeMap.get("logs")!,
 ];
+
+if (routeMap.has(getConfig().firstScreen)) {
+  let route = routeMap.get(getConfig().firstScreen)!;
+  routes[0] = { path: '', title: route.title, component: route.component };
+}
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
