@@ -3,6 +3,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { getConfig } from '../settings.model';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MatDialog } from '@angular/material/dialog';
+import { AboutComponent } from '../about/about.component';
 
 @Component({
   selector: 'app-main-nav',
@@ -17,11 +21,18 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor(public router: Router, private breakpointObserver: BreakpointObserver) {
+  constructor(public router: Router, private breakpointObserver: BreakpointObserver, private dialog: MatDialog) {
   }
 
+  settings = getConfig();
   title: string;
   onActivated(ev: any) {
     this.title = ev.title || "";
+  }
+
+  openAbout(ev: Event, drawer: MatSidenav) {
+    ev.preventDefault();
+    drawer.close();
+    this.dialog.open(AboutComponent, { width: "40vw" });
   }
 }

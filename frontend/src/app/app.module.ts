@@ -38,6 +38,7 @@ import { GeneralInputDialogComponent } from './general-input-dialog/general-inpu
 import { SavePageSuccessActionsComponent } from './save-page-success-actions/save-page-success-actions.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.c
     SavePageSuccessActionsComponent,
     DateTimePickerComponent,
     UrlWithCopyBtnComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
