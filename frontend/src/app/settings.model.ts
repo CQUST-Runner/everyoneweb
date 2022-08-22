@@ -9,13 +9,9 @@ export interface Settings {
 }
 
 
-declare var config: Settings | undefined;
-
 export function getConfig(): Settings {
-    if (config) {
-        return config;
-    }
-    return {
+    let config: Settings = (window as any).config;
+    return config || {
         firstScreen: "new",
         dataDirectory: "./data",
         language: "auto",
@@ -27,5 +23,5 @@ export function getConfig(): Settings {
 }
 
 export function setConfig(settings: Settings) {
-    config = settings;
+    (window as any).config = settings;
 }
