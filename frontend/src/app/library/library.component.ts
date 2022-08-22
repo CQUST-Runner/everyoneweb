@@ -1,5 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
@@ -194,10 +194,16 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.onDataUpdated();
   }
 
+  @ViewChild('list33', { read: ElementRef }) listRef: ElementRef;
+
   onDataUpdated() {
     let x = this.dataSource.data;
     this.categories = [...new Set(x.map(x => x.category))];
     this.tags = [...new Set(x.map(x => x.tags).flat().filter(x => x.length > 0))];
+  }
+
+  scroll(ev: number) {
+    this.listRef.nativeElement.scrollTop += ev;
   }
 
   isLoading = false;

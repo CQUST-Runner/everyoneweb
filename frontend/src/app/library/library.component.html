@@ -2,12 +2,12 @@
 <div fxLayout="row" fxLayoutGap="10px" style="overflow: hidden; height: 100%;">
   <div fxFlex="15%" fxLayout="column" style="overflow: hidden;">
 
-    <div style="overflow-y: auto;">
+    <div style="overflow-y: auto;" #list33>
       <mat-selection-list #list22 *ngIf="toggle.checked" #shoes multiple="true"
         (after-if)="selectCategory('after-if');">
         <mat-list-option #select_all (click)="select(select_all, list22);" value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
-          <div mat-line>不限类别</div>
+          <div mat-line>全选</div>
         </mat-list-option>
         <mat-list-option #self (click)="unselectSelectAll(self,select_all);" *ngFor="let category of categories"
           [value]="category">
@@ -17,10 +17,13 @@
       </mat-selection-list>
       <mat-selection-list #list22 (selectionChange)="selectCategory('change');" *ngIf="!toggle.checked"
         (after-if)="selectCategory('after-if');" #shoes multiple="false">
+        <app-scroll-trigger direction="up" (scroll)="scroll($event)" class="scrollTrigger scrollUpTrigger">
+        </app-scroll-trigger>
         <mat-list-option value="_all" selected>
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>不限类别</div>
         </mat-list-option>
+
         <mat-list-option [disabled]="!showCreateCategory" cdkDropList dropToHereToSetCategory id="_newCategory"
           (cdkDropListDropped)="createNewCategoryAndSet($event);">
           <mat-icon mat-list-icon>add</mat-icon>
@@ -31,10 +34,11 @@
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{getCategoryDisplayName(category)}}</div>
         </mat-list-option>
+
+        <app-scroll-trigger direction="down" (scroll)="scroll($event)" class="scrollTrigger scrollDownTrigger">
+        </app-scroll-trigger>
       </mat-selection-list>
-      <p>
-        <!-- Options selected: {{shoes.selectedOptions.selected.length}} -->
-      </p>
+
     </div>
 
     <div fxFlex="1 0 auto"></div>

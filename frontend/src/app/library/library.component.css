@@ -38,3 +38,20 @@ mat-button-toggle {
 .has-read-checkbox {
   color: gray;
 }
+
+.mat-list-base {
+  padding-top: 0;
+}
+
+.scrollTrigger {
+  position: sticky;
+  z-index: 999;
+}
+
+.scrollUpTrigger {
+  top: 0;
+}
+
+.scrollDownTrigger {
+  bottom: 0;
+}
