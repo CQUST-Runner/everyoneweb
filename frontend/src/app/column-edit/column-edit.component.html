@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>编辑列</h2>
+<mat-dialog-content class="mat-typography">
+    <div cdkDropList [cdkDropListData]="columns" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of columns" cdkDragBoundary=".mat-typography" cdkDrag>
+            <div style=" width: 100%;" fxLayout="row" fxLayoutGap="20px">
+                <mat-slide-toggle color="primary"></mat-slide-toggle>
+                <div fxFlex="1 1 auto">
+                    {{item.displayName}}
+                </div>
+                <div class="example-handle" cdkDragHandle>
+                    <mat-icon>menu</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true">确认</button>
+    <button mat-button cdkFocusInitial [mat-dialog-close]="undefined">关闭</button>
+</mat-dialog-actions>

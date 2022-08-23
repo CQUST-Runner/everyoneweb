@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observer } from 'rxjs';
+import { ColumnEditComponent } from '../column-edit/column-edit.component';
 import { getConfig, Settings } from '../settings.model';
 import { SettingsService } from '../settings.service';
 import { ToolBoxService } from '../tool-box.service';
@@ -12,7 +14,7 @@ import { ToolBoxService } from '../tool-box.service';
 export class SettingsComponent implements OnInit {
 
   title = '设置';
-  constructor(private settingsService: SettingsService, private toolbox: ToolBoxService) { }
+  constructor(private settingsService: SettingsService, private toolbox: ToolBoxService, private dialog: MatDialog) { }
 
   settings = { ...getConfig() };
 
@@ -28,6 +30,14 @@ export class SettingsComponent implements OnInit {
       ([key, value]) => {
         (getConfig() as any)[key] = value;
       })
+  }
+
+  editColumn() {
+    const dialogRef = this.dialog.open(ColumnEditComponent, { width: "40vw" });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   isSaving = false;

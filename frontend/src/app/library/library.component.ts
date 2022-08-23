@@ -18,11 +18,24 @@ import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } fr
 import { PageService } from '../service/page.service';
 import { ToolBoxService } from '../tool-box.service';
 
-interface Column {
+export interface Column {
   id: string
   widthWeight: number
   display: boolean
+  displayName: string
 }
+
+// weight should not be changed by users
+export let columnDefine: Column[] = [
+  { id: 'title', widthWeight: 40, display: true, displayName: "标题" },
+  { id: 'category', widthWeight: 8, display: true, displayName: "类别" },
+  { id: 'id', widthWeight: 10, display: true, displayName: "短链接" },
+  { id: 'sourceUrl', widthWeight: 30, display: false, displayName: "原链接" },
+  { id: 'saveTime', widthWeight: 10, display: true, displayName: "保存时间" },
+  { id: 'rating', widthWeight: 10, display: true, displayName: "评级" },
+  { id: 'markedAsRead', widthWeight: 5, display: true, displayName: "已读" },
+  { id: 'remindReadingTime', widthWeight: 5, display: true, displayName: "计划阅读" },
+  { id: 'menu', widthWeight: 5, display: true, displayName: "菜单" }];
 
 @Component({
   selector: 'app-library',
@@ -98,24 +111,12 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.categoryFormControl.updateValueAndValidity();
   }
 
-  // weight should not be changed by users
-  columnDefine: Column[] = [
-    { id: 'title', widthWeight: 40, display: true },
-    { id: 'category', widthWeight: 8, display: true },
-    { id: 'id', widthWeight: 10, display: true },
-    { id: 'sourceUrl', widthWeight: 30, display: false },
-    { id: 'saveTime', widthWeight: 10, display: true },
-    { id: 'rating', widthWeight: 10, display: true },
-    { id: 'markedAsRead', widthWeight: 5, display: true },
-    { id: 'remindReadingTime', widthWeight: 5, display: true },
-    { id: 'menu', widthWeight: 5, display: true }];
-
   getDisplayedColumnWidth(id: string): string {
-    let column = this.columnDefine.find(x => x.id == id)
+    let column = columnDefine.find(x => x.id == id)
     if (!column) {
       return 'width:0%;';
     }
-    let sumOfWeights = this.columnDefine.filter(x => x.display).reduce<number>((x, y) => { return x + y.widthWeight; }, 0);
+    let sumOfWeights = columnDefine.filter(x => x.display).reduce<number>((x, y) => { return x + y.widthWeight; }, 0);
     if (sumOfWeights > 0) {
       // console.log(`${id} ${column.widthWeight} / ${sumOfWeights}`);
       return `width: ${Math.floor(column.widthWeight / sumOfWeights * 100)}%;`;
@@ -210,7 +211,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   constructor(public toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
 
-    this.displayedColumns = this.columnDefine.filter(x => x.display).map(x => x.id);
+    this.displayedColumns = columnDefine.filter(x => x.display).map(x => x.id);
 
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());

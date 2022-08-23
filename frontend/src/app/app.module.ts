@@ -40,6 +40,7 @@ import { DateTimePickerComponent } from './date-time-picker/date-time-picker.com
 import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
 import { AboutComponent } from './about/about.component';
 import { ScrollTriggerComponent } from './scroll-trigger/scroll-trigger.component';
+import { ColumnEditComponent } from './column-edit/column-edit.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ScrollTriggerComponent } from './scroll-trigger/scroll-trigger.componen
     UrlWithCopyBtnComponent,
     AboutComponent,
     ScrollTriggerComponent,
+    ColumnEditComponent,
   ],
   imports: [
     BrowserModule,
