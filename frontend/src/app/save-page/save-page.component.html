@@ -5,7 +5,7 @@
       <mat-label>url</mat-label>
       <input [(ngModel)]="value" type="url" matInput (input)="onInput($event);" placeholder="Ex. http://abc.com"
         autocomplete="off">
-      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="this.emailFormControl.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="emailFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
