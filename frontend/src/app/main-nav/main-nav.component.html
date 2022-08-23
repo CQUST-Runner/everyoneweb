@@ -1,26 +1,36 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'over'" [opened]="false">
-    <mat-toolbar>frontend</mat-toolbar>
+    [mode]="(isHandset$ | async) ? 'side' : 'side'" [opened]="true">
+    <!-- <mat-toolbar>frontend</mat-toolbar> -->
     <mat-nav-list>
-      <a mat-list-item href="save-page">首页</a>
-      <a mat-list-item href="library">已保存的网页</a>
-      <a mat-list-item *ngIf="settings.showLogsEntry" href="logs">日志</a>
-      <a mat-list-item href="settings">设置</a>
-      <a mat-list-item href="#" (click)="openAbout($event,drawer);">关于</a>
+      <a mat-list-item href="save-page">
+        <mat-icon>library_add</mat-icon>
+      </a>
+      <a mat-list-item href="library">
+        <mat-icon>library_books</mat-icon>
+      </a>
+      <a mat-list-item *ngIf="settings.showLogsEntry" href="logs">
+        <mat-icon>bug_report</mat-icon>
+      </a>
+      <a mat-list-item href="settings">
+        <mat-icon>settings</mat-icon>
+      </a>
+      <a mat-list-item href="#" (click)="openAbout($event,drawer);">
+        <mat-icon>info</mat-icon>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column" style="height: 100vh;overflow: hidden;">
     <mat-toolbar color="primary" fxFlex="0 0 auto">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+      <!-- <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+      </button> -->
       <span><a [href]="lastUrlComponent()"> {{title}}</a></span>
     </mat-toolbar>
     <div fxFlex="1 1 auto" fxLayout="column" style="overflow: hidden;">
       <router-outlet (activate)="onActivated($event)"></router-outlet>
     </div>
     <!-- Add Content Here -->
-    <footer fxFlex="0 0 20px">asd</footer>
+    <!-- <footer fxFlex="0 0 20px">asd</footer> -->
   </mat-sidenav-content>
 </mat-sidenav-container>

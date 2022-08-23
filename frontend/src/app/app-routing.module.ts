@@ -7,9 +7,9 @@ import { getConfig } from './settings.model';
 import { SettingsComponent } from './settings/settings.component';
 
 const routeMap: Map<string, Route> = new Map([
-  ["default", { path: '', 'title': '首页', component: SavePageComponent }],
-  ["new", { path: 'save-page', 'title': '首页', component: SavePageComponent }],
-  ["library", { path: 'library', 'title': '已保存的网页', component: LibraryComponent }],
+  ["default", { path: '', 'title': '新建', component: SavePageComponent }],
+  ["new", { path: 'save-page', 'title': '新建', component: SavePageComponent }],
+  ["library", { path: 'library', 'title': '网页库', component: LibraryComponent }],
   ["settings", { path: 'settings', 'title': '设置', component: SettingsComponent }],
   ["logs", { path: 'logs', 'title': '日志', component: LogsComponent }],
 ]);

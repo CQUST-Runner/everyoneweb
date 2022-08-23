@@ -36,7 +36,7 @@ export class SavePageComponent implements OnInit {
 
   constructor(private toolbox: ToolBoxService, public dialog: MatDialog, private pageService: PageService) { }
 
-  title = '首页';
+  title = '新建';
   ngOnInit(): void {
   }
 

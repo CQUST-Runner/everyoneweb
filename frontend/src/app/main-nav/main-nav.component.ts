@@ -32,7 +32,7 @@ export class MainNavComponent {
 
   openAbout(ev: Event, drawer: MatSidenav) {
     ev.preventDefault();
-    drawer.close();
+    // drawer.close();
     this.dialog.open(AboutComponent, { width: "40vw" });
   }
 

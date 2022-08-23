@@ -68,7 +68,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  title = '已保存的网页';
+  title = '网页库';
 
   ngOnInit(): void {
   }
