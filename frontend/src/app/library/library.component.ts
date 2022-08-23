@@ -16,6 +16,7 @@ import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
 import { PageService } from '../service/page.service';
+import { getConfig } from '../settings.model';
 import { ToolBoxService } from '../tool-box.service';
 
 export interface Column {
@@ -211,7 +212,13 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   constructor(public toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
 
-    this.displayedColumns = columnDefine.filter(x => x.display).map(x => x.id);
+    let columns = getConfig().columns;
+    if (columns) {
+      this.displayedColumns = columns.filter(x => x.display).map(x => x.id);
+      this.displayedColumns.push('menu');
+    } else {
+      this.displayedColumns = columnDefine.filter(x => x.display).map(x => x.id);
+    }
 
     // Create 100 users
     const users = Array.from({ length: 100 }, () => createRandomPage());

@@ -59,19 +59,25 @@ const (
 	LanguageSimplifiedChinese  = "sc"
 	LanguageTraditionalChinese = "tc"
 	LanguageEnglish            = "en"
-	LanguageJapanese           = "jp"
+	LanguageJapanese           = "ja"
 )
+
+type ColumnInfo struct {
+	Id      string `json:"id" yaml:"id"`
+	Display bool   `json:"display" yaml:"display" default:"true"`
+}
 
 // Settings ...
 // server settings need restart to take effect
 type Settings struct {
-	FirstScreen      string `json:"firstScreen" yaml:"firstScreen" default:"new"`
-	Language         string `json:"language" yaml:"language" default:"auto"`
-	DataDirectory    string `json:"dataDirectory" yaml:"dataDirectory"`
-	MachineID        string `json:"machineID" yaml:"machineID"`
-	ServeLibrary     bool   `json:"serveLibrary" yaml:"serveLibrary" default:"true"`
-	ServeLibraryPort int    `json:"serveLibraryPort" yaml:"serveLibraryPort" default:"16224"`
-	ShowLogsEntry    bool   `json:"showLogsEntry" yaml:"showLogsEntry" default:"false"`
+	FirstScreen      string       `json:"firstScreen" yaml:"firstScreen" default:"new"`
+	Language         string       `json:"language" yaml:"language" default:"auto"`
+	DataDirectory    string       `json:"dataDirectory" yaml:"dataDirectory"`
+	MachineID        string       `json:"machineID" yaml:"machineID"`
+	ServeLibrary     bool         `json:"serveLibrary" yaml:"serveLibrary" default:"true"`
+	ServeLibraryPort int          `json:"serveLibraryPort" yaml:"serveLibraryPort" default:"16224"`
+	ShowLogsEntry    bool         `json:"showLogsEntry" yaml:"showLogsEntry" default:"false"`
+	Columns          []ColumnInfo `json:"columns" yaml:"columns"`
 }
 
 type GetLogResp struct {

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observer } from 'rxjs';
 import { ColumnEditComponent } from '../column-edit/column-edit.component';
-import { getConfig, Settings } from '../settings.model';
+import { columnDefine } from '../library/library.component';
+import { ColumnInfo, getConfig, Settings } from '../settings.model';
 import { SettingsService } from '../settings.service';
 import { ToolBoxService } from '../tool-box.service';
 
@@ -14,7 +15,12 @@ import { ToolBoxService } from '../tool-box.service';
 export class SettingsComponent implements OnInit {
 
   title = '设置';
-  constructor(private settingsService: SettingsService, private toolbox: ToolBoxService, private dialog: MatDialog) { }
+  columns: ColumnInfo[];
+  constructor(private settingsService: SettingsService, private toolbox: ToolBoxService, private dialog: MatDialog) {
+    this.columns = this.settings.columns || [];
+    this.columns.push(...columnDefine.filter(x => x.id != 'menu' && !this.columns.some(y => y.id == x.id)).map(x => { return { id: x.id, display: x.display } as ColumnInfo }));
+    this.columns = this.columns.filter(x => columnDefine.some(y => y.id == x.id));
+  }
 
   settings = { ...getConfig() };
 
@@ -33,10 +39,13 @@ export class SettingsComponent implements OnInit {
   }
 
   editColumn() {
-    const dialogRef = this.dialog.open(ColumnEditComponent, { width: "40vw" });
+    const dialogRef = this.dialog.open(ColumnEditComponent, { width: "40vw", data: this.columns });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.settings.columns = result;
+      }
     });
   }
 

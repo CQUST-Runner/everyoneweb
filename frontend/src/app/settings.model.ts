@@ -1,3 +1,8 @@
+export interface ColumnInfo {
+    id: string
+    display: boolean
+}
+
 export interface Settings {
     firstScreen: string
     language: string
@@ -6,8 +11,8 @@ export interface Settings {
     serveLibrary: boolean
     serveLibraryPort: number
     showLogsEntry: boolean
+    columns: ColumnInfo[]
 }
-
 
 export function getConfig(): Settings {
     let config: Settings = (window as any).config;

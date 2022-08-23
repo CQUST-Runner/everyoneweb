@@ -1,6 +1,8 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
-import { Column, columnDefine } from '../library/library.component';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { columnDefine } from '../library/library.component';
+import { ColumnInfo } from '../settings.model';
 
 @Component({
   selector: 'app-column-edit',
@@ -9,15 +11,18 @@ import { Column, columnDefine } from '../library/library.component';
 })
 export class ColumnEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public columns: ColumnInfo[]) {
+  }
 
   ngOnInit(): void {
   }
 
-  columns = columnDefine;
 
+  getDisplayName(id: string): string | undefined {
+    return columnDefine.find(x => x.id == id)?.displayName;
+  }
 
-  drop(event: CdkDragDrop<Column[]>) {
+  drop(event: CdkDragDrop<ColumnInfo[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
