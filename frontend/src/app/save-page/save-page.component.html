@@ -1,11 +1,15 @@
 <app-full-screen-spinner [isShow]="isLoading"></app-full-screen-spinner>
+<!-- <app-tab-tool-bar url="save-page" title="新建"></app-tab-tool-bar> -->
 <div class="container" fxLayout="column">
-  <mat-card fxLayout="row" class="input-box">
+  <h2 style="visibility: hidden;">输入网址或导入</h2>
+
+  <mat-card fxLayout="column" class="input-box">
     <mat-form-field fxFlex="1 1 auto" appearance="fill">
       <mat-label>url</mat-label>
       <input [(ngModel)]="value" type="url" matInput (input)="onInput($event);" placeholder="Ex. http://abc.com"
         autocomplete="off">
-      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="this.emailFormControl.setValue('')">
+      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="this.emailFormControl.setValue('');value='';">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="emailFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
