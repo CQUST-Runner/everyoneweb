@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import * as moment from 'moment';
-import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PagePreviewComponent } from '../page-preview/page-preview.component';
 import { PageService } from '../service/page.service';
@@ -36,8 +35,19 @@ export class SavePageComponent implements OnInit {
 
   constructor(private toolbox: ToolBoxService, public dialog: MatDialog, private pageService: PageService) { }
 
+  allCategories: string[] = [];
+  allTags: string[] = [];
   title = '新建';
   ngOnInit(): void {
+    let thisRef = this;
+    this.pageService.pageList().subscribe({
+      next(value) {
+        thisRef.allCategories = [...new Set(value.filter(x => x.category != "").map(x => x.category))];
+        thisRef.allTags = [...new Set(value.map(x => x.tags).flat().filter(x => x != ""))];
+        console.log(thisRef.allCategories);
+        console.log(thisRef.allTags);
+      },
+    } as Observer<any[]>)
   }
 
   value: string;

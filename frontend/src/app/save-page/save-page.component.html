@@ -33,7 +33,7 @@
         <input matInput type="text" [(ngModel)]="category">
       </mat-form-field>
 
-      <app-tags-input></app-tags-input>
+      <app-tags-input [availableTags]="allTags"></app-tags-input>
 
       <p>
         保存格式:<app-format-selection></app-format-selection>
