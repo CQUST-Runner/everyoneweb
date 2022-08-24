@@ -1,0 +1,12 @@
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a :visited {
+    color: inherit;
+}
+
+mat-toolbar {
+    height: 45px;
+}

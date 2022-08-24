@@ -41,6 +41,7 @@ import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.c
 import { AboutComponent } from './about/about.component';
 import { ScrollTriggerComponent } from './scroll-trigger/scroll-trigger.component';
 import { ColumnEditComponent } from './column-edit/column-edit.component';
+import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ColumnEditComponent } from './column-edit/column-edit.component';
     AboutComponent,
     ScrollTriggerComponent,
     ColumnEditComponent,
+    TabToolBarComponent,
   ],
   imports: [
     BrowserModule,
