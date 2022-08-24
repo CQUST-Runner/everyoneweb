@@ -42,6 +42,7 @@ import { AboutComponent } from './about/about.component';
 import { ScrollTriggerComponent } from './scroll-trigger/scroll-trigger.component';
 import { ColumnEditComponent } from './column-edit/column-edit.component';
 import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
+import { CategoryInputComponent } from './category-input/category-input.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
     ScrollTriggerComponent,
     ColumnEditComponent,
     TabToolBarComponent,
+    CategoryInputComponent,
   ],
   imports: [
     BrowserModule,

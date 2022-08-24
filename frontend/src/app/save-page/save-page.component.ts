@@ -13,6 +13,7 @@ import { ToolBoxService } from '../tool-box.service';
 import { SavePageSuccessActionsComponent, SavePageSuccessActionsData } from '../save-page-success-actions/save-page-success-actions.component';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { DateTimePickerComponent } from '../date-time-picker/date-time-picker.component';
+import { CategoryInputComponent } from '../category-input/category-input.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -76,7 +77,6 @@ export class SavePageComponent implements OnInit {
   }
   isLoading = false;
 
-  category: string;
 
   onInput(ev: Event) {
     this.emailFormControl.setValue(this.value);
@@ -85,10 +85,11 @@ export class SavePageComponent implements OnInit {
   @ViewChild(TagsInputComponent) tags: TagsInputComponent;
   @ViewChild(FormatSelectionComponent) format: FormatSelectionComponent;
   @ViewChild(DateTimePickerComponent) picker: DateTimePickerComponent;
+  @ViewChild(CategoryInputComponent) category: CategoryInputComponent;
   savePage() {
     let p = {
       sourceUrl: this.value,
-      category: this.category,
+      category: this.category.myControl.value,
       tags: this.tags.control?.value,
       type: this.format.selected,
       saveTime: moment(),
