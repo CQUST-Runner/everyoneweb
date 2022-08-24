@@ -113,7 +113,8 @@
             <th [style]="getDisplayedColumnWidth('id')" mat-header-cell *matHeaderCellDef> 短链接
             </th>
             <td [style]="getDisplayedColumnWidth('id')" mat-cell *matCellDef="let row">
-              <app-url-with-copy-btn [displayName]="row.id" [url]="this.toolbox.getLocalUrl(row.id)">
+              <app-url-with-copy-btn style="font-weight:600; color:dimgrey; font-family: Courier New;"
+                [displayName]="row.id" [url]="this.toolbox.getLocalUrl(row.id)">
               </app-url-with-copy-btn>
             </td>
           </ng-container>
