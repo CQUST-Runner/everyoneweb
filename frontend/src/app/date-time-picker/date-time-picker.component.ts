@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'app-date-time-picker',
@@ -30,4 +32,11 @@ export class DateTimePickerComponent implements OnInit {
 
   color: ThemePalette = 'primary';
 
+  @Input() set initial(initial: Moment | null) {
+    this.dateControl.setValue(initial ? initial.toDate() : null);
+  }
+
+  get current(): Moment {
+    return moment(this.dateControl.value);
+  }
 }

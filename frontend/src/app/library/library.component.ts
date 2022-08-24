@@ -9,12 +9,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { map, Observer, startWith } from 'rxjs';
 import { randomString } from '../common';
-import { EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
+import { EditPageData, EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { GeneralInputDialogComponent, GeneralInputOptions } from '../general-input-dialog/general-input-dialog.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
-import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating } from '../page.model';
+import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating, unmarshalPage } from '../page.model';
 import { PageService } from '../service/page.service';
 import { getConfig } from '../settings.model';
 import { ToolBoxService } from '../tool-box.service';
@@ -45,28 +45,6 @@ export let columnDefine: Column[] = [
 })
 export class LibraryComponent implements OnInit, AfterViewInit {
 
-  unmarshalPage(objs: any[]): Page[] {
-    return objs.map(x => {
-      return {
-        sourceUrl: x.sourceUrl,
-        id: x.id,
-        saveTime: moment(x.saveTime),
-        updateTime: x.updateTime ? moment(x.updateTime) : undefined,
-        remindReadingTime: x.remindReadingTime ? moment(x.remindReadingTime) : undefined,
-        filePath: x.filePath,
-        type: x.type as PageType,
-        source: x.source as PageSource,
-        method: x.method as ImportMethod,
-        tags: x.tags,
-        category: x.category,
-        sourceTitle: x.sourceTitle,
-        title: x.title,
-        desc: x.desc,
-        rating: x.rating as Rating,
-        markedAsRead: x.markedAsRead,
-      } as Page
-    });
-  }
 
   title = '网页库';
 
@@ -228,7 +206,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource([] as Page[]);
 
     this.pageService.pageList().pipe(
-      map(x => this.unmarshalPage(x)),
+      map(x => unmarshalPage(x)),
       startWith(function (c: LibraryComponent) {
         c.isLoading = true;
         return [];
@@ -323,11 +301,23 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   openEditDialog(row: Page) {
-    const dialogRef = this.dialog.open(EditPageInfoComponent, { width: "40vw", maxWidth: "60vw", data: row });
+    const dialogRef = this.dialog.open(EditPageInfoComponent, { width: "40vw", maxWidth: "60vw", data: { page: row, categories: this.categories, tags: this.tags } as EditPageData });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        console.log(`Dialog result: ${JSON.stringify(result)}`);
+        let i = this.dataSource.data.findIndex(x => x.id == row.id);
+        if (i >= 0) {
+          let copy = this.dataSource.data.slice();
+          copy[i] = result;
+          this.dataSource.data = copy;
+        }
+      }
     });
+  }
+
+  now(): moment.Moment {
+    return moment();
   }
 
   openExportDialog(row: Page) {

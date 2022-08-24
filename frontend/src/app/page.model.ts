@@ -83,3 +83,31 @@ export function createRandomPage(): Page {
     };
 
 }
+
+export function unmarshalPage(objs: any[]): Page[] {
+    return objs.map(x => {
+        return {
+            sourceUrl: x.sourceUrl,
+            id: x.id,
+            saveTime: moment(x.saveTime),
+            updateTime: x.updateTime ? moment(x.updateTime) : undefined,
+            remindReadingTime: x.remindReadingTime ? moment(x.remindReadingTime) : undefined,
+            filePath: x.filePath,
+            type: x.type as PageType,
+            source: x.source as PageSource,
+            method: x.method as ImportMethod,
+            tags: x.tags,
+            category: x.category,
+            sourceTitle: x.sourceTitle,
+            title: x.title,
+            desc: x.desc,
+            rating: x.rating as Rating,
+            markedAsRead: x.markedAsRead,
+        } as Page
+    });
+}
+
+export function clonePage(page: Page): Page {
+    let obj = JSON.parse(JSON.stringify(page));
+    return unmarshalPage([obj])[0];
+}

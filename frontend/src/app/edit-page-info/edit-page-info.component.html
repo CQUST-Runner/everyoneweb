@@ -1,29 +1,28 @@
-<h2 mat-dialog-title>编辑文档【{{data.sourceTitle}}】的属性</h2>
+<app-full-screen-spinner [isShow]="isSaving"></app-full-screen-spinner>
+<h2 mat-dialog-title>编辑文档【{{data.page.sourceTitle}}】的属性</h2>
 <mat-dialog-content fxLayout="column" fxLayoutGap="10px" class="mat-typography">
     <mat-form-field appearance="standard">
         <mat-label>标题</mat-label>
-        <input matInput [value]="data.title" [placeholder]="data.title">
+        <input matInput [(ngModel)]="title" [placeholder]="data.page.title">
     </mat-form-field>
 
     <mat-form-field appearance="standard">
         <mat-label>备注</mat-label>
-        <textarea matInput [value]="data.desc" [placeholder]="data.desc"></textarea>
+        <textarea matInput [(ngModel)]="desc" [placeholder]="data.page.desc"></textarea>
     </mat-form-field>
 
     评级：
-    <app-rating [rating]="data.rating"></app-rating>
+    <app-rating [rating]="data.page.rating"></app-rating>
 
-    <app-tags-input [initialTags]="data.tags"></app-tags-input>
+    <app-tags-input [initialTags]="data.page.tags" [availableTags]="data.tags"></app-tags-input>
 
-    <mat-form-field appearance="standard">
-        <mat-label>类别</mat-label>
-        <input matInput [value]="data.category" [placeholder]="data.category">
-    </mat-form-field>
+    <app-category-input [value]="data.page.category" [categories]="data.categories"></app-category-input>
 
     计划阅读：
-    <app-date-time-picker></app-date-time-picker>
+    <app-date-time-picker [initial]="data.page.remindReadingTime?data.page.remindReadingTime:null">
+    </app-date-time-picker>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="false">关闭</button>
-    <button mat-button cdkFocusInitial>保存</button>
+    <button mat-button cdkFocusInitial (click)="savePage()">保存</button>
 </mat-dialog-actions>

@@ -24,8 +24,20 @@ export class CategoryInputComponent implements OnInit, OnChanges {
       );
   }
 
+  @Input() set value(value: string) {
+    this.myControl.setValue(value);
+  }
+
+  get value(): string {
+    return this.myControl.value ? this.myControl.value : '';
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.inputChanges.next(null);
+  }
+
+  displayCategory(category: string): string {
+    return category == '' ? '无类别' : category;
   }
 
   private _filter(value: string): string[] {
