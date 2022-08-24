@@ -1,30 +1,33 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-tags-input',
   templateUrl: './tags-input.component.html',
   styleUrls: ['./tags-input.component.css']
 })
-export class TagsInputComponent implements OnInit, AfterViewInit {
+export class TagsInputComponent implements OnInit, OnChanges {
 
   constructor() { }
 
+  inputChanges: Subject<null> = new Subject();
+
   ngOnInit(): void {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this._filter(''))),
-    );
+    this.control.value?.push(...this.initialTags);
+    this.filteredFruits =
+      merge(this.fruitCtrl.valueChanges, this.inputChanges).pipe(
+        startWith(null),
+        map((fruit: string | null) => (fruit ? this._filter(fruit) : this._filter(''))),
+      );
   }
 
-  ngAfterViewInit(): void {
-    this.control.value?.push(...this.initialTags);
+  ngOnChanges(changes: SimpleChanges): void {
+    this.inputChanges.next(null);
   }
 
   @Input() initialTags: string[] = [];
