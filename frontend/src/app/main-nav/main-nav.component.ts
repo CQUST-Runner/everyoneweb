@@ -30,10 +30,18 @@ export class MainNavComponent {
     this.title = ev.title || "";
   }
 
+  isAboutOpen: boolean = false;
   openAbout(ev: Event, drawer: MatSidenav) {
     ev.preventDefault();
     // drawer.close();
-    this.dialog.open(AboutComponent, { width: "40vw" });
+    this.isAboutOpen = true;
+
+    const dialogRef = this.dialog.open(AboutComponent, { width: "40vw" });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.isAboutOpen = false;
+    });
+
   }
 
   lastUrlComponent(): string {
@@ -43,5 +51,12 @@ export class MainNavComponent {
       return last;
     }
     return '#';
+  }
+
+  darkMode: boolean = false;
+
+  toggleDarkMode(ev: Event) {
+    ev.preventDefault();
+    this.darkMode = !this.darkMode;
   }
 }

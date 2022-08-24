@@ -2,22 +2,35 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'side' : 'side'" [opened]="true">
     <!-- <mat-toolbar>frontend</mat-toolbar> -->
-    <mat-nav-list>
+    <mat-nav-list fxLayout="column" style="height: 100%;">
       <a mat-list-item href="save-page">
-        <mat-icon [style]="lastUrlComponent()=='save-page'?'color: #3f51b5;':'color:dimgray;'">library_add</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='save-page' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">
+          library_add</mat-icon>
       </a>
       <a mat-list-item href="library">
-        <mat-icon [style]="lastUrlComponent()=='library'?'color: #3f51b5;':'color:dimgray;'">library_books</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='library' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">
+          library_books</mat-icon>
       </a>
       <a mat-list-item *ngIf="settings.showLogsEntry" href="logs">
-        <mat-icon [style]="lastUrlComponent()=='logs'?'color: #3f51b5;':'color:dimgray;'">bug_report</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='logs' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">bug_report
+        </mat-icon>
       </a>
       <a mat-list-item href="settings">
-        <mat-icon [style]="lastUrlComponent()=='settings' ? 'color: #3f51b5;':'color:dimgray;'">settings</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='settings' &&!isAboutOpen? 'color: #3f51b5;':'color:dimgray;'">settings
+        </mat-icon>
       </a>
-      <a mat-list-item style="color:dimgray;" href="#" (click)="openAbout($event,drawer);">
+      <a mat-list-item [style]="isAboutOpen?'color: #3f51b5;':'color:dimgray;'" href="#"
+        (click)="openAbout($event,drawer);">
         <mat-icon>info</mat-icon>
       </a>
+
+      <!-- <div fxFlex="1 1 auto"></div> -->
+
+      <a mat-list-item [style]="darkMode?'color: #3f51b5;':'color:dimgray;'" href="#" (click)="toggleDarkMode($event)">
+        <mat-icon>dark_mode</mat-icon>
+        <!-- <mat-icon>light_mode</mat-icon> -->
+      </a>
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column" style="height: 100vh;overflow: hidden;">
