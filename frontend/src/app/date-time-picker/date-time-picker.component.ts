@@ -28,6 +28,6 @@ export class DateTimePickerComponent implements OnInit {
 
   public dateControl = new FormControl(new Date(2021, 9, 4, 5, 6, 7));
 
-  color: ThemePalette = 'accent';
+  color: ThemePalette = 'primary';
 
 }

@@ -424,6 +424,6 @@ func ConfigFile(w http.ResponseWriter, req *http.Request) {
 	}
 
 	js := fmt.Sprintf("window.config=JSON.parse('%s');", string(jDoc))
-	w.Write([]byte(js))
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(js))
 }

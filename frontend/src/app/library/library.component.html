@@ -46,7 +46,7 @@
     <mat-divider></mat-divider>
 
     <div style="padding: 10px 20px;" fxFlexAlign="start">
-      <mat-slide-toggle #toggle color="accent">
+      <mat-slide-toggle #toggle color="primary">
         多选
       </mat-slide-toggle>
     </div>
@@ -80,7 +80,7 @@
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
           <app-tags-input fxFlex="0 0 50%" [control]="tagsFormControl" [availableTags]="tags"></app-tags-input>
 
-          <mat-slide-toggle [formControl]="matchAllFormControl" color="accent">
+          <mat-slide-toggle [formControl]="matchAllFormControl" color="primary">
             同时满足
           </mat-slide-toggle>
         </div>
