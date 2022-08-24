@@ -4,29 +4,29 @@
     <!-- <mat-toolbar>frontend</mat-toolbar> -->
     <mat-nav-list>
       <a mat-list-item href="save-page">
-        <mat-icon>library_add</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='save-page'?'color: #3f51b5;':'color:dimgray;'">library_add</mat-icon>
       </a>
       <a mat-list-item href="library">
-        <mat-icon>library_books</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='library'?'color: #3f51b5;':'color:dimgray;'">library_books</mat-icon>
       </a>
       <a mat-list-item *ngIf="settings.showLogsEntry" href="logs">
-        <mat-icon>bug_report</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='logs'?'color: #3f51b5;':'color:dimgray;'">bug_report</mat-icon>
       </a>
       <a mat-list-item href="settings">
-        <mat-icon>settings</mat-icon>
+        <mat-icon [style]="lastUrlComponent()=='settings' ? 'color: #3f51b5;':'color:dimgray;'">settings</mat-icon>
       </a>
-      <a mat-list-item href="#" (click)="openAbout($event,drawer);">
+      <a mat-list-item style="color:dimgray;" href="#" (click)="openAbout($event,drawer);">
         <mat-icon>info</mat-icon>
       </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column" style="height: 100vh;overflow: hidden;">
-    <mat-toolbar color="primary" fxFlex="0 0 auto">
-      <!-- <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+    <!-- <mat-toolbar color="primary" fxFlex="0 0 auto">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button> -->
+      </button>
       <span><a [href]="lastUrlComponent()"> {{title}}</a></span>
-    </mat-toolbar>
+    </mat-toolbar> -->
     <div fxFlex="1 1 auto" fxLayout="column" style="overflow: hidden;">
       <router-outlet (activate)="onActivated($event)"></router-outlet>
     </div>
