@@ -151,7 +151,7 @@
             <th [style]="getDisplayedColumnWidth('remindReadingTime')" mat-header-cell *matHeaderCellDef
               mat-sort-header> 计划阅读 </th>
             <td [style]="getDisplayedColumnWidth('remindReadingTime')" mat-cell *matCellDef="let row">
-              {{effectiveRemindTime(row.remindReadingTime)?.fromNow()}}</td>
+              {{row.remindReadingTime?.fromNow()}}</td>
           </ng-container>
 
           <!-- MarkedAsRead Column -->
@@ -202,7 +202,9 @@
 
                 <mat-divider></mat-divider>
 
-                <div mat-menu-item style="padding: 8px 16px 0 16px;" (click)="preventMenuClosing($event);">计划阅读:
+                <div fxLayout="row" fxLayoutAlign="center center" mat-menu-item style="padding: 8px 16px 0 16px;"
+                  (click)="preventMenuClosing($event);">
+                  <span>计划阅读：</span>
                   <app-date-time-picker [initial]="now()"></app-date-time-picker>
                 </div>
 

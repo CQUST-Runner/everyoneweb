@@ -416,15 +416,4 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.form.updateValueAndValidity();
     this.onDataUpdated();
   }
-
-  effectiveRemindTime(m: moment.Moment | undefined): moment.Moment | undefined {
-    if (m === undefined) {
-      return undefined;
-    }
-    if (moment().unix() + 1 > m.unix()) {
-      return undefined;
-    } else {
-      return m;
-    }
-  }
 }
