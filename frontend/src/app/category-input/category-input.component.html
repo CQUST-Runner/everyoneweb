@@ -1,7 +1,7 @@
 <mat-form-field appearance="standard">
     <mat-label>类别</mat-label>
     <input type="text" placeholder="类别" matInput [formControl]="myControl" [matAutocomplete]="auto">
-    <mat-autocomplete [displayWith]="displayCategory" #auto="matAutocomplete">
+    <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{displayCategory(option)}}
         </mat-option>

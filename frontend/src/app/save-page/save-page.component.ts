@@ -36,6 +36,13 @@ export class SavePageComponent implements OnInit {
 
   constructor(private toolbox: ToolBoxService, public dialog: MatDialog, private pageService: PageService) { }
 
+  updateAllCategories(categories: string[]) {
+    this.allCategories = [...new Set((this.allCategories || []).concat(categories.filter(x => x != '')))];
+  }
+
+  updateAllTags(tags: string[]) {
+    this.allTags = [...new Set((this.allTags || []).concat(tags.filter(x => x != '')))];
+  }
   allCategories: string[] = [];
   allTags: string[] = [];
   title = '新建';
@@ -43,8 +50,8 @@ export class SavePageComponent implements OnInit {
     let thisRef = this;
     this.pageService.pageList().subscribe({
       next(value) {
-        thisRef.allCategories = [...new Set(value.filter(x => x.category != "").map(x => x.category))];
-        thisRef.allTags = [...new Set(value.map(x => x.tags).flat().filter(x => x != ""))];
+        thisRef.updateAllCategories(value.filter(x => x.category != "").map(x => x.category));
+        thisRef.updateAllTags(value.map(x => x.tags).flat().filter(x => x != ""));
         console.log(thisRef.allCategories);
         console.log(thisRef.allTags);
       },
@@ -112,6 +119,8 @@ export class SavePageComponent implements OnInit {
               data: { page: savedPage, message: "保存成功" } as SavePageSuccessActionsData,
               duration: 1000 * 5
             } as MatSnackBarConfig);
+          thisRef.updateAllCategories([savedPage.category]);
+          thisRef.updateAllTags(savedPage.tags);
         } else {
           thisRef.toolbox.openSnackBar("保存失败，请重试", "OK");
         }
