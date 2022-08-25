@@ -205,14 +205,15 @@
                 <div fxLayout="row" fxLayoutAlign="center center" mat-menu-item style="padding: 8px 16px 0 16px;"
                   (click)="preventMenuClosing($event);">
                   <span>计划阅读：</span>
-                  <app-date-time-picker [initial]="now()"></app-date-time-picker>
+                  <app-date-time-picker [initial]="row.remindReadingTime"></app-date-time-picker>
                 </div>
 
               </mat-menu>
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns">
+          </tr>
           <tr cdkDrag (cdkDragStarted)="dragStarted();" (cdkDragEnded)="dragEnded();" [cdkDragData]="row"
             dropToSetCategory mat-row *matRowDef="let row; columns: displayedColumns;">
             <div *cdkDragPlaceholder></div>

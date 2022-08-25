@@ -316,10 +316,6 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  now(): moment.Moment {
-    return moment();
-  }
-
   openExportDialog(row: Page) {
     const dialogRef = this.dialog.open(ExportAsComponent, { maxWidth: "60vw", data: row });
 

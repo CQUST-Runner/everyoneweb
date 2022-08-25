@@ -1,6 +1,9 @@
 <mat-form-field>
     <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
         [disabled]="disabled">
+    <button *ngIf="dateControl.value" matSuffix mat-icon-button (click)="dateControl.setValue(null);">
+        <mat-icon>close</mat-icon>
+    </button>
     <mat-datepicker-toggle matSuffix [for]="$any(picker)">
     </mat-datepicker-toggle>
     <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="stepHour"
