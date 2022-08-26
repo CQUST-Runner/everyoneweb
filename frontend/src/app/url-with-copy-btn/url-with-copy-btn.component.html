@@ -1,5 +1,5 @@
 <span *ngIf="!clickable">{{getDisplayName()}}</span>
 <a *ngIf="clickable" [href]="url" target="_blank">{{getDisplayName()}}</a>
-<button mat-icon-button [cdkCopyToClipboard]="url">
+<button mat-icon-button (click)="onClick()" [cdkCopyToClipboard]="url">
     <mat-icon class="copy-button">content_copy</mat-icon>
 </button>
