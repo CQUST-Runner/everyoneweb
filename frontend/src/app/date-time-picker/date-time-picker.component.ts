@@ -1,5 +1,5 @@
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import * as moment from 'moment';
@@ -26,7 +26,11 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
 })
 export class DateTimePickerComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    this.dateControl.valueChanges.subscribe(x => {
+      this.changed.next(x ? moment(x) : undefined);
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -48,8 +52,10 @@ export class DateTimePickerComponent implements OnInit {
   color: ThemePalette = 'primary';
 
   @Input() set initial(initial: Moment | null) {
-    this.dateControl.setValue(initial ? initial.toDate() : null);
+    this.dateControl.setValue(initial ? initial.toDate() : null, { emitEvent: false });
   }
+
+  @Output() changed: EventEmitter<moment.Moment | undefined> = new EventEmitter();
 
   get current(): Moment {
     return moment(this.dateControl.value);

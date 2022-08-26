@@ -351,6 +351,31 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.onDataUpdated();
   }
 
+  updateRemindReadingTime(page: Page, m: moment.Moment | undefined) {
+    this.isLoading = true;
+    let thisRef = this;
+    let old = page.remindReadingTime;
+    page.remindReadingTime = m;
+    this.pageService.update(page).subscribe({
+      next(value) {
+        thisRef.isLoading = false;
+      },
+      complete() {
+        thisRef.isLoading = false;
+      },
+      error(err) {
+        thisRef.isLoading = false;
+        page.remindReadingTime = old;
+        thisRef.toolbox.openSnackBar('设置失败', 'OK');
+        thisRef.form.updateValueAndValidity();
+        thisRef.onDataUpdated();
+      },
+    } as Observer<Page>)
+
+    this.form.updateValueAndValidity();
+    this.onDataUpdated();
+  }
+
   confirmDeletion(row: Page) {
     const dialogRef = this.dialog.open(MakeConfirmComponent, {
       maxWidth: "60vw",

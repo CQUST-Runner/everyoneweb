@@ -205,7 +205,8 @@
                 <div fxLayout="row" fxLayoutAlign="center center" mat-menu-item style="padding: 8px 16px 0 16px;"
                   (click)="preventMenuClosing($event);">
                   <span>计划阅读：</span>
-                  <app-date-time-picker [initial]="row.remindReadingTime"></app-date-time-picker>
+                  <app-date-time-picker (changed)="updateRemindReadingTime(row,$event)"
+                    [initial]="row.remindReadingTime"></app-date-time-picker>
                 </div>
 
               </mat-menu>
