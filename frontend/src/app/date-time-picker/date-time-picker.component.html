@@ -1,6 +1,6 @@
 <mat-form-field>
     <input readonly matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl" [min]="minDate" [max]="maxDate"
-        [disabled]="disabled">
+        [disabled]="readonly">
     <button *ngIf="dateControl.value" matSuffix mat-icon-button (click)="dateControl.setValue(null);">
         <mat-icon>close</mat-icon>
     </button>

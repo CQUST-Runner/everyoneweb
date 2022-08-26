@@ -36,7 +36,6 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   public date: moment.Moment;
-  public disabled = false;
   public showSpinners = true;
   public showSeconds = false;
   public touchUi = false;
@@ -51,12 +50,12 @@ export class DateTimePickerComponent implements OnInit {
 
   color: ThemePalette = 'primary';
 
-  @Input() set initial(initial: Moment | null) {
+  @Input() set initial(initial: Moment | null | undefined) {
     this.dateControl.setValue(initial ? initial.toDate() : null, { emitEvent: false });
   }
 
   @Output() changed: EventEmitter<moment.Moment | undefined> = new EventEmitter();
-
+  @Input() readonly: boolean = false;
   get current(): Moment {
     return moment(this.dateControl.value);
   }
