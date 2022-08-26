@@ -19,7 +19,7 @@ const IDLength = 8
 
 // pattern: /api/
 func serveAPI(w http.ResponseWriter, req *http.Request) {
-	logger.Info("serveAPI", req.Method)
+	logger.Info("serveAPI:%v %v", req.Method, req.URL)
 }
 
 var pd pageDao

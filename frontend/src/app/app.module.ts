@@ -18,7 +18,7 @@ import { LogService } from './service/log.service';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { PagePreviewComponent } from './page-preview/page-preview.component';
+import { PagePreviewComponent, SafePipe } from './page-preview/page-preview.component';
 import { PageInfoComponent } from './page-info/page-info.component';
 import { ConflictsComponent } from './conflicts/conflicts.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
@@ -74,6 +74,7 @@ import { CategoryInputComponent } from './category-input/category-input.componen
     ColumnEditComponent,
     TabToolBarComponent,
     CategoryInputComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

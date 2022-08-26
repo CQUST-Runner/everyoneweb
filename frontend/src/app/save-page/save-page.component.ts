@@ -67,7 +67,7 @@ export class SavePageComponent implements OnInit {
   }
 
   openPreview() {
-    const dialogRef = this.dialog.open(PagePreviewComponent, { width: "80vw" });
+    const dialogRef = this.dialog.open(PagePreviewComponent, { width: "80vw", data: this.value });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
