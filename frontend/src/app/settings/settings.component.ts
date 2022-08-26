@@ -18,7 +18,7 @@ export class SettingsComponent implements OnInit {
   columns: ColumnInfo[];
   constructor(private settingsService: SettingsService, private toolbox: ToolBoxService, private dialog: MatDialog) {
     this.columns = this.settings.columns || [];
-    this.columns.push(...columnDefine.filter(x => x.id != 'menu' && !this.columns.some(y => y.id == x.id)).map(x => { return { id: x.id, display: x.display } as ColumnInfo }));
+    this.columns.push(...columnDefine.filter(x => x.configurable && !this.columns.some(y => y.id == x.id)).map(x => { return { id: x.id, display: x.display } as ColumnInfo }));
     this.columns = this.columns.filter(x => columnDefine.some(y => y.id == x.id));
   }
 

@@ -24,19 +24,21 @@ export interface Column {
   widthWeight: number
   display: boolean
   displayName: string
+  configurable: boolean
 }
 
 // weight should not be changed by users
 export let columnDefine: Column[] = [
-  { id: 'title', widthWeight: 35, display: true, displayName: "标题" },
-  { id: 'category', widthWeight: 8, display: true, displayName: "类别" },
-  { id: 'id', widthWeight: 10, display: true, displayName: "短链接" },
-  { id: 'sourceUrl', widthWeight: 30, display: false, displayName: "原链接" },
-  { id: 'saveTime', widthWeight: 10, display: true, displayName: "保存时间" },
-  { id: 'rating', widthWeight: 10, display: true, displayName: "评级" },
-  { id: 'markedAsRead', widthWeight: 5, display: true, displayName: "已读" },
-  { id: 'remindReadingTime', widthWeight: 5, display: true, displayName: "计划阅读" },
-  { id: 'menu', widthWeight: 5, display: true, displayName: "菜单" }];
+  { id: 'dragHandle', widthWeight: 2, display: true, displayName: "", configurable: false },
+  { id: 'title', widthWeight: 30, display: true, displayName: "标题", configurable: true },
+  { id: 'category', widthWeight: 5, display: true, displayName: "类别", configurable: true },
+  { id: 'id', widthWeight: 10, display: true, displayName: "短链接", configurable: true },
+  { id: 'sourceUrl', widthWeight: 30, display: false, displayName: "原链接", configurable: true },
+  { id: 'saveTime', widthWeight: 10, display: true, displayName: "保存时间", configurable: true },
+  { id: 'rating', widthWeight: 10, display: true, displayName: "评级", configurable: true },
+  { id: 'markedAsRead', widthWeight: 5, display: true, displayName: "已读", configurable: true },
+  { id: 'remindReadingTime', widthWeight: 5, display: true, displayName: "计划阅读", configurable: true },
+  { id: 'menu', widthWeight: 5, display: true, displayName: "菜单", configurable: false }];
 
 @Component({
   selector: 'app-library',
@@ -186,6 +188,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.listRef.nativeElement.scrollTop += ev;
   }
 
+  disabled = true;
   isLoading = false;
   constructor(public toolbox: ToolBoxService, private pageService: PageService, public dialog: MatDialog) {
     moment.locale('zh-cn');
@@ -193,6 +196,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     let columns = getConfig().columns;
     if (columns) {
       this.displayedColumns = columns.filter(x => x.display).map(x => x.id);
+      this.displayedColumns.push(...columnDefine.filter(x => x.configurable && x.display && !columns.some(y => y.id == x.id)).map(x => x.id));
+      this.displayedColumns = ['dragHandle', ...this.displayedColumns];
       this.displayedColumns.push('menu');
     } else {
       this.displayedColumns = columnDefine.filter(x => x.display).map(x => x.id);
