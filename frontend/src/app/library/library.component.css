@@ -55,3 +55,8 @@ mat-button-toggle {
 .scrollDownTrigger {
   bottom: 0;
 }
+
+.mat-cell,
+.mat-header-cell {
+  padding: 0 5px;
+}

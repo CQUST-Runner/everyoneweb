@@ -28,7 +28,7 @@ export interface Column {
 
 // weight should not be changed by users
 export let columnDefine: Column[] = [
-  { id: 'title', widthWeight: 40, display: true, displayName: "标题" },
+  { id: 'title', widthWeight: 35, display: true, displayName: "标题" },
   { id: 'category', widthWeight: 8, display: true, displayName: "类别" },
   { id: 'id', widthWeight: 10, display: true, displayName: "短链接" },
   { id: 'sourceUrl', widthWeight: 30, display: false, displayName: "原链接" },
