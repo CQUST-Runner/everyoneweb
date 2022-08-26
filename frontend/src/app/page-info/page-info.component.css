@@ -1,0 +1,17 @@
+.example-card {
+    max-width: 600px;
+    box-shadow: none;
+}
+
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+h3 {
+    margin: 10px 0 0 0;
+}
+
+.has-read-checkbox {
+    color: gray;
+}

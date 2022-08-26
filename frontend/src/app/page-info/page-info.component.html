@@ -1,74 +1,92 @@
-<div fxLayout="row" fxLayoutGap="10px">
-    <div fxFlex="0 0 300px" fxLayout="column" fxLayoutGap="10px">
-        <mat-form-field appearance="standard">
-            <mat-label>标题</mat-label>
-            <input matInput [value]="page.title">
-        </mat-form-field>
+<mat-card class="example-card">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{page.title}}</mat-card-title>
+        <mat-card-subtitle>{{page.desc}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <img *ngIf="thumbnail" mat-card-image src="https://placehold.co/600x400">
+
+    <mat-card-content>
+        <!-- <div>
+            <h3>标题</h3>
+            <span>{{page.title}}</span>
+        </div> -->
+
+        <!-- <div *ngIf="full">
+            <h3>描述</h3>
+            <span>{{page.desc}}</span>
+        </div> -->
 
         <div *ngIf="full">
-            <mat-label for="page-source-url">原链接</mat-label>
-            <app-url-with-copy-btn id="page-source-url" [url]="page.sourceUrl"></app-url-with-copy-btn>
+            <h3>原链接</h3>
+            <app-url-with-copy-btn [url]="page.sourceUrl"></app-url-with-copy-btn>
         </div>
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>文件存放路径</mat-label>
-            <input matInput [value]="page.filePath">
-        </mat-form-field>
 
         <div>
-            <mat-label for="page-id">短链接</mat-label>
-            <app-url-with-copy-btn id="page-id" [displayName]="page.id" [url]="this.toolbox.getLocalUrl(page)">
+            <h3>短链接</h3>
+            <app-url-with-copy-btn [displayName]="page.id" [url]="this.toolbox.getLocalUrl(page)">
             </app-url-with-copy-btn>
         </div>
 
-        <mat-form-field appearance="standard">
-            <mat-label>类别</mat-label>
-            <input matInput [value]="page.category">
-        </mat-form-field>
+        <div>
+            <h3>类别</h3>
+            <span>{{page.category}}</span>
+        </div>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>描述</mat-label>
-            <input matInput [value]="page.desc">
-        </mat-form-field>
+        <div>
+            <h3>标签</h3>
+            <mat-chip-list>
+                <mat-chip selectable="false" *ngFor="let tag of page.tags || []">
+                    {{tag}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>保存方法</mat-label>
-            <input matInput [value]="page.method">
-        </mat-form-field>
+        <div *ngIf="full">
+            <h3>评级</h3>
+            <app-rating [readonly]="true" [rating]="page.rating"></app-rating>
+        </div>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>评级</mat-label>
-            <input matInput [value]="page.rating">
-        </mat-form-field>
+        <div *ngIf="full">
+            <h3>计划阅读</h3>
+            <span>{{page.remindReadingTime?.format('YYYY/MM/DD HH:mm:ss')}}</span>
+        </div>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>计划阅读</mat-label>
-            <input matInput [value]="page.remindReadingTime">
-        </mat-form-field>
+        <div *ngIf="full">
+            <h3>已读</h3>
+            <mat-icon class="has-read-checkbox" *ngIf="page.markedAsRead">check_box</mat-icon>
+            <mat-icon class="has-read-checkbox" *ngIf="!page.markedAsRead">check_box_outline_blank</mat-icon>
+        </div>
 
-        <mat-form-field appearance="standard">
-            <mat-label>保存时间</mat-label>
-            <input matInput [value]="page.saveTime">
-        </mat-form-field>
+        <div>
+            <h3>保存时间</h3>
+            <span>{{page.saveTime.format('YYYY/MM/DD HH:mm:ss')}}</span>
+        </div>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>保存来源</mat-label>
-            <input matInput [value]="page.source">
-        </mat-form-field>
+        <div>
+            <h3>文件类型</h3>
+            <span>{{page.type}}</span>
+        </div>
 
-        <app-tags-input [readonly]="true" [initialTags]="page.tags || []"></app-tags-input>
+        <div *ngIf="full">
+            <h3>保存来源</h3>
+            <span>{{page.source}}</span>
+        </div>
 
-        <mat-form-field appearance="standard">
-            <mat-label>文件类型</mat-label>
-            <input matInput [value]="page.type">
-        </mat-form-field>
+        <div *ngIf="full">
+            <h3>保存方法</h3>
+            <span>{{page.method}}</span>
+        </div>
 
-        <mat-form-field *ngIf="full" appearance="standard">
-            <mat-label>更新时间</mat-label>
-            <input matInput [value]="page.updateTime">
-        </mat-form-field>
+        <div *ngIf="full">
+            <h3>文件存放路径</h3>
+            <span>{{page.filePath}}</span>
+        </div>
 
-    </div>
-    <div *ngIf="thumbnail" fxLayout="column" fxLayoutGap="10px">
-        <img src="https://placehold.co/600x400">
-    </div>
-</div>
+        <div *ngIf="full">
+            <h3>更新时间</h3>
+            <span>{{page.updateTime?.format('YYYY/MM/DD HH:mm:ss')}}</span>
+        </div>
+    </mat-card-content>
+</mat-card>

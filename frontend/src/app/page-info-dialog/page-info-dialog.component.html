@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>Info</h2>
+<h2 mat-dialog-title>文档【{{data.title}}】的详细信息</h2>
 <mat-dialog-content class="mat-typography">
     <app-page-info [page]="data" [full]="true"></app-page-info>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>关闭</button>
+    <button mat-button mat-dialog-close cdkFocusInitial>关闭</button>
 </mat-dialog-actions>
