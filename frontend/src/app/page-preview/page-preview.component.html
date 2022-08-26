@@ -1,6 +1,7 @@
-<h2 mat-dialog-title>Preview</h2>
+<app-full-screen-spinner [isShow]="isLoading"></app-full-screen-spinner>
+<h2 mat-dialog-title>{{title}}</h2>
 <mat-dialog-content class="mat-typography">
-    <iframe width="100%" height="800" [src]="req | safe"></iframe>
+    <iframe #iframe width="100%" height="800" (load)="load($event)" [src]="req | safe"></iframe>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>关闭</button>
