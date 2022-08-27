@@ -112,7 +112,7 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 			return nil, err
 		}
 	} else {
-		filename := getPageFileNameById(p.Id)
+		filename = getPageFileNameById(p.Id)
 		filename = path.Join(dd, filename)
 		if storage.IsFile(filename) {
 			return nil, fmt.Errorf("file exists")
