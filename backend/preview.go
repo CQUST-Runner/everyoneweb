@@ -39,7 +39,7 @@ func getPreview(w http.ResponseWriter, url string) {
 	}
 	defer pc.mu.Unlock()
 
-	bytes, err := ioutil.ReadFile(pc.page.FilePath)
+	bytes, err := ioutil.ReadFile(pc.page.AbsFilePath())
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

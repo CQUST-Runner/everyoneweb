@@ -1,6 +1,9 @@
 package main
 
-import "time"
+import (
+	"path"
+	"time"
+)
 
 const (
 	PageTypePDF        = "pdf"
@@ -35,6 +38,8 @@ type Page struct {
 	UpdateTime        *time.Time `json:"updateTime"`
 	RemindReadingTime *time.Time `json:"remindReadingTime"`
 	FilePath          string     `json:"filePath"`
+	FileFolder        string     `json:"fileFolder"`
+	Size              uint64     `json:"sz"`
 	Tp                string     `json:"type"`
 	Source            string     `json:"source"`
 	Method            string     `json:"method"`
@@ -45,6 +50,10 @@ type Page struct {
 	Desc              string     `json:"desc"`
 	Rating            int        `json:"rating"`
 	MarkedAsRead      bool       `json:"markedAsRead"`
+}
+
+func (p *Page) AbsFilePath() string {
+	return path.Join(config().Settings.DataDirectory, p.FilePath)
 }
 
 const (

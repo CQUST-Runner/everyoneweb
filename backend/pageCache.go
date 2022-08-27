@@ -35,7 +35,7 @@ func saveAsCache(url string) (*pageCache, error) {
 
 	loaded := tryGet(url)
 	if loaded != nil {
-		err := os.Remove(page.FilePath)
+		err := os.Remove(page.AbsFilePath())
 		if err != nil {
 			logger.Warn("del page cache file failed:%v", err)
 		}
@@ -67,7 +67,7 @@ func delCache(url string) {
 	}
 	defer pc.mu.Unlock()
 	cache.Delete(url)
-	err := os.Remove(pc.page.FilePath)
+	err := os.Remove(pc.page.AbsFilePath())
 	if err != nil {
 		logger.Warn("remove cached page file failed:%v", err)
 	}

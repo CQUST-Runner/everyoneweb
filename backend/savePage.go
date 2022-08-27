@@ -22,17 +22,13 @@ func getPageFileNameById(id string) string {
 // --back-end=jsdom
 // or --browser-executable-path=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 // ./single-file --browser-executable-path=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome https://www.github.com
-func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string, chromePath string, url string, id string) (string, error) {
-	htmlFile := getPageFileNameById(id)
-	htmlFile = path.Join(dataDirectory, htmlFile)
-	if storage.IsFile(htmlFile) {
-		return "", fmt.Errorf("file exists")
-	}
+func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string, chromePath string, url string, filename string) error {
+	htmlFile := filename
 
 	singleFile := path.Join(singleFileCli, "single-file")
 	singleFile, err := storage.ToAbs(singleFile)
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	// TODO: support windows batch files
@@ -42,15 +38,15 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()
 	if err != nil {
-		return "", err
+		return err
 	}
 	logger.Info("run cmd:")
 	logger.Info(cmd.String())
 
 	if !storage.IsFile(htmlFile) {
-		return "", fmt.Errorf("page not saved properly")
+		return fmt.Errorf("page not saved properly")
 	}
-	return htmlFile, nil
+	return nil
 }
 
 func getPageTitle2(filename string) (string, error) {

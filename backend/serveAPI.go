@@ -61,9 +61,9 @@ func getPage(w http.ResponseWriter, req *http.Request) {
 
 func doFakeSave(p *Page) (*Page, error) {
 	p.Id = randID(IDLength)
-	filename := p.Id + ".html"
 	title := randID(IDLength)
-	p.FilePath = filename
+	p.FileFolder = p.Id
+	p.FilePath = path.Join(p.Id, getPageFileNameById(p.Id))
 	p.SourceTitle = title
 	p.Title = title
 	p.UpdateTime = p.SaveTime
@@ -107,14 +107,18 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 	if pc != nil {
 		defer pc.mu.Unlock()
 		filename = path.Join(dd, getPageFileNameById(p.Id))
-		err := copyFile(pc.page.FilePath, filename)
+		err := copyFile(pc.page.AbsFilePath(), filename)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		var err error
-		filename, err = doSavePage(context.Background(), config().SingleFileCli, dd,
-			config().ChromePath, p.SourceUrl, p.Id)
+		filename := getPageFileNameById(p.Id)
+		filename = path.Join(dd, filename)
+		if storage.IsFile(filename) {
+			return nil, fmt.Errorf("file exists")
+		}
+		err = doSavePage(context.Background(), config().SingleFileCli, dd,
+			config().ChromePath, p.SourceUrl, filename)
 		if err != nil {
 			return nil, err
 		}
@@ -127,7 +131,13 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		}
 		return nil, err
 	}
-	p.FilePath = filename
+	if isCache {
+		p.FileFolder = path.Join(cacheDirectory, p.Id)
+		p.FilePath = path.Join(cacheDirectory, p.Id, getPageFileNameById(p.Id))
+	} else {
+		p.FileFolder = p.Id
+		p.FilePath = path.Join(p.Id, getPageFileNameById(p.Id))
+	}
 	p.SourceTitle = title
 	p.Title = title
 	p.UpdateTime = p.SaveTime

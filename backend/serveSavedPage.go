@@ -26,13 +26,14 @@ func serveSavedPage(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	if !storage.IsFile(page.FilePath) {
+	absFilePath := page.AbsFilePath()
+	if !storage.IsFile(absFilePath) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	logger.Info("loading %v", page.FilePath)
-	f, err := ioutil.ReadFile(page.FilePath)
+	logger.Info("loading %v", absFilePath)
+	f, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		fmt.Fprintln(w, "read file error", err)
 		fmt.Fprintln(os.Stderr, "read file error", err)
