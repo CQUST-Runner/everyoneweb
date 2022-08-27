@@ -52,6 +52,10 @@ type Page struct {
 	MarkedAsRead      bool       `json:"markedAsRead"`
 }
 
+func (p *Page) AbsFolderPath() string {
+	return path.Join(config().Settings.DataDirectory, p.FileFolder)
+}
+
 func (p *Page) AbsFilePath() string {
 	return path.Join(config().Settings.DataDirectory, p.FilePath)
 }
