@@ -83,18 +83,20 @@ func regularlyCleanCache() {
 		}
 	}
 
-	ticker := time.Tick(5 * time.Minute)
-	for range ticker {
-		keys := []string{}
-		cache.Range(func(key, value any) bool {
-			pc := value.(*pageCache)
-			if time.Since(pc.cacheTime) > 5*time.Minute {
-				keys = append(keys, key.(string))
+	go func() {
+		ticker := time.Tick(5 * time.Minute)
+		for range ticker {
+			keys := []string{}
+			cache.Range(func(key, value any) bool {
+				pc := value.(*pageCache)
+				if time.Since(pc.cacheTime) > 5*time.Minute {
+					keys = append(keys, key.(string))
+				}
+				return true
+			})
+			for _, key := range keys {
+				delCache(key)
 			}
-			return true
-		})
-		for _, key := range keys {
-			delCache(key)
 		}
-	}
+	}()
 }
