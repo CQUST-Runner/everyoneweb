@@ -57,6 +57,10 @@ func check(c *Config) error {
 	if len(c.Settings.MachineID) == 0 {
 		return fmt.Errorf("machine id is required")
 	}
+
+	if !isAbs(c.Settings.DataDirectory) {
+		return fmt.Errorf("working directory must be absolute path")
+	}
 	return nil
 }
 

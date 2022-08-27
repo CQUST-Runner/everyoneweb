@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"path"
 
 	"github.com/CQUST-Runner/datacross/storage"
 )
@@ -55,4 +56,8 @@ func copyFile(src string, dest string) error {
 		return err
 	}
 	return os.WriteFile(dest, bytes, 0666)
+}
+
+func isAbs(p string) bool {
+	return path.IsAbs(p) || (len(p) > 1 && p[1] == ':')
 }
