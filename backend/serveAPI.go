@@ -142,6 +142,7 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 	p.Title = title
 	p.UpdateTime = p.SaveTime
 	p.Desc = getPageDescription(filename)
+	p.Size, _ = dirSize(dd)
 	return p, nil
 }
 

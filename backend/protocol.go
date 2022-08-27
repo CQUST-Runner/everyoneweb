@@ -39,7 +39,7 @@ type Page struct {
 	RemindReadingTime *time.Time `json:"remindReadingTime"`
 	FilePath          string     `json:"filePath"`
 	FileFolder        string     `json:"fileFolder"`
-	Size              uint64     `json:"sz"`
+	Size              uint64     `json:"sz"` // recalculated when changes were made
 	Tp                string     `json:"type"`
 	Source            string     `json:"source"`
 	Method            string     `json:"method"`

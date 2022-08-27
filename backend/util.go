@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -60,4 +61,30 @@ func copyFile(src string, dest string) error {
 
 func isAbs(p string) bool {
 	return path.IsAbs(p) || (len(p) > 1 && p[1] == ':')
+}
+
+func dirSize(p string) (uint64, error) {
+	entries, err := os.ReadDir(p)
+	if err != nil {
+		return 0, err
+	}
+	totalSize := uint64(0)
+	for _, entry := range entries {
+		info, err := entry.Info()
+		if err != nil {
+			if errors.Is(err, os.ErrNotExist) {
+				continue
+			}
+			return 0, err
+		}
+		totalSize += uint64(info.Size())
+		if entry.IsDir() {
+			sz, err := dirSize(path.Join(p, entry.Name()))
+			if err != nil {
+				return 0, err
+			}
+			totalSize += sz
+		}
+	}
+	return totalSize, nil
 }
