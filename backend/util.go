@@ -2,7 +2,11 @@ package main
 
 import (
 	"crypto/rand"
+	"fmt"
 	"net/http"
+	"os"
+
+	"github.com/CQUST-Runner/datacross/storage"
 )
 
 func randID(length int) string {
@@ -40,4 +44,15 @@ func withCORS(f func(w http.ResponseWriter, req *http.Request)) func(w http.Resp
 		}
 		f(w, req)
 	}
+}
+
+func copyFile(src string, dest string) error {
+	if !storage.IsFile(src) {
+		return fmt.Errorf("src not exist")
+	}
+	bytes, err := os.ReadFile(src)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(dest, bytes, 0666)
 }

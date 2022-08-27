@@ -3,7 +3,6 @@ package main
 import (
 	"io/ioutil"
 	"net/http"
-	"os"
 )
 
 func preview(w http.ResponseWriter, req *http.Request) {
@@ -20,20 +19,23 @@ func preview(w http.ResponseWriter, req *http.Request) {
 	}
 	logger.Info("preview %v", url)
 
-	page, err := doSave(&Page{SourceUrl: url})
+	pc := tryGet(url)
+	if pc == nil {
+		var err error
+		pc, err = saveAsCache(url)
+		if err != nil {
+			logger.Error("save as cache failed:%v", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	}
+	defer pc.mu.Unlock()
+
+	bytes, err := ioutil.ReadFile(pc.page.FilePath)
 	if err != nil {
-		logger.Error("save page for preview failed:%v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	bytes, err := ioutil.ReadFile(page.FilePath)
-	if err != nil {
-		os.Remove(page.FilePath)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
 	w.WriteHeader(http.StatusOK)
 	w.Write(bytes)
 }

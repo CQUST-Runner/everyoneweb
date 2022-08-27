@@ -70,16 +70,44 @@ func doFakeSave(p *Page) (*Page, error) {
 	return p, nil
 }
 
-func doSave(p *Page) (*Page, error) {
+func doSave(p *Page, isCache bool) (*Page, error) {
+	var dd string
+	if isCache {
+		dd = path.Join(config().Settings.DataDirectory, cacheDirectory)
+		if !storage.IsDir(dd) {
+			err := os.MkdirAll(dd, 0777)
+			if err != nil {
+				return nil, err
+			}
+		}
+	} else {
+		dd = config().Settings.DataDirectory
+	}
+
 	p.Id = randID(IDLength)
-	filename, err := doSavePage(context.Background(), config().SingleFileCli, config().Settings.DataDirectory,
-		config().ChromePath, p.SourceUrl, p.Id)
-	if err != nil {
-		return nil, err
+	var filename string
+	pc := tryGet(p.SourceUrl)
+	if pc != nil {
+		defer pc.mu.Unlock()
+		filename = path.Join(dd, getPageFileNameById(p.Id))
+		err := copyFile(pc.page.FilePath, filename)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		var err error
+		filename, err = doSavePage(context.Background(), config().SingleFileCli, dd,
+			config().ChromePath, p.SourceUrl, p.Id)
+		if err != nil {
+			return nil, err
+		}
 	}
 	title, err := getPageTitle(filename)
 	if err != nil {
-		os.Remove(filename)
+		e := os.Remove(filename)
+		if e != nil {
+			logger.Warn("remove page file failed:%v", e)
+		}
 		return nil, err
 	}
 	p.FilePath = filename
@@ -116,7 +144,7 @@ func savePage(w http.ResponseWriter, req *http.Request) {
 	if config().TestMode && p.SourceUrl == "http://test" {
 		newPage, err = doFakeSave(&p)
 	} else {
-		newPage, err = doSave(&p)
+		newPage, err = doSave(&p, false)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
