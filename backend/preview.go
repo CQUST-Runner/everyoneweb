@@ -6,11 +6,6 @@ import (
 )
 
 func preview(w http.ResponseWriter, req *http.Request) {
-	if req.Method != http.MethodGet {
-		logger.Error("method:%v is not allowed", req.Method)
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
 
 	url := req.URL.Query().Get("url")
 	if url == "" {
@@ -18,6 +13,19 @@ func preview(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	logger.Info("preview %v", url)
+
+	switch req.Method {
+	case http.MethodGet:
+		getPreview(w, url)
+	case http.MethodDelete:
+		delCache(url)
+		w.WriteHeader(http.StatusOK)
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func getPreview(w http.ResponseWriter, url string) {
 
 	pc := tryGet(url)
 	if pc == nil {
