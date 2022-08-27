@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Page } from '../page.model';
+import { Page, pageAbsPath } from '../page.model';
 import { ToolBoxService } from '../tool-box.service';
 
 @Component({
@@ -18,4 +18,7 @@ export class PageInfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  absPath(): string {
+    return pageAbsPath(this.page);
+  }
 }

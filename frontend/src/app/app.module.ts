@@ -43,6 +43,7 @@ import { ScrollTriggerComponent } from './scroll-trigger/scroll-trigger.componen
 import { ColumnEditComponent } from './column-edit/column-edit.component';
 import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
 import { CategoryInputComponent } from './category-input/category-input.component';
+import { NgxFilesizeModule } from 'ngx-filesize';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { CategoryInputComponent } from './category-input/category-input.componen
     NgxMatDatetimePickerModule,
     NgxMatMomentModule,
     HttpClientModule,
+    NgxFilesizeModule,
   ],
   providers: [HighlightService, LogService, RealLogService, PageService],
   bootstrap: [AppComponent]

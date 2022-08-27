@@ -81,7 +81,12 @@
 
         <div *ngIf="full">
             <h3>文件存放路径</h3>
-            <span>{{page.filePath}}</span>
+            <span>{{absPath()}}</span>
+        </div>
+
+        <div *ngIf="full">
+            <h3>占用空间</h3>
+            <span>{{page.sz | filesize}}</span>
         </div>
 
         <div *ngIf="full">

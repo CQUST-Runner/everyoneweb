@@ -1,6 +1,7 @@
 import * as moment from "moment"
 import { choose, enumValues, randomID, randomStringMinMax, randomUrl } from "./common"
 import * as faker from "@faker-js/faker"
+import { getConfig } from "./settings.model"
 
 export enum PageType {
     PDF = 'pdf',
@@ -35,6 +36,8 @@ export interface Page {
     updateTime: moment.Moment | undefined
     remindReadingTime: moment.Moment | undefined
     filePath: string
+    fileFolder: string
+    sz: number
     type: PageType
     source: PageSource
     method: ImportMethod
@@ -69,7 +72,9 @@ export function createRandomPage(): Page {
         saveTime: moment().subtract(saveTime, 'days'),
         updateTime: choose([moment().subtract(updateTime), undefined, undefined]),
         remindReadingTime: choose([moment().add(Math.floor(Math.random() * 8), 'days'), undefined, undefined, undefined, undefined]),
-        filePath: id + '.html',
+        filePath: id + '/' + id + '.html',
+        fileFolder: id,
+        sz: 0,
         type: choose(enumValues(PageType)) as PageType,
         source: choose(enumValues(PageSource)) as PageSource,
         method: choose(enumValues(ImportMethod)) as ImportMethod,
@@ -93,6 +98,8 @@ export function unmarshalPage(objs: any[]): Page[] {
             updateTime: x.updateTime ? moment(x.updateTime) : undefined,
             remindReadingTime: x.remindReadingTime ? moment(x.remindReadingTime) : undefined,
             filePath: x.filePath,
+            fileFolder: x.fileFolder,
+            sz: x.sz,
             type: x.type as PageType,
             source: x.source as PageSource,
             method: x.method as ImportMethod,
@@ -105,6 +112,11 @@ export function unmarshalPage(objs: any[]): Page[] {
             markedAsRead: x.markedAsRead,
         } as Page
     });
+}
+
+export function pageAbsPath(page: Page): string {
+    let path = `${getConfig().dataDirectory}/${page.fileFolder}`;
+    return path.replace(/\/\//g, '/');
 }
 
 export function clonePage(page: Page): Page {
