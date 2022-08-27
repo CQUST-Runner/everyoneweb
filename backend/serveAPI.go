@@ -70,7 +70,7 @@ func doFakeSave(p *Page) (*Page, error) {
 	return p, nil
 }
 
-func doSave(p *Page, isCache bool) (*Page, error) {
+func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 	var dd string
 	if isCache {
 		dd = path.Join(config().Settings.DataDirectory, cacheDirectory)
@@ -85,6 +85,23 @@ func doSave(p *Page, isCache bool) (*Page, error) {
 	}
 
 	p.Id = randID(IDLength)
+
+	dd = path.Join(dd, p.Id)
+	if !storage.IsDir(dd) {
+		err := os.MkdirAll(dd, 0777)
+		if err != nil {
+			return nil, err
+		}
+	}
+	defer func(dd string) {
+		if err != nil && len(dd) > 10 {
+			e := os.RemoveAll(dd)
+			if e != nil {
+				logger.Warn("remove dir failed:%v", e)
+			}
+		}
+	}(dd)
+
 	var filename string
 	pc := tryGet(p.SourceUrl)
 	if pc != nil {

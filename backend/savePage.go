@@ -14,7 +14,8 @@ import (
 )
 
 func getPageFileNameById(id string) string {
-	return fmt.Sprintf("%v.html", id)
+	// return fmt.Sprintf("%v.html", id)
+	return "index.html"
 }
 
 // dependencies: Chrome，nodejs
