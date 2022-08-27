@@ -21,5 +21,6 @@ func main() {
 	mustLoadConfig()
 	prepareDataDirectory()
 	mustInitParticipant()
+	regularlyCleanCache()
 	serve()
 }

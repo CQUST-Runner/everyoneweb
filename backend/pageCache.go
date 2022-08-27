@@ -2,8 +2,11 @@ package main
 
 import (
 	"os"
+	"path"
 	"sync"
 	"time"
+
+	"github.com/CQUST-Runner/datacross/storage"
 )
 
 const cacheDirectory = ".cache"
@@ -67,5 +70,31 @@ func delCache(url string) {
 	err := os.Remove(pc.page.FilePath)
 	if err != nil {
 		logger.Warn("remove cached page file failed:%v", err)
+	}
+}
+
+func regularlyCleanCache() {
+	dd := path.Join(config().Settings.DataDirectory, cacheDirectory)
+	dd = path.Clean(dd)
+	if storage.IsDir(dd) && len(dd) > 10 {
+		err := os.RemoveAll(dd)
+		if err != nil {
+			logger.Error("remove cache direcotry failed:%v", err)
+		}
+	}
+
+	ticker := time.Tick(5 * time.Minute)
+	for range ticker {
+		keys := []string{}
+		cache.Range(func(key, value any) bool {
+			pc := value.(*pageCache)
+			if time.Since(pc.cacheTime) > 5*time.Minute {
+				keys = append(keys, key.(string))
+			}
+			return true
+		})
+		for _, key := range keys {
+			delCache(key)
+		}
 	}
 }
