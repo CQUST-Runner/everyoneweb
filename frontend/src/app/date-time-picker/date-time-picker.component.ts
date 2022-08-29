@@ -46,7 +46,7 @@ export class DateTimePickerComponent implements OnInit {
   public stepMinute = 1;
   public stepSecond = 1;
 
-  public dateControl = new FormControl(new Date(2021, 9, 4, 5, 6, 7));
+  public dateControl = new FormControl<Date | null>(null);
 
   color: ThemePalette = 'primary';
 
