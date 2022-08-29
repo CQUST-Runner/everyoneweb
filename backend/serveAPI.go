@@ -112,6 +112,10 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		if err != nil {
 			return nil, err
 		}
+		p.Title = pc.page.Title
+		p.Desc = pc.page.Desc
+		p.Size = pc.page.Size
+		p.SourceTitle = pc.page.SourceTitle
 	} else {
 		filename = getPageFileNameById(p.Id)
 		filename = path.Join(dd, filename)
@@ -123,10 +127,14 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		if err != nil {
 			return nil, err
 		}
-	}
-	title, err := getPageTitle(filename)
-	if err != nil {
-		return nil, err
+		title, err := getPageTitle(filename)
+		if err != nil {
+			return nil, err
+		}
+		p.Desc = getPageDescription(filename)
+		p.Size, _ = dirSize(dd)
+		p.SourceTitle = title
+		p.Title = title
 	}
 	if isCache {
 		p.FileFolder = path.Join(cacheDirectory, p.Id)
@@ -135,11 +143,7 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		p.FileFolder = p.Id
 		p.FilePath = path.Join(p.Id, getPageFileNameById(p.Id))
 	}
-	p.SourceTitle = title
-	p.Title = title
 	p.UpdateTime = p.SaveTime
-	p.Desc = getPageDescription(filename)
-	p.Size, _ = dirSize(dd)
 	return p, nil
 }
 
