@@ -1,19 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
-import { PagePreviewComponent } from '../page-preview/page-preview.component';
-import { PageService } from '../service/page.service';
-import { Page } from '../page.model';
-import { Observer } from 'rxjs';
-import { TagsInputComponent } from '../tags-input/tags-input.component';
-import { FormatSelectionComponent } from '../format-selection/format-selection.component';
-import { ToolBoxService } from '../tool-box.service';
-import { SavePageSuccessActionsComponent, SavePageSuccessActionsData } from '../save-page-success-actions/save-page-success-actions.component';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
-import { DateTimePickerComponent } from '../date-time-picker/date-time-picker.component';
+import * as moment from 'moment';
+import { Observer } from 'rxjs';
 import { CategoryInputComponent } from '../category-input/category-input.component';
+import { DateTimePickerComponent } from '../date-time-picker/date-time-picker.component';
+import { FormatSelectionComponent } from '../format-selection/format-selection.component';
+import { PagePreviewComponent } from '../page-preview/page-preview.component';
+import { Page } from '../page.model';
+import { SavePageSuccessActionsComponent, SavePageSuccessActionsData } from '../save-page-success-actions/save-page-success-actions.component';
+import { PageService } from '../service/page.service';
+import { TagsInputComponent } from '../tags-input/tags-input.component';
+import { ToolBoxService } from '../tool-box.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -71,6 +71,9 @@ export class SavePageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.savePage();
+      }
     });
   }
 
