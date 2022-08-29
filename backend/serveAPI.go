@@ -107,7 +107,8 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 	if pc != nil {
 		defer pc.mu.Unlock()
 		filename = path.Join(dd, getPageFileNameById(p.Id))
-		err := copyFile(pc.page.AbsFilePath(), filename)
+		logger.Info("copying %v to %v", pc.page.AbsFolderPath(), dd)
+		err := copyDir(pc.page.AbsFolderPath(), dd)
 		if err != nil {
 			return nil, err
 		}
@@ -125,10 +126,6 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 	}
 	title, err := getPageTitle(filename)
 	if err != nil {
-		e := safeRemove(dd)
-		if e != nil {
-			logger.Warn("remove page failed:%v", e)
-		}
 		return nil, err
 	}
 	if isCache {

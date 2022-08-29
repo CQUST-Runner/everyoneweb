@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -15,4 +16,9 @@ func TestRandID(t *testing.T) {
 
 func TestDirSize(t *testing.T) {
 	fmt.Println(dirSize("."))
+}
+
+func TestCopyDir(t *testing.T) {
+	fmt.Sprintln(copyDir(".", "../copy_dir_test"))
+	os.RemoveAll("../copy_dir_test")
 }
