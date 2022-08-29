@@ -1,8 +1,7 @@
 .container {
-    padding: 30px 30%;
+    margin: 30px 25%;
     min-width: 500px;
     height: 100%;
-    overflow-y: auto;
 }
 
 :host {

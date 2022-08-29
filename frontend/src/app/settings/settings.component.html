@@ -1,91 +1,97 @@
 <app-full-screen-spinner [isShow]="isSaving"></app-full-screen-spinner>
 <app-tab-tool-bar url="settings" title="设置"></app-tab-tool-bar>
-<div class="container" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="start">
-  <div fxFlex="0" fxLayout="row">
-    <div>外观：</div>
-    <div fxFlex="1 1 auto"></div>
-    <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
-      <mat-form-field appearance="fill">
-        <mat-label>首屏界面：</mat-label>
-        <mat-select matNativeControl [(ngModel)]="settings.firstScreen">
-          <mat-option value="new">新建</mat-option>
-          <mat-option value="library">网页库</mat-option>
-          <mat-option value="settings">设置</mat-option>
-          <mat-option value="logs">日志</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>语言</mat-label>
-        <mat-select matNativeControl [(ngModel)]="settings.language">
-          <mat-option value="auto">自动（{{currentLanguage()}}）</mat-option>
-          <mat-option value="sc">中文【简体】</mat-option>
-          <mat-option value="tc">中文【繁体】</mat-option>
-          <mat-option value="en">English</mat-option>
-          <mat-option value="ja">日本語</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <button mat-raised-button fxFlexAlign="start" (click)="editColumn()">编辑列</button>
-
-      <mat-slide-toggle color="primary" [(ngModel)]="settings.showLogsEntry">启用日志页面</mat-slide-toggle>
-
-    </div>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <div fxFlex="0" fxLayout="row">
-    <div>
-      数据：
-    </div>
-    <div fxFlex="1 1 auto"></div>
-    <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
-      <div fxLayout="row">
-        <mat-form-field fxFlex="1 1 auto" appearance="fill">
-          <mat-label>数据目录：</mat-label>
-          <input matInput #message maxlength="256" placeholder="Ex. I need help with..."
-            [(ngModel)]="settings.dataDirectory">
-          <mat-hint align="start"><strong>若目录为同步目录，则数据将在设备间同步。</strong> </mat-hint>
-          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-
-          <button matSuffix mat-icon-button (click)="selectFile($event);">
-            <mat-icon>folderopen</mat-icon>
-          </button>
+<div class="container" fxLayout="row" fxLayoutGap="10px">
+  <div style="overflow-y: auto;" fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="start">
+    <div fxFlex="0" fxLayout="row">
+      <div>外观：</div>
+      <div fxFlex="1 1 auto"></div>
+      <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
+        <mat-form-field appearance="fill">
+          <mat-label>首屏界面：</mat-label>
+          <mat-select matNativeControl [(ngModel)]="settings.firstScreen">
+            <mat-option value="new">新建</mat-option>
+            <mat-option value="library">网页库</mat-option>
+            <mat-option value="settings">设置</mat-option>
+            <mat-option value="logs">日志</mat-option>
+          </mat-select>
         </mat-form-field>
 
+        <mat-form-field appearance="fill">
+          <mat-label>语言</mat-label>
+          <mat-select matNativeControl [(ngModel)]="settings.language">
+            <mat-option value="auto">自动（{{currentLanguage()}}）</mat-option>
+            <mat-option value="sc">中文【简体】</mat-option>
+            <mat-option value="tc">中文【繁体】</mat-option>
+            <mat-option value="en">English</mat-option>
+            <mat-option value="ja">日本語</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button fxFlexAlign="start" (click)="editColumn()">编辑列</button>
+
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.showLogsEntry">启用日志页面</mat-slide-toggle>
+
       </div>
-
-      <mat-form-field appearance="fill">
-        <mat-label>机器名：</mat-label>
-        <input matInput placeholder="" [(ngModel)]="settings.machineID">
-      </mat-form-field>
-
-      <button mat-raised-button fxFlexAlign="start">导出所有数据</button>
     </div>
+
+    <mat-divider></mat-divider>
+
+    <div fxFlex="0" fxLayout="row">
+      <div>
+        数据：
+      </div>
+      <div fxFlex="1 1 auto"></div>
+      <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
+        <div fxLayout="row">
+          <mat-form-field fxFlex="1 1 auto" appearance="fill">
+            <mat-label>数据目录：</mat-label>
+            <input matInput #message maxlength="256" placeholder="Ex. I need help with..."
+              [(ngModel)]="settings.dataDirectory">
+            <mat-hint align="start"><strong>若目录为同步目录，则数据将在设备间同步。</strong> </mat-hint>
+            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+
+            <button matSuffix mat-icon-button (click)="selectFile($event);">
+              <mat-icon>folderopen</mat-icon>
+            </button>
+          </mat-form-field>
+
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>机器名：</mat-label>
+          <input matInput placeholder="" [(ngModel)]="settings.machineID">
+        </mat-form-field>
+
+        <button mat-raised-button fxFlexAlign="start">导出所有数据</button>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div fxFlex="0" fxLayout="row">
+      <div>
+        HTTP服务：
+      </div>
+      <div fxFlex="1 1 auto"></div>
+      <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.serveLibrary">HTTP服务</mat-slide-toggle>
+        <mat-form-field appearance="fill">
+          <mat-label>HTTP服务端口：</mat-label>
+          <input matInput placeholder="" [(ngModel)]="settings.serveLibraryPort">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- <mat-divider></mat-divider> -->
+
+    <div fxFlex="1 0 auto"></div>
   </div>
-
-  <mat-divider></mat-divider>
-
-  <div fxFlex="0" fxLayout="row">
-    <div>
-      HTTP服务：
+  <div>
+    <div fxLayout="column" fxLayoutGap="10px">
+      <button mat-raised-button color="primary" style="min-width:150px; min-height:40px;"
+        (click)="saveSettings();">应用</button>
+      <button mat-raised-button color="accent" style="min-width:150px; min-height:40px;"
+        (click)="resetSettings();">重置</button>
     </div>
-    <div fxFlex="1 1 auto"></div>
-    <div fxFlex="1 1 70%" fxLayout="column" fxLayoutGap="15px">
-      <mat-slide-toggle color="primary" [(ngModel)]="settings.serveLibrary">HTTP服务</mat-slide-toggle>
-      <mat-form-field appearance="fill">
-        <mat-label>HTTP服务端口：</mat-label>
-        <input matInput placeholder="" [(ngModel)]="settings.serveLibraryPort">
-      </mat-form-field>
-    </div>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <div fxFlex="1 0 auto"></div>
-
-  <div fxFlex="0" fxFlexAlign="end">
-    <button mat-raised-button style="min-width:150px; min-height:40px;" (click)="saveSettings();">应用</button>
   </div>
 </div>

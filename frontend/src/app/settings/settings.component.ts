@@ -48,6 +48,9 @@ export class SettingsComponent implements OnInit {
       }
     });
   }
+  resetSettings() {
+    this.settings = { ...getConfig() };
+  }
 
   isSaving = false;
   saveSettings() {
