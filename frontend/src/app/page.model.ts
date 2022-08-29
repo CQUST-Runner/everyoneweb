@@ -1,6 +1,6 @@
-import * as moment from "moment"
-import { choose, enumValues, randomID, randomStringMinMax, randomUrl } from "./common"
 import * as faker from "@faker-js/faker"
+import * as moment from "moment"
+import { choose, enumValues, randomID } from "./common"
 import { getConfig } from "./settings.model"
 
 export enum PageType {
@@ -106,12 +106,20 @@ export function unmarshalPage(objs: any[]): Page[] {
             tags: x.tags,
             category: x.category,
             sourceTitle: x.sourceTitle,
-            title: x.title,
+            // is it a good solution?
+            title: decodeHtmlString(x.title),
             desc: x.desc,
             rating: x.rating as Rating,
             markedAsRead: x.markedAsRead,
         } as Page
     });
+}
+
+// https://stackoverflow.com/a/45866294
+export function decodeHtmlString(value: string) {
+    const tempElement = document.createElement("div")
+    tempElement.innerHTML = value
+    return tempElement.innerText
 }
 
 export function pageAbsPath(page: Page): string {
