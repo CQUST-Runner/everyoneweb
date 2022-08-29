@@ -51,7 +51,7 @@ export class DateTimePickerComponent implements OnInit {
   color: ThemePalette = 'primary';
 
   @Input() set initial(initial: Moment | null) {
-    this.dateControl.setValue(initial, { emitEvent: true });
+    this.dateControl.setValue(initial, { emitEvent: false });
   }
 
   @Output() changed: EventEmitter<moment.Moment | null> = new EventEmitter();
