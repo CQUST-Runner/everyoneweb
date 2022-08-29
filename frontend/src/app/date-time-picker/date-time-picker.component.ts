@@ -56,7 +56,7 @@ export class DateTimePickerComponent implements OnInit {
 
   @Output() changed: EventEmitter<moment.Moment | null> = new EventEmitter();
   @Input() readonly: boolean = false;
-  get current(): Moment {
-    return moment(this.dateControl.value);
+  get current(): Moment | null {
+    return this.dateControl.value;
   }
 }
