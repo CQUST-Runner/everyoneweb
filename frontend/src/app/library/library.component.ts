@@ -14,7 +14,7 @@ import { ExportAsComponent } from '../export-as/export-as.component';
 import { GeneralInputDialogComponent, GeneralInputOptions } from '../general-input-dialog/general-input-dialog.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
-import { createRandomPage, ImportMethod, Page, PageSource, PageType, Rating, unmarshalPage } from '../page.model';
+import { createRandomPage, Page, Rating, unmarshalPage } from '../page.model';
 import { PageService } from '../service/page.service';
 import { getConfig } from '../settings.model';
 import { ToolBoxService } from '../tool-box.service';
@@ -356,7 +356,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.onDataUpdated();
   }
 
-  updateRemindReadingTime(page: Page, m: moment.Moment | undefined) {
+  updateRemindReadingTime(page: Page, m: moment.Moment | null) {
     this.isLoading = true;
     let thisRef = this;
     let old = page.remindReadingTime;

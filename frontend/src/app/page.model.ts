@@ -33,8 +33,8 @@ export interface Page {
     sourceUrl: string
     id: string
     saveTime: moment.Moment
-    updateTime: moment.Moment | undefined
-    remindReadingTime: moment.Moment | undefined
+    updateTime: moment.Moment | null
+    remindReadingTime: moment.Moment | null
     filePath: string
     fileFolder: string
     sz: number
@@ -70,8 +70,8 @@ export function createRandomPage(): Page {
         sourceUrl: faker.faker.internet.url(),
         id: id,
         saveTime: moment().subtract(saveTime, 'days'),
-        updateTime: choose([moment().subtract(updateTime), undefined, undefined]),
-        remindReadingTime: choose([moment().add(Math.floor(Math.random() * 8), 'days'), undefined, undefined, undefined, undefined]),
+        updateTime: choose([moment().subtract(updateTime), null, null]),
+        remindReadingTime: choose([moment().add(Math.floor(Math.random() * 8), 'days'), null, null, null, null]),
         filePath: id + '/' + id + '.html',
         fileFolder: id,
         sz: 0,
@@ -95,8 +95,8 @@ export function unmarshalPage(objs: any[]): Page[] {
             sourceUrl: x.sourceUrl,
             id: x.id,
             saveTime: moment(x.saveTime),
-            updateTime: x.updateTime ? moment(x.updateTime) : undefined,
-            remindReadingTime: x.remindReadingTime ? moment(x.remindReadingTime) : undefined,
+            updateTime: x.updateTime ? moment(x.updateTime) : null,
+            remindReadingTime: x.remindReadingTime ? moment(x.remindReadingTime) : null,
             filePath: x.filePath,
             fileFolder: x.fileFolder,
             sz: x.sz,

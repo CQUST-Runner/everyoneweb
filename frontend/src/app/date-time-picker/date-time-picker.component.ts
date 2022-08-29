@@ -28,7 +28,7 @@ export class DateTimePickerComponent implements OnInit {
 
   constructor() {
     this.dateControl.valueChanges.subscribe(x => {
-      this.changed.next(x ? moment(x) : undefined);
+      this.changed.next(x);
     });
   }
 
@@ -46,15 +46,15 @@ export class DateTimePickerComponent implements OnInit {
   public stepMinute = 1;
   public stepSecond = 1;
 
-  public dateControl = new FormControl<Date | null>(null);
+  public dateControl = new FormControl<moment.Moment | null>(null);
 
   color: ThemePalette = 'primary';
 
-  @Input() set initial(initial: Moment | null | undefined) {
-    this.dateControl.setValue(initial ? initial.toDate() : null, { emitEvent: false });
+  @Input() set initial(initial: Moment | null) {
+    this.dateControl.setValue(initial, { emitEvent: true });
   }
 
-  @Output() changed: EventEmitter<moment.Moment | undefined> = new EventEmitter();
+  @Output() changed: EventEmitter<moment.Moment | null> = new EventEmitter();
   @Input() readonly: boolean = false;
   get current(): Moment {
     return moment(this.dateControl.value);
