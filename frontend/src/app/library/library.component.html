@@ -1,7 +1,7 @@
 <app-full-screen-spinner [isShow]="isLoading"></app-full-screen-spinner>
 <app-tab-tool-bar url="library" title="网页库"></app-tab-tool-bar>
 <div fxLayout="row" fxLayoutGap="10px" style="overflow: hidden; height: 100%;">
-  <div fxFlex="15%" fxLayout="column" style="overflow: hidden;">
+  <div fxFlex="1 0 10em" fxLayout="column" style="overflow: hidden;">
 
     <div style="overflow-y: auto;" #list33>
       <mat-selection-list #list22 *ngIf="toggle.checked" #shoes multiple="true"
@@ -51,7 +51,7 @@
       </mat-slide-toggle>
     </div>
   </div>
-  <div fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="10px" style="overflow:hidden; padding:5px 20px;">
+  <div fxFlex="0 1 85%" fxLayout="column" fxLayoutGap="10px" style="overflow:hidden; padding:5px 20px;">
     <!-- 
     Table retrieving data through HTTP
     -->
