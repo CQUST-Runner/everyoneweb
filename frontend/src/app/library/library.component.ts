@@ -210,6 +210,14 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     // this.dataSource = new MatTableDataSource(users);
     this.dataSource = new MatTableDataSource([] as Page[]);
 
+    this.dataSource.sortingDataAccessor = (data, sortHeaderId): string | number => {
+      switch (sortHeaderId) {
+        case 'remindReadingTime':
+          return data.remindReadingTime ? data.remindReadingTime.format('YYYY/MM/DD HH:mm') : '';
+        default: return (data as any)[sortHeaderId];
+      }
+    }
+
     this.pageService.pageList().pipe(
       map(x => unmarshalPage(x)),
       startWith(function (c: LibraryComponent) {
@@ -219,7 +227,17 @@ export class LibraryComponent implements OnInit, AfterViewInit {
       // delay(1000),
     ).subscribe(
       x => {
-        this.dataSource.data = x;
+        this.dataSource.data = x.sort((a, b) => {
+          let aSaveTime = a.saveTime.format('YYYY/MM/DD HH:mm');
+          let bSaveTime = b.saveTime.format('YYYY/MM/DD HH:mm');
+          if (aSaveTime > bSaveTime) {
+            return 1;
+          } else if (aSaveTime < bSaveTime) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
         this.onDataUpdated();
         this.isLoading = false;
       }
