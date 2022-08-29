@@ -88,3 +88,15 @@ func dirSize(p string) (uint64, error) {
 	}
 	return totalSize, nil
 }
+
+func safeRemove(p string) error {
+	if len(p) < 10 {
+		errMsg := fmt.Sprintf("path is not considered safe to be removed:%v", p)
+		logger.Error(errMsg)
+		return fmt.Errorf(errMsg)
+	}
+	if storage.IsDir(p) {
+		return os.RemoveAll(p)
+	}
+	return os.Remove(p)
+}

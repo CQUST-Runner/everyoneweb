@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,7 +19,7 @@ func TestGetPageTitle(t *testing.T) {
 	err := doSavePage(context.Background(), "../third-party/single-file-cli", ".", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
 		"https://google.com", filename)
 	assert.Nil(t, err)
-	defer os.Remove(filename)
+	defer safeRemove(filename)
 	title, err := getPageTitle(filename)
 	assert.Nil(t, err)
 	assert.Equal(t, "Google", title)
@@ -31,7 +30,7 @@ func TestGetPageTitle2(t *testing.T) {
 	err := doSavePage(context.Background(), "../third-party/single-file-cli", ".", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
 		"https://google.com", filename)
 	assert.Nil(t, err)
-	defer os.Remove(filename)
+	defer safeRemove(filename)
 	title, err := getPageTitle2(filename)
 	assert.Nil(t, err)
 	assert.Equal(t, "Google", title)

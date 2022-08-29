@@ -94,8 +94,8 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		}
 	}
 	defer func(dd string) {
-		if err != nil && len(dd) > 10 {
-			e := os.RemoveAll(dd)
+		if err != nil {
+			e := safeRemove(dd)
 			if e != nil {
 				logger.Warn("remove dir failed:%v", e)
 			}
@@ -125,7 +125,7 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 	}
 	title, err := getPageTitle(filename)
 	if err != nil {
-		e := os.RemoveAll(dd)
+		e := safeRemove(dd)
 		if e != nil {
 			logger.Warn("remove page failed:%v", e)
 		}
@@ -210,7 +210,7 @@ func deletePage(w http.ResponseWriter, req *http.Request) {
 
 	dd := path.Join(config().Settings.DataDirectory, id)
 	if storage.IsDir(dd) {
-		err = os.RemoveAll(dd)
+		err = safeRemove(dd)
 		if err != nil {
 			logger.Warn("remove web page failed:%v", err)
 		}
