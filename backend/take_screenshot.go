@@ -16,9 +16,8 @@ func takeScreenShot(url string, outputFileName string) error {
 	)
 	defer cancel()
 
-	// capture entire browser viewport, returning png with quality=90
 	var buf []byte
-	if err := chromedp.Run(ctx, fullScreenshot(url, 90, &buf)); err != nil {
+	if err := chromedp.Run(ctx, captureScreenshot(url, &buf)); err != nil {
 		return err
 	}
 	if err := ioutil.WriteFile(outputFileName, buf, 0o644); err != nil {
@@ -27,13 +26,9 @@ func takeScreenShot(url string, outputFileName string) error {
 	return nil
 }
 
-// fullScreenshot takes a screenshot of the entire browser viewport.
-//
-// Note: chromedp.FullScreenshot overrides the device's emulation settings. Use
-// device.Reset to reset the emulation and viewport settings.
-func fullScreenshot(urlstr string, quality int, res *[]byte) chromedp.Tasks {
+func captureScreenshot(urlstr string, res *[]byte) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(urlstr),
-		chromedp.FullScreenshot(res, quality),
+		chromedp.CaptureScreenshot(res),
 	}
 }

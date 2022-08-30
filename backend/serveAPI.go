@@ -127,6 +127,13 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		if err != nil {
 			return nil, err
 		}
+
+		thumbnailFileName := path.Join(dd, "thumbnail.png")
+		err := takeScreenShot(fmt.Sprintf("file://%v", filename), thumbnailFileName)
+		if err != nil {
+			logger.Warn("take screenshot of saved page failed:%v", err)
+		}
+
 		title, err := getPageTitle(filename)
 		if err != nil {
 			return nil, err

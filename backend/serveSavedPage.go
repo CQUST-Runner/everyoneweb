@@ -26,6 +26,32 @@ func serveSavedPage(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	thumbnail := req.URL.Query().Get("thumbnail")
+	if thumbnail != "" {
+		folder := page.AbsFolderPath()
+		filename := path.Join(folder, "thumbnail.png")
+
+		var bytes []byte
+		if storage.IsFile(filename) {
+			var err error
+			bytes, err = ioutil.ReadFile(filename)
+			if err != nil {
+				logger.Error("read page thumbnail failed:%v", err)
+			}
+		}
+
+		if len(bytes) > 0 {
+			w.Header().Set("content-type", "image/png")
+			w.WriteHeader(http.StatusOK)
+			w.Write(bytes)
+		} else {
+			w.Header().Set("location", "https://placehold.co/600x400")
+			w.WriteHeader(http.StatusTemporaryRedirect)
+		}
+		return
+	}
+
 	absFilePath := page.AbsFilePath()
 	if !storage.IsFile(absFilePath) {
 		w.WriteHeader(http.StatusInternalServerError)
