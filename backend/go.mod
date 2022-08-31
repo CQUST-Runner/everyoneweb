@@ -25,6 +25,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-sqlite3 v1.14.14 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/vincent-petithory/dataurl v1.0.0 // indirect
 	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
 	google.golang.org/protobuf v1.26.0 // indirect
 	gorm.io/driver/sqlite v1.3.4 // indirect

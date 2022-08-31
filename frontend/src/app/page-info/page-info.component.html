@@ -1,6 +1,8 @@
 <mat-card class="example-card">
     <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
+        <div mat-card-avatar
+            [style]="'background-image: url('+ 'http://127.0.0.1:16224/view/'+page.id+'?favicon=1'+ ');background-size:cover;'">
+        </div>
         <mat-card-title>{{page.title}}</mat-card-title>
         <mat-card-subtitle>{{page.desc}}</mat-card-subtitle>
     </mat-card-header>

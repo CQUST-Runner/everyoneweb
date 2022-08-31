@@ -35,3 +35,13 @@ func TestGetPageTitle2(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "Google", title)
 }
+
+func TestGetFavicon(t *testing.T) {
+	// fmt.Println(getFavicon("/Users/hyan23/Desktop/offliner-data/4PxR4fMH/index.html"))
+	// fmt.Println(getFavicon("/Users/hyan23/Desktop/offliner-data/bKbSxsQ_/index.html"))
+}
+
+func TestGetAndSaveFavicon(t *testing.T) {
+	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/offliner-data/4PxR4fMH/index.html", "favicon.ico"))
+	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/offliner-data/bKbSxsQ_/index.html", "favicon.ico"))
+}

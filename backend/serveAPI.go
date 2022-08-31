@@ -134,6 +134,12 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 			logger.Warn("take screenshot of saved page failed:%v", err)
 		}
 
+		faviconFileName := path.Join(dd, "favicon.ico")
+		err = getAndSaveFavicon(filename, faviconFileName)
+		if err != nil {
+			logger.Warn("save page file failed:%v", err)
+		}
+
 		title, err := getPageTitle(filename)
 		if err != nil {
 			return nil, err

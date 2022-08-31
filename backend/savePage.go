@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/CQUST-Runner/datacross/storage"
+	"github.com/vincent-petithory/dataurl"
 )
 
 func getPageFileNameById(id string) string {
@@ -98,4 +99,43 @@ func getPageDescription(filename string) string {
 	description := matches[1]
 	description = strings.TrimSpace(description)
 	return description
+}
+
+func getAndSaveFavicon(filename string, output string) error {
+	dataUri := getFavicon(filename)
+	if dataUri == "" {
+		return fmt.Errorf("get favicon failed")
+	}
+
+	l, err := dataurl.DecodeString(dataUri)
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile(output, l.Data, 0o644)
+}
+
+func getFavicon(filename string) string {
+	//the required syntax is more strict than standard HTML
+	r := regexp.MustCompile(`(<link.*?rel="icon".*?>|<link.*?rel="shortcut icon".*?>)`)
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil {
+		logger.Error("open %v failed", filename)
+		return ""
+	}
+	matches := r.FindStringSubmatch(string(bytes))
+	if matches == nil || len(matches) < 2 {
+		return ""
+	}
+	tag := matches[1]
+	tag = strings.TrimSpace(tag)
+
+	r2 := regexp.MustCompile(`href="(.*?)"`)
+	matches = r2.FindStringSubmatch(tag)
+	if matches == nil || len(matches) < 2 {
+		return ""
+	}
+
+	data := matches[1]
+	data = strings.TrimSpace(data)
+	return data
 }
