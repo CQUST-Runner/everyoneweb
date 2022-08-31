@@ -25,11 +25,16 @@
           <div mat-line>不限类别</div>
         </mat-list-option>
 
-        <mat-list-option [disabled]="!showCreateCategory" cdkDropList dropToHereToSetCategory id="_newCategory"
-          (cdkDropListDropped)="createNewCategoryAndSet($event);">
-          <mat-icon mat-list-icon>add</mat-icon>
-          <div mat-line>新建</div>
-        </mat-list-option>
+        <div matTooltip="拖动文档至此" [matTooltipDisabled]="showCreateCategory" [matTooltipShowDelay]="100"
+          [matTooltipHideDelay]="1000">
+          <mat-list-option [disabled]="!showCreateCategory" cdkDropList dropToHereToSetCategory id="_newCategory"
+            (cdkDropListDropped)="createNewCategoryAndSet($event);">
+            <mat-icon mat-list-icon>add</mat-icon>
+            <div mat-line>
+              新建
+            </div>
+          </mat-list-option>
+        </div>
         <mat-list-option cdkDropList dropToHereToSetCategory [id]="category"
           (cdkDropListDropped)="onDroped($event,category)" *ngFor="let category of categories" [value]="category">
           <mat-icon mat-list-icon>folder</mat-icon>
