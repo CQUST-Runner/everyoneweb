@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { getConfig } from '../settings.model';
-import { MatSidenav } from '@angular/material/sidenav';
-import { MatDialog } from '@angular/material/dialog';
 import { AboutComponent } from '../about/about.component';
+import { getConfig } from '../settings.model';
+import { ToolBoxService } from '../tool-box.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -21,7 +22,7 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor(public router: Router, private breakpointObserver: BreakpointObserver, private dialog: MatDialog) {
+  constructor(public router: Router, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, private toolbox: ToolBoxService) {
   }
 
   settings = getConfig();
@@ -58,5 +59,8 @@ export class MainNavComponent {
   toggleDarkMode(ev: Event) {
     ev.preventDefault();
     this.darkMode = !this.darkMode;
+    if (this.darkMode) {
+      this.toolbox.openSnackBar("敬请期待", "OK", { duration: 1000 });
+    }
   }
 }
