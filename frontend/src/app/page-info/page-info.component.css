@@ -1,5 +1,4 @@
 .example-card {
-    max-width: 600px;
     box-shadow: none;
 }
 
@@ -14,4 +13,21 @@ h3 {
 
 .has-read-checkbox {
     color: gray;
+}
+
+.img-container {
+    margin-top: 1em;
+    padding: 5px 5px;
+    border: forestgreen dotted 2px;
+}
+
+.img-inner-container {
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.mat-card-image,
+.mat-card-image:first-child {
+    margin: 0;
+    background-size: cover;
 }

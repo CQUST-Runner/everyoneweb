@@ -46,7 +46,7 @@ func serveSavedPage(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			w.Write(bytes)
 		} else {
-			w.Header().Set("location", "https://placehold.co/600x400")
+			w.Header().Set("location", "https://placehold.co/600x400?text=Not+Available")
 			w.WriteHeader(http.StatusTemporaryRedirect)
 		}
 		return

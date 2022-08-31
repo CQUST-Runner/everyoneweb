@@ -29,6 +29,7 @@ func takeScreenShot(url string, outputFileName string) error {
 func captureScreenshot(urlstr string, res *[]byte) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(urlstr),
+		chromedp.EmulateViewport(1200, 800),
 		chromedp.CaptureScreenshot(res),
 	}
 }

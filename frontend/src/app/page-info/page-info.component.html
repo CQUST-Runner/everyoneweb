@@ -5,8 +5,11 @@
         <mat-card-subtitle>{{page.desc}}</mat-card-subtitle>
     </mat-card-header>
 
-    <img *ngIf="thumbnail" mat-card-image [src]="'http://127.0.0.1:16224/view/'+page.id+'/?thumbnail=1'">
-
+    <div class="img-container">
+        <div class="img-inner-container">
+            <img *ngIf="thumbnail" mat-card-image [src]="'http://127.0.0.1:16224/view/'+page.id+'/?thumbnail=1'">
+        </div>
+    </div>
     <mat-card-content>
         <!-- <div>
             <h3>标题</h3>
