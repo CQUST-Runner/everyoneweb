@@ -67,7 +67,7 @@ func serveSavedPage(w http.ResponseWriter, req *http.Request) {
 		}
 
 		if len(bytes) > 0 {
-			w.Header().Set("content-type", "image/x")
+			w.Header().Set("content-type", page.FaviconType)
 			w.WriteHeader(http.StatusOK)
 			w.Write(bytes)
 		} else {

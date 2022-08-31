@@ -101,17 +101,22 @@ func getPageDescription(filename string) string {
 	return description
 }
 
-func getAndSaveFavicon(filename string, output string) error {
+func getAndSaveFavicon(filename string, output string) (string, error) {
 	dataUri := getFavicon(filename)
 	if dataUri == "" {
-		return fmt.Errorf("get favicon failed")
+		return "", fmt.Errorf("get favicon failed")
 	}
 
+	// fmt.Println(dataUri)
 	l, err := dataurl.DecodeString(dataUri)
 	if err != nil {
-		return err
+		return "", err
 	}
-	return ioutil.WriteFile(output, l.Data, 0o644)
+	err = ioutil.WriteFile(output, l.Data, 0o644)
+	if err != nil {
+		return "", err
+	}
+	return l.ContentType(), nil
 }
 
 func getFavicon(filename string) string {

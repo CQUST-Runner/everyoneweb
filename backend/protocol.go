@@ -50,6 +50,7 @@ type Page struct {
 	Desc              string     `json:"desc"`
 	Rating            int        `json:"rating"`
 	MarkedAsRead      bool       `json:"markedAsRead"`
+	FaviconType       string     `json:"faviconType"`
 }
 
 func (p *Page) AbsFolderPath() string {

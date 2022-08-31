@@ -43,5 +43,5 @@ func TestGetFavicon(t *testing.T) {
 
 func TestGetAndSaveFavicon(t *testing.T) {
 	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/offliner-data/4PxR4fMH/index.html", "favicon.ico"))
-	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/offliner-data/bKbSxsQ_/index.html", "favicon.ico"))
+	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/offliner-data/nYX7B95W/index.html", "favicon.ico"))
 }
