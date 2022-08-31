@@ -223,6 +223,27 @@
             </td>
           </ng-container>
 
+          <!-- Preview Column -->
+          <ng-container matColumnDef="preview">
+            <th [style]="getDisplayedColumnWidth('preview')" mat-header-cell *matHeaderCellDef> 预览
+            </th>
+            <td [style]="getDisplayedColumnWidth('preview')" mat-cell *matCellDef="let row">
+
+              <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                <mat-card>
+                  <mat-card-content>
+                    <img style="max-width: 400px;" loading="lazy"
+                      [src]="'http://127.0.0.1:16224/view/'+row.id+'?thumbnail=1'">
+                  </mat-card-content>
+                </mat-card>
+              </mde-popover>
+              <mat-icon color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover"
+                #popoverTrigger="mdePopoverTrigger">
+                preview
+              </mat-icon>
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns">
           </tr>
           <tr [cdkDragDisabled]="disabled" (cdkDragReleased)="disabled=true;" cdkDrag (cdkDragStarted)="dragStarted();"

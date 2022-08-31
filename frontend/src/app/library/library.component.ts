@@ -38,7 +38,8 @@ export let columnDefine: Column[] = [
   { id: 'rating', widthWeight: 10, display: true, displayName: "评级", configurable: true },
   { id: 'markedAsRead', widthWeight: 5, display: true, displayName: "已读", configurable: true },
   { id: 'remindReadingTime', widthWeight: 5, display: true, displayName: "计划阅读", configurable: true },
-  { id: 'menu', widthWeight: 5, display: true, displayName: "菜单", configurable: false }];
+  { id: 'preview', widthWeight: 5, display: true, displayName: "预览", configurable: true },
+  { id: 'menu', widthWeight: 5, display: true, displayName: "菜单", configurable: false },];
 
 @Component({
   selector: 'app-library',
@@ -195,7 +196,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     let columns = getConfig().columns;
     if (columns) {
-      this.displayedColumns = columns.filter(x => x.display).filter(x => columnDefine.some(y => x.id == y.id && y.display)).map(x => x.id);
+      this.displayedColumns = columns.filter(x => x.display).filter(x => columnDefine.some(y => x.id == y.id)).map(x => x.id);
       this.displayedColumns.push(...columnDefine.filter(x => x.configurable && x.display && !columns.some(y => y.id == x.id)).map(x => x.id));
       this.displayedColumns = ['dragHandle', ...this.displayedColumns];
       this.displayedColumns.push('menu');
@@ -334,6 +335,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
           let copy = this.dataSource.data.slice();
           copy[i] = result;
           this.dataSource.data = copy;
+          this.onDataUpdated();
         }
       }
     });

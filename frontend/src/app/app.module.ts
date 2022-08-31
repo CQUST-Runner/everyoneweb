@@ -1,49 +1,50 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MainNavComponent } from './main-nav/main-nav.component';
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { LayoutModule } from '@angular/cdk/layout';
-import { LibraryComponent } from './library/library.component';
-import { SavePageComponent } from './save-page/save-page.component';
-import { SettingsComponent } from './settings/settings.component';
-import { LogsComponent } from './logs/logs.component';
+import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './material.module';
-import { HighlightService } from './service/highlight.service';
-import { LogService } from './service/log.service';
-import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
-import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { PagePreviewComponent, SafePipe } from './page-preview/page-preview.component';
-import { PageInfoComponent } from './page-info/page-info.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdePopoverModule } from '@material-extended/mde';
+import { NgxFilesizeModule } from 'ngx-filesize';
+import { AboutComponent } from './about/about.component';
+import { AfterIfDirective } from './after-if.directive';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CategoryInputComponent } from './category-input/category-input.component';
+import { ColumnEditComponent } from './column-edit/column-edit.component';
 import { ConflictsComponent } from './conflicts/conflicts.component';
-import { VersionInfoComponent } from './version-info/version-info.component';
+import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { EditPageInfoComponent } from './edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from './export-as/export-as.component';
-import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
-import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
-import { AfterIfDirective } from './after-if.directive';
-import { RatingComponent } from './rating/rating.component';
-import { TagsInputComponent } from './tags-input/tags-input.component';
 import { FormatSelectionComponent } from './format-selection/format-selection.component';
-import { HttpClientModule } from '@angular/common/http';
-import { RealLogService } from './service/reallog.service';
-import { PageService } from './service/page.service';
 import { FullScreenSpinnerComponent } from './full-screen-spinner/full-screen-spinner.component';
 import { GeneralInputDialogComponent } from './general-input-dialog/general-input-dialog.component';
+import { LibraryComponent } from './library/library.component';
+import { LogsComponent } from './logs/logs.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
+import { MaterialModule } from './material.module';
+import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
+import { PageInfoComponent } from './page-info/page-info.component';
+import { PagePreviewComponent, SafePipe } from './page-preview/page-preview.component';
+import { RatingComponent } from './rating/rating.component';
 import { SavePageSuccessActionsComponent } from './save-page-success-actions/save-page-success-actions.component';
-import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
-import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
-import { AboutComponent } from './about/about.component';
+import { SavePageComponent } from './save-page/save-page.component';
 import { ScrollTriggerComponent } from './scroll-trigger/scroll-trigger.component';
-import { ColumnEditComponent } from './column-edit/column-edit.component';
+import { HighlightService } from './service/highlight.service';
+import { LogService } from './service/log.service';
+import { PageService } from './service/page.service';
+import { RealLogService } from './service/reallog.service';
+import { SettingsComponent } from './settings/settings.component';
 import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
-import { CategoryInputComponent } from './category-input/category-input.component';
-import { NgxFilesizeModule } from 'ngx-filesize';
+import { TagsInputComponent } from './tags-input/tags-input.component';
+import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
+import { VersionInfoComponent } from './version-info/version-info.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { NgxFilesizeModule } from 'ngx-filesize';
     NgxMatMomentModule,
     HttpClientModule,
     NgxFilesizeModule,
+    MdePopoverModule,
   ],
   providers: [HighlightService, LogService, RealLogService, PageService],
   bootstrap: [AppComponent]
