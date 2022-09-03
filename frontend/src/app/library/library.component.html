@@ -264,7 +264,7 @@
 
           <!-- Item Description Column -->
           <ng-container matColumnDef="item-description">
-            <th [attr.colspan]="displayedColumns.length" mat-header-cell *matHeaderCellDef>
+            <th style="border-bottom: none;" [attr.colspan]="displayedColumns.length" mat-header-cell *matHeaderCellDef>
               <div [@detailExpand]="selection.hasValue() ? 'expanded' : 'collapsed'">
                 <div fxLayout="row" fxLayoutGap="10px" style="padding: 10px 10px;">
                   <button mat-stroked-button (click)="markReadSelected()">已读</button>

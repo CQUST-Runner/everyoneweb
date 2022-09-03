@@ -45,6 +45,7 @@ import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
 import { TagsInputComponent } from './tags-input/tags-input.component';
 import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
+import { MoveToDialogComponent } from './move-to-dialog/move-to-dialog.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { VersionInfoComponent } from './version-info/version-info.component';
     TabToolBarComponent,
     CategoryInputComponent,
     SafePipe,
+    MoveToDialogComponent,
   ],
   imports: [
     BrowserModule,

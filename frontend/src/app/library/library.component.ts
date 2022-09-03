@@ -15,6 +15,7 @@ import { EditPageData, EditPageInfoComponent } from '../edit-page-info/edit-page
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { GeneralInputDialogComponent, GeneralInputOptions } from '../general-input-dialog/general-input-dialog.component';
 import { ConfirmData, MakeConfirmComponent } from '../make-confirm/make-confirm.component';
+import { MoveToDialogComponent } from '../move-to-dialog/move-to-dialog.component';
 import { PageInfoDialogComponent } from '../page-info-dialog/page-info-dialog.component';
 import { createRandomPage, Page, Rating, unmarshalPage } from '../page.model';
 import { PageService } from '../service/page.service';
@@ -133,31 +134,17 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result} `);
       if (result) {
-        let page = ev.item.data;
-
-        let thisRef = this;
-        let old = page.category;
-        page.category = result;
-        this.pageService.update(page).subscribe({
-          next(value) {
-
-          },
-          complete() {
-          },
-          error(err) {
-            page.category = old;
-            thisRef.toolbox.openSnackBar('创建失败', 'OK');
-            thisRef.form.updateValueAndValidity();
-            thisRef.onDataUpdated();
-
-          },
-        } as Observer<Page>)
-
-        this.form.updateValueAndValidity();
-        thisRef.onDataUpdated();
+        let selected = this.activelySelected();
+        if (selected.some(x => x.id === ev.item.data.id) && selected.length > 1) {
+          for (let p of selected) {
+            this.setCategory(p, result);
+          }
+        } else {
+          let page = ev.item.data;
+          this.setCategory(page, result);
+        }
       }
     });
-
   }
 
   showCreateCategory = false;
@@ -404,6 +391,30 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     });
   }
 
+  setCategory(page: Page, category: string) {
+
+    let thisRef = this;
+    let old = page.category;
+    page.category = category;
+    this.pageService.update(page).subscribe({
+      next(value) {
+      },
+      complete() {
+        thisRef.form.updateValueAndValidity();
+        thisRef.onDataUpdated();
+      },
+      error(err) {
+        page.category = old;
+        thisRef.toolbox.openSnackBar('修改失败', 'OK');
+        thisRef.form.updateValueAndValidity();
+        thisRef.onDataUpdated();
+      },
+    } as Observer<Page>);
+
+    this.form.updateValueAndValidity();
+    this.onDataUpdated();
+  }
+
   onDroped(ev: CdkDragDrop<any, any, Page>, shoe: string) {
     // console.log(ev);
 
@@ -412,26 +423,14 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     }
     let page = ev.item.data;
 
-
-    let thisRef = this;
-    let old = page.category;
-    page.category = shoe;
-    this.pageService.update(page).subscribe({
-      next(value) {
-      },
-      complete() {
-      },
-      error(err) {
-        page.category = old;
-        thisRef.toolbox.openSnackBar('修改失败', 'OK');
-        thisRef.form.updateValueAndValidity();
-        thisRef.onDataUpdated();
-      },
-    } as Observer<Page>)
-
-
-    this.form.updateValueAndValidity();
-    this.onDataUpdated();
+    let selected = this.activelySelected();
+    if (selected.some(x => x.id === ev.item.data.id) && selected.length > 1) {
+      for (let p of selected) {
+        this.setCategory(p, shoe);
+      }
+    } else {
+      this.setCategory(page, shoe);
+    }
   }
 
   updateRemindReadingTime(page: Page, m: moment.Moment | null) {
@@ -459,6 +458,26 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.onDataUpdated();
   }
 
+  deletePage(p: Page) {
+    // console.log('true');
+    this.isLoading = true;
+    let thisRef = this;
+    this.pageService.delete(p.id).subscribe({
+      complete() {
+        thisRef.dataSource.data = thisRef.dataSource.data.filter(x => x.id != p.id);
+        thisRef.isLoading = false;
+        thisRef.toolbox.openSnackBar('已删除', 'OK');
+      },
+      error(err) {
+        thisRef.isLoading = false;
+        thisRef.toolbox.openSnackBar(`删除【${p.title}】失败，请重试`, 'OK');
+      },
+    } as Observer<void>);
+
+    this.form.updateValueAndValidity();
+    this.onDataUpdated();
+  }
+
   confirmDeletion(row: Page) {
     const dialogRef = this.dialog.open(MakeConfirmComponent, {
       maxWidth: "60vw",
@@ -467,20 +486,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // console.log('true');
-        this.isLoading = true;
-        let thisRef = this;
-        this.pageService.delete(row.id).subscribe({
-          complete() {
-            thisRef.dataSource.data = thisRef.dataSource.data.filter(x => x.id != row.id);
-            thisRef.isLoading = false;
-            thisRef.toolbox.openSnackBar('已删除', 'OK');
-          },
-          error(err) {
-            thisRef.isLoading = false;
-            thisRef.toolbox.openSnackBar('删除失败，请重试', 'OK');
-          },
-        } as Observer<void>);
+        this.deletePage(row);
       }
     });
   }
@@ -497,11 +503,10 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     ev.stopPropagation();
   }
 
-  toggleMarkedAsRead(page: Page) {
-
+  setMarkAsRead(page: Page, b: boolean) {
     let thisRef = this;
     let old = page.markedAsRead;
-    page.markedAsRead = !page.markedAsRead;
+    page.markedAsRead = b;
     this.pageService.update(page).subscribe({
       next(value) {
 
@@ -515,8 +520,14 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         thisRef.form.updateValueAndValidity();
         thisRef.onDataUpdated();
       },
-    } as Observer<Page>)
+    } as Observer<Page>);
 
+    this.form.updateValueAndValidity();
+    this.onDataUpdated();
+  }
+
+  toggleMarkedAsRead(page: Page) {
+    this.setMarkAsRead(page, !page.markedAsRead);
     this.form.updateValueAndValidity();
     this.onDataUpdated();
   }
@@ -547,12 +558,53 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   deleteSelected() {
+
+    let selected = this.activelySelected();
+    if (selected.length == 0) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(MakeConfirmComponent, {
+      maxWidth: "60vw",
+      data: { prompt: `真的要删除【${selected[0].title}】${selected.length > 1 ? '等 ' + selected.length.toString() + ' 篇文档' : ''}吗？`, yesText: "确认", noText: "取消" } as ConfirmData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        for (let p of selected) {
+          this.deletePage(p);
+        }
+      }
+    });
   }
 
   moveSelected() {
+
+    let selected = this.activelySelected();
+    if (selected.length == 0) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(MoveToDialogComponent, { width: "300px", maxWidth: "40vw", data: this.categories });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        for (let p of selected) {
+          this.setCategory(p, result);
+        }
+      }
+    });
   }
 
   markReadSelected() {
+    let selected = this.activelySelected();
+    if (selected.length == 0) {
+      return;
+    }
+
+    for (let p of selected) {
+      this.setMarkAsRead(p, true);
+    }
   }
 
   getPreviewMessage(p: Page) {
