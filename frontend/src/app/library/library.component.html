@@ -102,9 +102,9 @@
           <!-- https://codeutility.org/angular-how-to-make-a-mat-table-row-drag-drop-work-with-cdkdraghandle-so-that-the-row-is-only-draggable-using-the-handle-stack-overflow/ -->
           <ng-container matColumnDef="dragHandle">
             <th [style]="getDisplayedColumnWidth('dragHandle')" mat-header-cell *matHeaderCellDef> &nbsp; </th>
-            <td cdkDragHandle [style]="getDisplayedColumnWidth('dragHandle')" mat-cell *matCellDef="let row">
-              <mat-icon (touchstart)="disabled = false" (touchend)="disabled = true" (mousedown)="disabled = false"
-                (mouseup)="disabled = true" style="cursor:move;">drag_handle
+            <td #handle cdkDragHandle [style]="getDisplayedColumnWidth('dragHandle')" mat-cell *matCellDef="let row">
+              <mat-icon (touchstart)="prepareDrag(handle)" (touchend)="endDrag(handle)"
+                (mousedown)="prepareDrag(handle)" (mouseup)="endDrag(handle)" style="cursor:move;">drag_handle
               </mat-icon>
             </td>
           </ng-container>
@@ -282,6 +282,7 @@
           <tr [cdkDragDisabled]="disabled" (cdkDragReleased)="disabled=true;" cdkDrag (cdkDragStarted)="dragStarted();"
             (cdkDragEnded)="dragEnded();" [cdkDragData]="row" dropToSetCategory mat-row
             *matRowDef="let row; columns: displayedColumns;">
+            <div *cdkDragPreview>{{getPreviewMessage(row)}}</div>
             <div *cdkDragPlaceholder></div>
           </tr>
 

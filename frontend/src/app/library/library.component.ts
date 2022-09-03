@@ -123,6 +123,11 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
 
   createNewCategoryAndSet(ev: CdkDragDrop<any, any, Page>) {
+
+    if (!ev.isPointerOverContainer) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(GeneralInputDialogComponent, { width: "300px", maxWidth: "40vw", data: { dialogTitle: "创建新类别", fieldName: "请输入" } as GeneralInputOptions });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -158,11 +163,22 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   showCreateCategory = false;
 
   dragStarted() {
+    if (this.tr) {
+      if (this.nodeAfter) {
+        this.tbody?.insertBefore(this.tr, this.nodeAfter);
+      } else {
+        this.tbody?.appendChild(this.tr);
+      }
+    }
+
     this.showCreateCategory = true;
   }
 
   dragEnded() {
     this.showCreateCategory = false;
+    if (this.tr && this.tbody?.contains(this.tr)) {
+      this.tbody?.removeChild(this.tr);
+    }
   }
 
   onChangeRating(r: Rating, row: Page) {
@@ -196,6 +212,36 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   scroll(ev: number) {
     this.listRef.nativeElement.scrollTop += ev;
+  }
+
+  tbody: HTMLElement | undefined;
+  tr: Node | undefined;
+  nodeAfter: Node | undefined;
+  prepareDrag(cell: HTMLTableCellElement) {
+    let tr = cell.parentElement!;
+    let tbody = tr.parentElement!;
+
+    let i = Array.prototype.indexOf.call(tbody.children, tr);
+    this.tbody = tbody;
+    this.tr = tr.cloneNode(true);
+    if (i < tbody.children.length - 1) {
+      this.nodeAfter = tbody.children[i + 1];
+    } else {
+      this.nodeAfter = undefined;
+    }
+
+    this.disabled = false;
+  }
+
+  endDrag(cell: HTMLTableCellElement) {
+    if (this.tr && this.tbody?.contains(this.tr)) {
+      this.tbody?.removeChild(this.tr);
+    }
+    this.tbody = undefined;
+    this.tr = undefined;
+    this.nodeAfter = undefined;
+
+    this.disabled = true;
   }
 
   disabled = true;
@@ -361,6 +407,9 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   onDroped(ev: CdkDragDrop<any, any, Page>, shoe: string) {
     // console.log(ev);
 
+    if (!ev.isPointerOverContainer) {
+      return;
+    }
     let page = ev.item.data;
 
 
@@ -499,5 +548,14 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   markReadSelected() {
+  }
+
+  getPreviewMessage(p: Page) {
+    let n = this.activelySelected().length;
+    if (this.selection.selected.some(x => p.id === x.id) && n > 1) {
+      return `${p.title}以及其他 ${n} 个项目`
+    } else {
+      return p.title;
+    }
   }
 }
