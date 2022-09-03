@@ -68,7 +68,6 @@
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </mat-expansion-panel-header>
-
       <div fxLayout="column">
         <div>
           <span>rating:</span>
@@ -263,7 +262,22 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns">
+          <!-- Item Description Column -->
+          <ng-container matColumnDef="item-description">
+            <th [attr.colspan]="displayedColumns.length" mat-header-cell *matHeaderCellDef>
+              <div [@detailExpand]="selection.hasValue() ? 'expanded' : 'collapsed'">
+                <div fxLayout="row" fxLayoutGap="10px" style="padding: 10px 10px;">
+                  <button mat-stroked-button (click)="markReadSelected()">已读</button>
+                  <button mat-stroked-button (click)="moveSelected()">移动到...</button>
+                  <button mat-stroked-button (click)="deleteSelected()">刪除</button>
+                </div>
+              </div>
+            </th>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef=" displayedColumns">
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="['item-description'];sticky:true" style="height: 0px;">
           </tr>
           <tr [cdkDragDisabled]="disabled" (cdkDragReleased)="disabled=true;" cdkDrag (cdkDragStarted)="dragStarted();"
             (cdkDragEnded)="dragEnded();" [cdkDragData]="row" dropToSetCategory mat-row

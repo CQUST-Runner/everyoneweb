@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -46,7 +47,13 @@ export let columnDefine: Column[] = [
 @Component({
   selector: 'app-library',
   templateUrl: './library.component.html',
-  styleUrls: ['./library.component.css']
+  styleUrls: ['./library.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', overflow: 'hidden' })),
+      state('expanded', style({ height: '*', overflow: 'hidden', })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])],
 })
 export class LibraryComponent implements OnInit, AfterViewInit {
 
@@ -465,13 +472,10 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.onDataUpdated();
   }
 
-
   selection = new SelectionModel<Page>(true, []);
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    return !this.dataSource.filteredData.some(x => !this.selection.selected.some(y => y.id === x.id));
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -481,6 +485,19 @@ export class LibraryComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSource.filteredData);
+  }
+
+  activelySelected(): Page[] {
+    return this.selection.selected.filter(x => this.dataSource.filteredData.some(y => y.id === x.id));
+  }
+
+  deleteSelected() {
+  }
+
+  moveSelected() {
+  }
+
+  markReadSelected() {
   }
 }
