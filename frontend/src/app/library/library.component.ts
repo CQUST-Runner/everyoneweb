@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -30,6 +31,7 @@ export interface Column {
 // weight should not be changed by users
 export let columnDefine: Column[] = [
   { id: 'dragHandle', widthWeight: 2, display: true, displayName: "", configurable: false },
+  { id: 'select', widthWeight: 2, display: true, displayName: "", configurable: false },
   { id: 'title', widthWeight: 30, display: true, displayName: "标题", configurable: true },
   { id: 'category', widthWeight: 5, display: true, displayName: "类别", configurable: true },
   { id: 'id', widthWeight: 10, display: true, displayName: "短链接", configurable: true },
@@ -461,5 +463,24 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
     this.form.updateValueAndValidity();
     this.onDataUpdated();
+  }
+
+
+  selection = new SelectionModel<Page>(true, []);
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
   }
 }
