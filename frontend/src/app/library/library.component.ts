@@ -521,6 +521,10 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     this.onDataUpdated();
   }
 
+  isPartiallySelected(): boolean {
+    return this.selection.selected.some(x => this.dataSource.filteredData.some(y => y.id === x.id));
+  }
+
   selection = new SelectionModel<Page>(true, []);
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -530,7 +534,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
-      this.selection.clear();
+
+      this.selection.deselect(...this.selection.selected.filter(x => this.dataSource.filteredData.some(y => y.id === x.id)));
       return;
     }
 
@@ -553,7 +558,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   getPreviewMessage(p: Page) {
     let n = this.activelySelected().length;
     if (this.selection.selected.some(x => p.id === x.id) && n > 1) {
-      return `${p.title}以及其他 ${n} 个项目`
+      return `${p.title}以及其他 ${n - 1} 个项目`
     } else {
       return p.title;
     }
