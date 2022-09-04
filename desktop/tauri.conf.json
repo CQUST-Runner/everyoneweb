@@ -1,13 +1,11 @@
 {
   "package": {
-    "productName": "angular-tauri",
+    "productName": "offliner",
     "version": "1.0.0"
   },
   "build": {
-    "distDir": "../frontend/dist/frontend",
-    "devPath": "http://localhost:4200",
-    "beforeDevCommand": "npm run web:serve",
-    "beforeBuildCommand": "npm run web:prod"
+    "distDir": "http://localhost:16224/app",
+    "devPath": "http://localhost:4200"
   },
   "tauri": {
     "bundle": {
@@ -28,13 +26,11 @@
       "shortDescription": "",
       "longDescription": "",
       "deb": {
-        "depends": [],
-        "useBootstrapper": false
+        "depends": []
       },
       "macOS": {
         "frameworks": [],
         "minimumSystemVersion": "",
-        "useBootstrapper": false,
         "exceptionDomain": "",
         "signingIdentity": null,
         "providerShortName": null,
@@ -54,9 +50,9 @@
     },
     "windows": [
       {
-        "title": "Angular Tauri",
-        "width": 800,
-        "height": 600,
+        "title": "Offliner Desktop",
+        "width": 1280,
+        "height": 720,
         "resizable": true,
         "fullscreen": false
       }
