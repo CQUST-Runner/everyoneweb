@@ -2,16 +2,16 @@
 
 ./build-server.sh $@
 
-. env.sh
+. env.sh 'build'
 
 ./stop-server.sh
 
 cd $build
 
-echo "starting ./server"
-nohup ./server &
+echo "starting ./offliner-server"
+nohup ./offliner-server &
 pid="$!"
-echo "$pid" > server.pid
+echo "$pid" > offliner-server.pid
 sleep 1
 result=$(ps aux | grep $pid | grep -v grep)
 if [ -z "$result" ]; then
