@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { open } from '@tauri-apps/api/dialog';
+import { appDir } from '@tauri-apps/api/path';
 import { Observer } from 'rxjs';
 import { ColumnEditComponent } from '../column-edit/column-edit.component';
+import { isTauri } from '../common';
 import { columnDefine } from '../library/library.component';
 import { ColumnInfo, getConfig, Settings } from '../settings.model';
 import { SettingsService } from '../settings.service';
@@ -27,8 +30,25 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectFile(ev: Event) {
-    alert('请打开桌面版使用该功能');
+  async selectFile(ev: Event) {
+    if (!isTauri()) {
+      alert('请打开桌面版使用该功能');
+      return;
+    }
+    const selected = await open({
+      title: '请选择数据目录',
+      multiple: false,
+      defaultPath: await appDir(),
+      directory: true,
+    });
+    if (Array.isArray(selected)) {
+      // user selected multiple files
+    } else if (selected === null) {
+      // user cancelled the selection
+    } else {
+      // user selected a single file
+      this.settings.dataDirectory = selected;
+    }
   }
 
   applyConfig() {

@@ -5,7 +5,8 @@
   },
   "build": {
     "distDir": "http://localhost:16224/app",
-    "devPath": "http://localhost:4200"
+    "devPath": "http://localhost:4200",
+    "withGlobalTauri": true
   },
   "tauri": {
     "bundle": {
@@ -46,7 +47,11 @@
       "active": false
     },
     "allowlist": {
-      "all": true
+      "all": true,
+      "dialog": {
+        "all": true,
+        "open": true
+      }
     },
     "windows": [
       {

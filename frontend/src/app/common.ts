@@ -52,3 +52,8 @@ export function enumValues(a: any) {
 }
 
 export const API_SERVER = "http://127.0.0.1:16224/api";
+
+
+export function isTauri(): boolean {
+    return (window as any).__TAURI__;
+}
