@@ -62,7 +62,7 @@
           <input matInput placeholder="" [(ngModel)]="settings.machineID">
         </mat-form-field>
 
-        <button mat-raised-button fxFlexAlign="start">导出所有数据</button>
+        <button mat-raised-button fxFlexAlign="start" (click)="exportAll()">导出所有数据</button>
       </div>
     </div>
 

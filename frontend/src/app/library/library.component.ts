@@ -240,7 +240,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     if (columns) {
       this.displayedColumns = columns.filter(x => x.display).filter(x => columnDefine.some(y => x.id == y.id)).map(x => x.id);
       this.displayedColumns.push(...columnDefine.filter(x => x.configurable && x.display && !columns.some(y => y.id == x.id)).map(x => x.id));
-      this.displayedColumns = ['dragHandle', ...this.displayedColumns];
+      this.displayedColumns = ['dragHandle', 'select', ...this.displayedColumns];
       this.displayedColumns.push('menu');
     } else {
       this.displayedColumns = columnDefine.filter(x => x.display).map(x => x.id);

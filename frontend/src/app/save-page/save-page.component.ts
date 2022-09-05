@@ -36,6 +36,10 @@ export class SavePageComponent implements OnInit {
 
   constructor(private toolbox: ToolBoxService, public dialog: MatDialog, private pageService: PageService) { }
 
+  importFile() {
+    this.toolbox.openSnackBar("尚不支持从文件导入", 'OK');
+  }
+
   updateAllCategories(categories: string[]) {
     this.allCategories = [...new Set((this.allCategories || []).concat(categories.filter(x => x != '')))];
   }

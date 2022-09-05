@@ -114,4 +114,8 @@ export class SettingsComponent implements OnInit {
     }
     return navigator.language;
   }
+
+  exportAll() {
+    this.toolbox.openSnackBar('敬请期待', 'OK');
+  }
 }
