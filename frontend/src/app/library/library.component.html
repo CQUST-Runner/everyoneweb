@@ -127,7 +127,8 @@
           <ng-container matColumnDef="title">
             <th [style]="getDisplayedColumnWidth('title')" mat-header-cell *matHeaderCellDef> 标题 </th>
             <td [style]="getDisplayedColumnWidth('title')" mat-cell *matCellDef="let row"> <a
-                [href]="'http://127.0.0.1:16224/view/'+row.id">{{row.title}}</a></td>
+                [href]="'http://127.0.0.1:16224/view/'+row.id"
+                [target]="isRunningInTauri()?'_blank':'_self'">{{row.title}}</a></td>
           </ng-container>
 
           <!-- Category Column -->

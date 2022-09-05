@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { map, Observer, startWith } from 'rxjs';
-import { randomString } from '../common';
+import { isTauri, randomString } from '../common';
 import { EditPageData, EditPageInfoComponent } from '../edit-page-info/edit-page-info.component';
 import { ExportAsComponent } from '../export-as/export-as.component';
 import { GeneralInputDialogComponent, GeneralInputOptions } from '../general-input-dialog/general-input-dialog.component';
@@ -619,5 +619,9 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     } else {
       return p.title;
     }
+  }
+
+  isRunningInTauri(): boolean {
+    return isTauri();
   }
 }
