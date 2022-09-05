@@ -362,8 +362,13 @@ export class LibraryComponent implements OnInit, AfterViewInit {
 
   openInBrowser(row: Page) {
     let url = `http://127.0.0.1:16224/view/${row.id}`;
-    console.log(url);
-    window.open(url, '_blank');
+    var link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // window.open(url, '_blank');
   }
 
   openEditDialog(row: Page) {
