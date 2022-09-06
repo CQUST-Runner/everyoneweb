@@ -21,3 +21,6 @@
 go.work
 
 *.pb.go
+
+single-file-cli/
+config.yaml
