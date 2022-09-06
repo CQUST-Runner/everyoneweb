@@ -11,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/CQUST-Runner/datacross/storage"
 )
@@ -174,7 +175,10 @@ func mustGenerateMachineID() string {
 	// }
 }
 
-func getDefaultDataDirectory() string {
+func getDefaultDataDirectory() (s string) {
+	defer func() {
+		s = replacePathSeparatorWithForwardSlash(s)
+	}()
 	switch runtime.GOOS {
 	case "darwin":
 		return filepath.Join(os.Getenv("HOME"), "Desktop", "offliner-data")
@@ -183,4 +187,8 @@ func getDefaultDataDirectory() string {
 	default:
 		return filepath.Join(os.Getenv("HOME"), "offliner-data")
 	}
+}
+
+func replacePathSeparatorWithForwardSlash(p string) string {
+	return strings.ReplaceAll(p, "\\", "/")
 }
