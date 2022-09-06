@@ -84,14 +84,14 @@ type ColumnInfo struct {
 // Settings ...
 // server settings need restart to take effect
 type Settings struct {
-	FirstScreen      string       `json:"firstScreen" yaml:"firstScreen" default:"new"`
-	Language         string       `json:"language" yaml:"language" default:"auto"`
-	DataDirectory    string       `json:"dataDirectory" yaml:"dataDirectory"`
-	MachineID        string       `json:"machineID" yaml:"machineID"`
-	ServeLibrary     bool         `json:"serveLibrary" yaml:"serveLibrary" default:"true"`
-	ServeLibraryPort int          `json:"serveLibraryPort" yaml:"serveLibraryPort" default:"16224"`
-	ShowLogsEntry    bool         `json:"showLogsEntry" yaml:"showLogsEntry" default:"false"`
-	Columns          []ColumnInfo `json:"columns" yaml:"columns"`
+	FirstScreen      string       `json:"firstScreen" yaml:"firstScreen,omitempty" default:"new"`
+	Language         string       `json:"language" yaml:"language,omitempty" default:"auto"`
+	DataDirectory    string       `json:"dataDirectory" yaml:"dataDirectory,omitempty"`
+	MachineID        string       `json:"machineID" yaml:"machineID,omitempty"`
+	ServeLibrary     bool         `json:"serveLibrary" yaml:"serveLibrary,omitempty" default:"true"`
+	ServeLibraryPort int          `json:"serveLibraryPort" yaml:"serveLibraryPort,omitempty" default:"16224"`
+	ShowLogsEntry    bool         `json:"showLogsEntry" yaml:"showLogsEntry,omitempty" default:"false"`
+	Columns          []ColumnInfo `json:"columns" yaml:"columns,omitempty"`
 }
 
 type GetLogResp struct {

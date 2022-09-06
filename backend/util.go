@@ -4,12 +4,69 @@ import (
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path"
+	"path/filepath"
+	"runtime"
 
 	"github.com/CQUST-Runner/datacross/storage"
 )
+
+// https://github.com/chromedp/chromedp/blob/fb22a3c9e832e0d18aa3838298552563576a46c9/allocate.go#L344
+// findExecPath tries to find the Chrome browser somewhere in the current
+// system. It finds in different locations on different OS systems.
+// It could perform a rather aggressive search. That may make it a bit slow,
+// but it will only be run when creating a new ExecAllocator.
+func findExecPath() string {
+	var locations []string
+	switch runtime.GOOS {
+	case "darwin":
+		locations = []string{
+			// Mac
+			"/Applications/Chromium.app/Contents/MacOS/Chromium",
+			"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+		}
+	case "windows":
+		locations = []string{
+			// Windows
+			"chrome",
+			"chrome.exe", // in case PATHEXT is misconfigured
+			`C:\Program Files (x86)\Google\Chrome\Application\chrome.exe`,
+			`C:\Program Files\Google\Chrome\Application\chrome.exe`,
+			filepath.Join(os.Getenv("USERPROFILE"), `AppData\Local\Google\Chrome\Application\chrome.exe`),
+			filepath.Join(os.Getenv("USERPROFILE"), `AppData\Local\Chromium\Application\chrome.exe`),
+		}
+	default:
+		locations = []string{
+			// Unix-like
+			"headless_shell",
+			"headless-shell",
+			"chromium",
+			"chromium-browser",
+			"google-chrome",
+			"google-chrome-stable",
+			"google-chrome-beta",
+			"google-chrome-unstable",
+			"/usr/bin/google-chrome",
+			"/usr/local/bin/chrome",
+			"/snap/bin/chromium",
+			"chrome",
+		}
+	}
+
+	for _, path := range locations {
+		found, err := exec.LookPath(path)
+		if err == nil {
+			return found
+		}
+	}
+	// Fall back to something simple and sensible, to give a useful error
+	// message.
+	return "google-chrome"
+}
 
 func randID(length int) string {
 	var dict = [256]byte{
@@ -99,4 +156,31 @@ func safeRemove(p string) error {
 		return os.RemoveAll(p)
 	}
 	return os.Remove(p)
+}
+
+var machineID string
+
+func mustGenerateMachineID() string {
+	var err error
+	machineID, err = os.Hostname()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return machineID
+	// var err error
+	// machineID, err = machineid.ProtectedID("offliner-backend")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+}
+
+func getDefaultDataDirectory() string {
+	switch runtime.GOOS {
+	case "darwin":
+		return filepath.Join(os.Getenv("HOME"), "Desktop", "offliner-data")
+	case "windows":
+		return filepath.Join(os.Getenv("USERPROFILE"), "Desktop", "offliner-data")
+	default:
+		return filepath.Join(os.Getenv("HOME"), "offliner-data")
+	}
 }

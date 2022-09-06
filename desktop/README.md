@@ -5,5 +5,5 @@ xcode-select --install
 
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
-npm install --save-dev @tauri-apps/cli
+cargo install tauri-cli
 

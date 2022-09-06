@@ -22,3 +22,7 @@ func TestCopyDir(t *testing.T) {
 	fmt.Sprintln(copyDir(".", "../copy_dir_test"))
 	os.RemoveAll("../copy_dir_test")
 }
+
+func TestGetDefaultDataDirectory(t *testing.T) {
+	fmt.Println(getDefaultDataDirectory())
+}

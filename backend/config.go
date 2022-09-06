@@ -6,6 +6,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/CQUST-Runner/datacross/storage"
 	"github.com/creasty/defaults"
 	"gopkg.in/yaml.v3"
 )
@@ -14,12 +15,35 @@ const configFile = "config.yaml"
 const logFile = "nohup.out"
 const getLogMaxBytes = 4096
 
+// omitempty is required for config merging
 type Config struct {
 	TestMode      bool      `yaml:"-" default:"true"`
 	ServeRoot     string    `yaml:"-" default:"."`
 	SingleFileCli string    `yaml:"-" default:"./single-file-cli"`
-	ChromePath    string    `yaml:"chrome_path"`
-	Settings      *Settings `yaml:"settings" default:"{}"`
+	ChromePath    string    `yaml:"chrome_path,omitempty"`
+	Settings      *Settings `yaml:"settings,omitempty" default:"{}"`
+}
+
+var defaultConfig Config = Config{
+	ChromePath: findExecPath(),
+	Settings: &Settings{
+		DataDirectory: getDefaultDataDirectory(),
+		MachineID:     mustGenerateMachineID(),
+	},
+}
+
+// struct tag default values and `defaultConfig` default values will be combined and returned
+func getCopyOfDeafultConfig() (*Config, error) {
+	bytes, err := yaml.Marshal(&defaultConfig)
+	if err != nil {
+		return nil, err
+	}
+	c := Config{}
+	err = yaml.Unmarshal(bytes, &c)
+	if err != nil {
+		return nil, err
+	}
+	return &c, nil
 }
 
 func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -77,24 +101,49 @@ func writeConfig(config *Config) error {
 	return os.Rename(tmpFile, configFile)
 }
 
-func mustLoadConfig() {
+func loadConfigFileWithDefaults() (*Config, error) {
 	data, err := ioutil.ReadFile(configFile)
+	if err != nil {
+		return nil, err
+	}
+
+	c, err := getCopyOfDeafultConfig()
+	if err != nil {
+		return nil, err
+	}
+	err = yaml.Unmarshal(data, c)
+	if err != nil {
+		return nil, err
+	}
+	return c, nil
+}
+
+func mustLoadConfig() {
+	if !storage.IsFile(configFile) {
+		c, err := getCopyOfDeafultConfig()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "get default config failed, err:%v\n", err)
+			os.Exit(1)
+			return
+		}
+		setConfig(func(old *Config) *Config {
+			return c
+		})
+		return
+	}
+
+	c, err := loadConfigFileWithDefaults()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "load config file[%v] failed, err:%v\n", configFile, err)
 		os.Exit(1)
+		return
 	}
-	c := Config{}
-	err = yaml.Unmarshal(data, &c)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "read config file[%v] failed, err:%v\n", configFile, err)
-		os.Exit(1)
-	}
-
-	err = check(&c)
+	err = check(c)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "check config error:%v\n", err)
 		os.Exit(1)
+		return
 	}
 
-	setConfig(func(old *Config) *Config { return &c })
+	setConfig(func(old *Config) *Config { return c })
 }
