@@ -116,6 +116,7 @@ func doSave(p *Page, isCache bool) (savedPapge *Page, err error) {
 		p.Desc = pc.page.Desc
 		p.Size = pc.page.Size
 		p.SourceTitle = pc.page.SourceTitle
+		p.FaviconType = pc.page.FaviconType
 	} else {
 		filename = getPageFileNameById(p.Id)
 		filename = path.Join(dd, filename)
