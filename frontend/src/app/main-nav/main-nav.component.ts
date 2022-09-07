@@ -37,7 +37,7 @@ export class MainNavComponent {
     // drawer.close();
     this.isAboutOpen = true;
 
-    const dialogRef = this.dialog.open(AboutComponent, { width: "40vw" });
+    const dialogRef = this.dialog.open(AboutComponent, { width: "50vw" });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       this.isAboutOpen = false;
