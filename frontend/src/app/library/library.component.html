@@ -6,12 +6,12 @@
     <div style="overflow-y: auto;" #list33>
       <mat-selection-list #list22 *ngIf="toggle.checked" #shoes multiple="true"
         (after-if)="selectCategory('after-if');">
-        <mat-list-option #select_all (click)="select(select_all, list22);" value="_all">
+        <mat-list-option color="primary" #select_all (click)="select(select_all, list22);" value="_all">
           <mat-icon mat-list-icon>select_all</mat-icon>
           <div mat-line>全选</div>
         </mat-list-option>
-        <mat-list-option #self (click)="unselectSelectAll(self,select_all);" *ngFor="let category of categories"
-          [value]="category">
+        <mat-list-option color="primary" #self (click)="unselectSelectAll(self,select_all);"
+          *ngFor="let category of categories" [value]="category">
           <mat-icon mat-list-icon>folder</mat-icon>
           <div mat-line>{{getCategoryDisplayName(category)}}</div>
         </mat-list-option>
@@ -126,9 +126,12 @@
           <!-- Title Column -->
           <ng-container matColumnDef="title">
             <th [style]="getDisplayedColumnWidth('title')" mat-header-cell *matHeaderCellDef> 标题 </th>
-            <td [style]="getDisplayedColumnWidth('title')" mat-cell *matCellDef="let row"> <a
+            <td [style]="getDisplayedColumnWidth('title')" mat-cell *matCellDef="let row">
+              <!-- <a
                 [href]="'http://127.0.0.1:16224/view/'+row.id"
-                [target]="isRunningInTauri()?'_blank':'_self'">{{row.title}}</a></td>
+                [target]="isRunningInTauri()?'_blank':'_self'">{{row.title}}</a> -->
+              <a [routerLink]="['/view',{id:row.id}]">{{row.title}}</a>
+            </td>
           </ng-container>
 
           <!-- Category Column -->
