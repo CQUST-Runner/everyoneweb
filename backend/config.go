@@ -15,7 +15,7 @@ const configFile = "config.yaml"
 const logFile = "nohup.out"
 const getLogMaxBytes = 4096
 
-// omitempty is required for config merging
+// omitempty is required for config merging, see `getCopyOfDeafultConfig`, `loadConfigFileWithDefaults`
 type Config struct {
 	TestMode      bool      `yaml:"-" default:"true"`
 	ServeRoot     string    `yaml:"-" default:"."`

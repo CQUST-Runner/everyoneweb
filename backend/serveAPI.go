@@ -253,7 +253,7 @@ func updatePage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	newPage, err := pd.update(&p)
+	newPage, err := pd.update(p.Id, r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
