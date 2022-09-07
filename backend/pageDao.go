@@ -49,15 +49,15 @@ func (d *pageDao) get(id string) (*Page, error) {
 }
 
 func (d *pageDao) update(id string, data []byte) (*Page, error) {
-	db := acquireDB()
-	defer releaseDB()
-
-	now := time.Now()
-
 	p, err := d.get(id)
 	if err != nil {
 		return nil, err
 	}
+
+	db := acquireDB()
+	defer releaseDB()
+
+	now := time.Now()
 
 	// only updates fields specified in json
 	err = json.Unmarshal(data, p)
