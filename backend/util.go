@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/CQUST-Runner/datacross/storage"
+	"github.com/denisbrodbeck/machineid"
 )
 
 // https://github.com/chromedp/chromedp/blob/fb22a3c9e832e0d18aa3838298552563576a46c9/allocate.go#L344
@@ -168,11 +169,11 @@ func mustGenerateMachineID() string {
 		log.Fatal(err)
 	}
 	return machineID
-	// var err error
-	// machineID, err = machineid.ProtectedID("offliner-backend")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	machineID, err = machineid.ProtectedID("offliner-backend")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return machineID
 }
 
 func getDefaultDataDirectory() (s string) {

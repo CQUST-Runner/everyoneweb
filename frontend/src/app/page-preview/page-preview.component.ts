@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeHtml, SafeStyle, SafeScript, SafeResourceUrl } from '@angular/platform-browser';
@@ -22,7 +22,7 @@ export class SafePipe implements PipeTransform {
   templateUrl: './page-preview.component.html',
   styleUrls: ['./page-preview.component.css']
 })
-export class PagePreviewComponent implements OnInit {
+export class PagePreviewComponent implements OnInit, AfterViewInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public url: string, public sanitizer: DomSanitizer, private client: HttpClient, private toolbox: ToolBoxService) {
     this.req = 'http://127.0.0.1:16224/preview/?url=' + encodeURIComponent(this.url);
@@ -34,14 +34,10 @@ export class PagePreviewComponent implements OnInit {
   @ViewChild('iframe') iframe: ElementRef;
 
   title: string;
-  eventCount = 0;
   load(ev: Event) {
-    this.eventCount++;
-    if (this.eventCount == 2) {
-      this.isLoading = false;
-      if (window.location.port == '16224' && window.location.host == '127.0.0.1' && window.location.protocol == 'http') {
-        this.title = this.iframe.nativeElement.contentDocument.title;
-      }
+    this.isLoading = false;
+    if (window.location.port == '16224' && window.location.host == '127.0.0.1' && window.location.protocol == 'http') {
+      this.title = this.iframe.nativeElement.contentDocument.title;
     }
   }
 
@@ -63,5 +59,12 @@ export class PagePreviewComponent implements OnInit {
   }
   req: string;
   ngOnInit(): void {
+   }
+  ngAfterViewInit(): void {
+    // https://stackoverflow.com/a/15880489
+    let thisRef =this;
+    this.iframe.nativeElement.onload = function(ev:Event) {
+      thisRef.load(ev);
+    }
   }
 }
