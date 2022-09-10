@@ -147,7 +147,7 @@
             </th>
             <td [style]="getDisplayedColumnWidth('id')" mat-cell *matCellDef="let row">
               <app-url-with-copy-btn style="font-weight:600; color:dimgrey; font-family: Courier New;"
-                [displayName]="row.id" [url]="this.toolbox.getLocalUrl(row.id)">
+                [displayName]="row.id" [url]="toolbox.getLocalUrl(row)">
               </app-url-with-copy-btn>
             </td>
           </ng-container>
