@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/tooling/cli/schema.json",
   "package": {
     "productName": "offliner",
     "version": "1.0.0"
@@ -20,7 +21,9 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "resources": [],
+      "resources": [
+        "../build/server"
+      ],
       "externalBin": [],
       "copyright": "",
       "category": "DeveloperTool",

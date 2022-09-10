@@ -2,10 +2,10 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
-use tauri::{
-    api::shell, CustomMenuItem, Manager, Menu, MenuEntry, MenuItem, Submenu, WindowBuilder,
-    WindowUrl,
-};
+
+use log::info;
+use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
+use tauri_plugin_log::{LogTarget, LoggerBuilder};
 
 #[tauri::command]
 async fn hello_world_command(_app: tauri::AppHandle) -> Result<String, String> {
@@ -61,6 +61,21 @@ fn main() {
         .add_submenu(window_menu)
         .add_submenu(help_menu);
     tauri::Builder::default()
+        .plugin(
+            LoggerBuilder::default()
+                .targets([LogTarget::LogDir, LogTarget::Stdout, LogTarget::Webview])
+                .build(),
+        )
+        .setup(|app| {
+            let r = app.path_resolver();
+            let server = r.resolve_resource("../build/server");
+            if server.is_some() {
+                let server_path = server.unwrap();
+                info!("server path is {}", server_path.display().to_string());
+            }
+
+            Ok(())
+        })
         .menu(menu)
         .on_menu_event(|event| {
             let event_name = event.menu_item_id();
