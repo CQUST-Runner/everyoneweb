@@ -3,7 +3,10 @@
     windows_subsystem = "windows"
 )]
 
+use std::{path::PathBuf, process as proc};
+
 use log::info;
+use sysinfo::SystemExt;
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use tauri_plugin_log::{LogTarget, LoggerBuilder};
 
@@ -11,6 +14,22 @@ use tauri_plugin_log::{LogTarget, LoggerBuilder};
 async fn hello_world_command(_app: tauri::AppHandle) -> Result<String, String> {
     println!("I was invoked from JS!");
     Ok("Hello world from Tauri!".into())
+}
+
+fn start_server(exe_path: PathBuf) {
+    let mut sys = sysinfo::System::new();
+    sys.refresh_processes();
+    let result = sys.processes_by_name("offliner-server");
+    if result.count() > 0 {
+        info!("server is running");
+        return;
+    }
+
+    info!("server not running, spawn");
+    proc::Command::new(exe_path.clone().canonicalize().unwrap())
+        .current_dir(exe_path.parent().unwrap())
+        .spawn()
+        .expect("spawn server failed");
 }
 
 fn main() {
@@ -72,6 +91,7 @@ fn main() {
             if server.is_some() {
                 let server_path = server.unwrap();
                 info!("server path is {}", server_path.display().to_string());
+                start_server(server_path.join("offliner-server"));
             }
 
             Ok(())

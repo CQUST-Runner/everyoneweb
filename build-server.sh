@@ -16,6 +16,7 @@ build_backend() {
     cd $backend
     go build -o offliner-server
     cp -f $backend/offliner-server $build/offliner-server
+    chmod +x $build/offliner-server
     cp -f $backend/config.yaml $build/config.yaml
     cp -rf $singleFileCli $build/single-file-cli
 }
