@@ -3,7 +3,8 @@
     windows_subsystem = "windows"
 )]
 
-use std::{path::PathBuf, process as proc};
+use core::time;
+use std::{path::PathBuf, process as proc, thread::sleep};
 
 use log::info;
 use sysinfo::SystemExt;
@@ -14,6 +15,27 @@ use tauri_plugin_log::{LogTarget, LoggerBuilder};
 async fn hello_world_command(_app: tauri::AppHandle) -> Result<String, String> {
     println!("I was invoked from JS!");
     Ok("Hello world from Tauri!".into())
+}
+
+fn check_server_is_on() {
+    let mut i = 0;
+    while i < 5 {
+        info!("waiting server to start");
+        let resp = reqwest::blocking::get("http://localhost:16224/app");
+
+        match resp {
+            Ok(r) => {
+                info!("{}", r.status());
+                break;
+            }
+            Err(err) => {
+                info!("{}", err.to_string())
+            }
+        }
+
+        i = i + 1;
+        sleep(time::Duration::new(1, 0));
+    }
 }
 
 fn start_server(exe_path: PathBuf) {
@@ -92,6 +114,7 @@ fn main() {
                 let server_path = server.unwrap();
                 info!("server path is {}", server_path.display().to_string());
                 start_server(server_path.join("offliner-server"));
+                check_server_is_on();
             }
 
             Ok(())
