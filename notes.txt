@@ -1,0 +1,3 @@
+build appimage failed on linux, however, deb is ok
+
+https://github.com/tauri-apps/tauri/discussions/4683
