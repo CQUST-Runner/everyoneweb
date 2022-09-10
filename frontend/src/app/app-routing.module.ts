@@ -31,7 +31,8 @@ if (routeMap.has(getConfig().firstScreen)) {
 }
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  // PathLocationStrategy encountering problem when work with base href
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

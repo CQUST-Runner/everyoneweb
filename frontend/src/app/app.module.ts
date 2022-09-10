@@ -29,6 +29,7 @@ import { LogsComponent } from './logs/logs.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { MakeConfirmComponent } from './make-confirm/make-confirm.component';
 import { MaterialModule } from './material.module';
+import { MoveToDialogComponent } from './move-to-dialog/move-to-dialog.component';
 import { PageInfoDialogComponent } from './page-info-dialog/page-info-dialog.component';
 import { PageInfoComponent } from './page-info/page-info.component';
 import { PagePreviewComponent, SafePipe } from './page-preview/page-preview.component';
@@ -45,7 +46,6 @@ import { TabToolBarComponent } from './tab-tool-bar/tab-tool-bar.component';
 import { TagsInputComponent } from './tags-input/tags-input.component';
 import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
-import { MoveToDialogComponent } from './move-to-dialog/move-to-dialog.component';
 import { ViewComponent } from './view/view.component';
 
 @NgModule({
