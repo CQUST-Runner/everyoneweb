@@ -8,7 +8,7 @@ use std::{path::PathBuf, process as proc, thread::sleep};
 
 use log::info;
 use sysinfo::SystemExt;
-use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
+use tauri::{CustomMenuItem, Menu, MenuItem, PathResolver, Submenu};
 use tauri_plugin_log::{LogTarget, LoggerBuilder};
 
 #[tauri::command]
@@ -38,7 +38,7 @@ fn check_server_is_on() {
     }
 }
 
-fn start_server(exe_path: PathBuf) {
+fn start_server(exe_path: PathBuf, p: &PathResolver) {
     let mut sys = sysinfo::System::new();
     sys.refresh_processes();
     let result = sys.processes_by_name("offliner-server");
@@ -47,8 +47,21 @@ fn start_server(exe_path: PathBuf) {
         return;
     }
 
+    let config_dir = p.app_dir();
+    let log_dir = p.log_dir();
+    if config_dir.is_none() {
+        return;
+    }
+    if log_dir.is_none() {
+        return;
+    }
+
     info!("server not running, spawn");
     proc::Command::new(exe_path.clone().canonicalize().unwrap())
+        .arg("-config")
+        .arg(config_dir.unwrap().join("config.yaml"))
+        .arg("-log")
+        .arg(log_dir.unwrap().join("offliner-server.log"))
         .current_dir(exe_path.parent().unwrap())
         .spawn()
         .expect("spawn server failed");
@@ -123,7 +136,7 @@ fn main() {
             if server.is_some() {
                 let server_path = server.unwrap();
                 info!("server path is {}", server_path.display().to_string());
-                start_server(server_path.join("offliner-server"));
+                start_server(server_path.join("offliner-server"), &r);
                 check_server_is_on();
             }
 
