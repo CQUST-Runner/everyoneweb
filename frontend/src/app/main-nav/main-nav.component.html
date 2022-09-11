@@ -4,19 +4,19 @@
     <!-- <mat-toolbar>frontend</mat-toolbar> -->
     <mat-nav-list fxLayout="column" style="height: 100%;">
       <a mat-list-item href="#save-page">
-        <mat-icon [style]="lastUrlComponent()=='save-page' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">
+        <mat-icon [style]="root=='save-page' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">
           library_add</mat-icon>
       </a>
       <a mat-list-item href="#library">
-        <mat-icon [style]="lastUrlComponent()=='library' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">
+        <mat-icon [style]="root=='library' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">
           library_books</mat-icon>
       </a>
       <a mat-list-item *ngIf="settings.showLogsEntry" href="#logs">
-        <mat-icon [style]="lastUrlComponent()=='logs' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">bug_report
+        <mat-icon [style]="root=='logs' &&!isAboutOpen?'color: #3f51b5;':'color:dimgray;'">bug_report
         </mat-icon>
       </a>
       <a mat-list-item href="#settings">
-        <mat-icon [style]="lastUrlComponent()=='settings' &&!isAboutOpen? 'color: #3f51b5;':'color:dimgray;'">settings
+        <mat-icon [style]="root=='settings' &&!isAboutOpen? 'color: #3f51b5;':'color:dimgray;'">settings
         </mat-icon>
       </a>
       <a mat-list-item [style]="isAboutOpen?'color: #3f51b5;':'color:dimgray;'" href="#"
@@ -31,8 +31,8 @@
         <!-- <mat-icon>light_mode</mat-icon> -->
       </a>
 
-      <a *ngIf="lastUrlComponent()=='view'" mat-list-item [href]="this.router.url">
-        <mat-icon [style]="lastUrlComponent()=='view' &&!isAboutOpen? 'color: #3f51b5;':'color:dimgray;'">pageview
+      <a *ngIf="root=='view'" mat-list-item (click)="refreshView()">
+        <mat-icon [style]="root=='view' &&!isAboutOpen? 'color: #3f51b5;':'color:dimgray;'">pageview
         </mat-icon>
       </a>
 
@@ -43,7 +43,7 @@
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span><a [href]="lastUrlComponent()"> {{title}}</a></span>
+      <span><a [href]="root"> {{title}}</a></span>
     </mat-toolbar> -->
     <div fxFlex="1 1 auto" fxLayout="column" style="overflow: hidden;">
       <router-outlet (activate)="onActivated($event)"></router-outlet>

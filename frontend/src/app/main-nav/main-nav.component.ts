@@ -2,7 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AboutComponent } from '../about/about.component';
@@ -23,6 +23,11 @@ export class MainNavComponent {
     );
 
   constructor(public router: Router, public route: ActivatedRoute, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, private toolbox: ToolBoxService) {
+    this.router.events.subscribe(x => {
+      if (x instanceof NavigationEnd) {
+        this.root = this.urlRoot();
+      }
+    })
   }
 
   settings = getConfig();
@@ -45,8 +50,14 @@ export class MainNavComponent {
 
   }
 
-  lastUrlComponent(): string {
+  refreshView() {
+    this.router.navigateByUrl(this.router.url);
+  }
 
+  root: string = "";
+
+  urlRoot(): string {
+    // console.log('current url is ' + this.router.url);
     const tree = this.router.parseUrl(this.router.url);
     const g = tree.root.children[PRIMARY_OUTLET];
     if (g && g.segments.length > 0) {

@@ -23,7 +23,7 @@ export class RealLogService {
             map(x => this.processResp(x))
         );
 
-        this.sub = new ReplaySubject<GetLogResp>(100, 60 * 1000);
+        this.sub = new ReplaySubject<GetLogResp>(100, Infinity);
         ob.subscribe(this.sub);
     }
 
