@@ -63,7 +63,8 @@ fn main() {
             .add_native_item(MenuItem::HideOthers)
             .add_native_item(MenuItem::ShowAll)
             .add_native_item(MenuItem::Separator)
-            .add_native_item(MenuItem::Quit),
+            .add_native_item(MenuItem::Quit)
+            .add_item(CustomMenuItem::new("CompletelyQuit", "Completely Quit")),
     );
 
     let edit_menu = Submenu::new(
@@ -92,7 +93,16 @@ fn main() {
 
     let help_menu = Submenu::new(
         "Help",
-        Menu::new().add_item(CustomMenuItem::new("Learn More", "Learn More")),
+        Menu::new()
+            .add_item(CustomMenuItem::new(
+                "InstallExtension",
+                "Install Browser Extension",
+            ))
+            .add_item(CustomMenuItem::new("Restart", "Restart Server"))
+            .add_item(CustomMenuItem::new("Reload", "Reload Window"))
+            .add_item(CustomMenuItem::new("DevTools", "Toggle Dev Tools"))
+            .add_item(CustomMenuItem::new("OpenInBrower", "Open In Broswer"))
+            .add_item(CustomMenuItem::new("Learn More", "Learn More")),
     );
 
     let menu = Menu::new()
