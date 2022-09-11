@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"sync"
 
 	"github.com/CQUST-Runner/datacross/storage"
@@ -82,6 +83,10 @@ func check(c *Config) error {
 
 	if !isAbs(c.Settings.DataDirectory) {
 		return fmt.Errorf("working directory must be absolute path")
+	}
+	fake := path.Join(c.Settings.DataDirectory, "fake")
+	if err := checkFileAccess(fake); err != nil {
+		return err
 	}
 	return nil
 }
