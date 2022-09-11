@@ -1,4 +1,4 @@
-module offliner-backend
+module offliner-server
 
 go 1.18
 

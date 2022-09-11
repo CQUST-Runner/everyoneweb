@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"path"
 
 	"github.com/CQUST-Runner/datacross/storage"
@@ -87,7 +86,7 @@ func serveSavedPage(w http.ResponseWriter, req *http.Request) {
 	f, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		fmt.Fprintln(w, "read file error", err)
-		fmt.Fprintln(os.Stderr, "read file error", err)
+		logger.Error("read file error:%v", err)
 		return
 	}
 	w.Write(f)

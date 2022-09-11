@@ -9,5 +9,8 @@ if [ -f offliner-server.pid ]; then
     rm offliner-server.pid
     echo "kill pid $pid"
     kill $pid
+    
+    # other running processes
+    pkill offliner-server
     sleep 1
 fi

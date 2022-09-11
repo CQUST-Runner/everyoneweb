@@ -11,8 +11,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const configFile = "config.yaml"
-const logFile = "nohup.out"
 const getLogMaxBytes = 4096
 
 // omitempty is required for config merging, see `getCopyOfDeafultConfig`, `loadConfigFileWithDefaults`
@@ -88,21 +86,21 @@ func check(c *Config) error {
 	return nil
 }
 
-func writeConfig(config *Config) error {
+func writeConfig(config *Config, p string) error {
 	bytes, err := yaml.Marshal(config)
 	if err != nil {
 		return err
 	}
-	tmpFile := configFile + ".tmp"
+	tmpFile := p + ".tmp"
 	err = ioutil.WriteFile(tmpFile, bytes, 0666)
 	if err != nil {
 		return err
 	}
-	return os.Rename(tmpFile, configFile)
+	return os.Rename(tmpFile, p)
 }
 
-func loadConfigFileWithDefaults() (*Config, error) {
-	data, err := ioutil.ReadFile(configFile)
+func loadConfigFileWithDefaults(p string) (*Config, error) {
+	data, err := ioutil.ReadFile(p)
 	if err != nil {
 		return nil, err
 	}
@@ -118,11 +116,11 @@ func loadConfigFileWithDefaults() (*Config, error) {
 	return c, nil
 }
 
-func mustLoadConfig() {
-	if !storage.IsFile(configFile) {
+func mustLoadConfig(p string) {
+	if !storage.IsFile(p) {
 		c, err := getCopyOfDeafultConfig()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "get default config failed, err:%v\n", err)
+			logger.Error("get default config failed, err:%v", err)
 			os.Exit(1)
 			return
 		}
@@ -132,15 +130,15 @@ func mustLoadConfig() {
 		return
 	}
 
-	c, err := loadConfigFileWithDefaults()
+	c, err := loadConfigFileWithDefaults(p)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "load config file[%v] failed, err:%v\n", configFile, err)
+		logger.Error("load config file:%v failed, err:%v", p, err)
 		os.Exit(1)
 		return
 	}
 	err = check(c)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "check config error:%v\n", err)
+		logger.Error("check config error:%v", err)
 		os.Exit(1)
 		return
 	}

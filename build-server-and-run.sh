@@ -9,7 +9,7 @@
 cd $build
 
 echo "starting ./offliner-server"
-nohup ./offliner-server &
+nohup ./offliner-server -config=config.yaml -log=offliner-server.log &
 pid="$!"
 echo "$pid" > offliner-server.pid
 sleep 1

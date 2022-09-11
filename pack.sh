@@ -28,7 +28,7 @@ echo $pids
 if [ -z "$pids" ]; then
     echo "starting ./offliner-server"
     cd ./server
-    nohup ./offliner-server &
+    nohup ./offliner-server -config=config.yaml -log=offliner-server.log &
     sleep 1
     cd ..
 fi

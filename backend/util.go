@@ -193,3 +193,30 @@ func getDefaultDataDirectory() (s string) {
 func replacePathSeparatorWithForwardSlash(p string) string {
 	return strings.ReplaceAll(p, "\\", "/")
 }
+
+func checkFileAccess(p string) error {
+	p = path.Clean(p)
+	p = replacePathSeparatorWithForwardSlash(p)
+	if strings.Count(p, "/") < 1 {
+		return fmt.Errorf("invalid path to check")
+	}
+	dir := path.Dir(p)
+	if !storage.IsDir(dir) {
+		err := os.MkdirAll(dir, 0777)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	tmpFile := path.Join(dir, "offliner-check-file-access")
+	err := os.WriteFile(tmpFile, []byte("check"), 0666)
+	if err != nil {
+		return fmt.Errorf("write error")
+	}
+	defer os.Remove(tmpFile)
+	_, err = os.ReadFile(tmpFile)
+	if err != nil {
+		return fmt.Errorf("read error")
+	}
+	return nil
+}

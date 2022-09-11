@@ -81,3 +81,12 @@ var logger Logger = newLogger(os.Stdout, "Core", 0, Info)
 
 // suppress warning
 var _ = logger
+
+func mustInitLogger(p string) {
+	f, err := os.OpenFile(p, os.O_CREATE|os.O_SYNC|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "open log file:%v failed:%v\n", p, err)
+		os.Exit(1)
+	}
+	logger = newLogger(f, "Core", 0, Info)
+}

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"path"
 	"sync"
@@ -24,14 +23,14 @@ func releaseDB() {
 
 func mustInitParticipant() {
 	if config() == nil {
-		fmt.Fprintln(os.Stderr, "load config file first")
+		logger.Error("load config file first")
 		os.Exit(1)
 	}
 
 	tmp := storage.Participant{}
 	err := tmp.Init(path.Join(config().Settings.DataDirectory, "db"), config().Settings.MachineID)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "init storage failed, err:%v\n", err)
+		logger.Error("init storage failed, err:%v", err)
 		os.Exit(1)
 	}
 	p = &tmp

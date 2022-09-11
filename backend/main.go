@@ -18,7 +18,9 @@ func prepareDataDirectory() {
 }
 
 func main() {
-	mustLoadConfig()
+	mustParseArgs()
+	mustInitLogger(args().LogFilePath)
+	mustLoadConfig(args().ConfigPath)
 	prepareDataDirectory()
 	mustInitParticipant()
 	regularlyCleanCache()

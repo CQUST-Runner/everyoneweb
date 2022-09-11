@@ -350,7 +350,7 @@ func updateSettings(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	err = writeConfig(newConfig)
+	err = writeConfig(newConfig, args().ConfigPath)
 	if err != nil {
 		logger.Error("write config failed:%v", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -378,16 +378,12 @@ func settings(w http.ResponseWriter, req *http.Request) {
 }
 
 func getLogByPos(pos int64) (*GetLogResp, int) {
-	absFileName, err := storage.ToAbs(logFile)
-	if err != nil {
-		logger.Error("get log abs file name failed:%v", err)
-		return nil, http.StatusInternalServerError
-	}
-	if !storage.IsFile(logFile) {
+	absFileName := args().LogFilePath
+	if !storage.IsFile(absFileName) {
 		return &GetLogResp{Pos: 0, FileName: absFileName}, http.StatusOK
 	}
 
-	f, err := os.Open(logFile)
+	f, err := os.Open(absFileName)
 	if err != nil {
 		return nil, http.StatusInternalServerError
 	}
