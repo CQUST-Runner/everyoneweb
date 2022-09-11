@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit {
       next(value) {
       },
       complete() {
-        thisRef.toolbox.openSnackBar('保存成功', 'OK');
+        thisRef.toolbox.openSnackBar('保存成功, 有些设置需要重启系统服务生效', '如何重启？');
         thisRef.isSaving = false;
         thisRef.applyConfig();
       },

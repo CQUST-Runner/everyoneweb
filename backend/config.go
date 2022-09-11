@@ -67,6 +67,20 @@ func config() *Config {
 	return _config
 }
 
+func cloneConfig() (*Config, error) {
+	current := config()
+	bytes, err := yaml.Marshal(current)
+	if err != nil {
+		return nil, err
+	}
+	clone := Config{}
+	err = yaml.Unmarshal(bytes, &clone)
+	if err != nil {
+		return nil, err
+	}
+	return &clone, nil
+}
+
 func setConfig(do func(old *Config) *Config) {
 	rw.Lock()
 	defer rw.Unlock()

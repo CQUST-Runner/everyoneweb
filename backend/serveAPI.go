@@ -340,7 +340,12 @@ func updateSettings(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	newConfig := config()
+	newConfig, err := cloneConfig()
+	if err != nil {
+		logger.Error("clone config failed:%v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	newConfig.Settings = &s
 
 	err = check(newConfig)
