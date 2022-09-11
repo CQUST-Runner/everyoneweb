@@ -26,7 +26,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     // this.timer = setInterval(() => { this.fetchLog(); }, 1000);
     this.subscription = this.realLogService.getLog().pipe(delay(500)).subscribe(x => {
       this.filename = x.filename;
-      this.pre.nativeElement.innerHTML +=
+      this.code.nativeElement.innerHTML +=
         this.highlightService.highlight(['', ...(x.lines || [])].join('\n'), 'log');
     });
   }
