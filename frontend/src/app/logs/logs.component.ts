@@ -1,4 +1,5 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { delay, Subscription } from 'rxjs';
 import { HighlightService } from '../service/highlight.service';
 import { LogService } from '../service/log.service';
 import { RealLogService } from '../service/reallog.service';
@@ -20,9 +21,10 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   timer: any;
   filename: string;
+  subscription: Subscription | undefined = undefined;
   ngOnInit(): void {
     // this.timer = setInterval(() => { this.fetchLog(); }, 1000);
-    this.realLogService.getLog().subscribe(x => {
+    this.subscription = this.realLogService.getLog().pipe(delay(500)).subscribe(x => {
       this.filename = x.filename;
       this.pre.nativeElement.innerHTML +=
         this.highlightService.highlight(['', ...(x.lines || [])].join('\n'), 'log');
@@ -74,6 +76,9 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
   ngOnDestroy(): void {
     clearInterval(this.timer)
-
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = undefined;
+    }
   }
 }
