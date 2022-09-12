@@ -45,10 +45,9 @@
         <div fxLayout="row">
           <mat-form-field fxFlex="1 1 auto" appearance="fill">
             <mat-label>数据目录：</mat-label>
-            <input matInput #message maxlength="256" placeholder="Ex. I need help with..."
+            <input matInput #message maxlength="260" placeholder="Ex. I need help with..."
               [(ngModel)]="settings.dataDirectory">
             <mat-hint align="start"><strong>若目录为同步目录，则数据将在设备间同步。</strong> </mat-hint>
-            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
 
             <button matSuffix mat-icon-button (click)="selectFile($event);">
               <mat-icon>folderopen</mat-icon>

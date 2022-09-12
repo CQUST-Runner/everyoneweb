@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { open } from '@tauri-apps/api/dialog';
-import { appDir } from '@tauri-apps/api/path';
+import { documentDir } from '@tauri-apps/api/path';
 import { Observer } from 'rxjs';
 import { ColumnEditComponent } from '../column-edit/column-edit.component';
 import { isTauri, normalizePath } from '../common';
@@ -38,7 +38,7 @@ export class SettingsComponent implements OnInit {
     const selected = await open({
       title: '请选择数据目录',
       multiple: false,
-      defaultPath: await appDir(),
+      defaultPath: await documentDir(),// or, desktopDir()?
       directory: true,
     });
     if (Array.isArray(selected)) {
