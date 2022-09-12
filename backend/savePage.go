@@ -8,7 +8,9 @@ import (
 	"os/exec"
 	"path"
 	"regexp"
+	"runtime"
 	"strings"
+	"syscall"
 
 	"github.com/CQUST-Runner/datacross/storage"
 	"github.com/vincent-petithory/dataurl"
@@ -32,11 +34,18 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 		return err
 	}
 
+	node := "./node/bin/node"
+	if runtime.GOOS == "windows" {
+		node += ".exe"
+	}
 	// TODO: support windows batch files
-	cmd := exec.CommandContext(ctx, "./node/bin/node", singleFile, url, htmlFile, "--browser-executable-path="+chromePath)
+	cmd := exec.CommandContext(ctx, node, singleFile, url, htmlFile, "--browser-executable-path="+chromePath)
 	cmd.Stdin = nil
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	if runtime.GOOS == "windows" {
+		cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+	}
 	logger.Info("run cmd:")
 	logger.Info(cmd.String())
 	err = cmd.Run()
