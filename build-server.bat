@@ -1,6 +1,6 @@
 
 cd %~dp0\backend
-go build -o offliner-server -ldflags -H=windowsgui
+go build -o offliner-server.exe
 
 cd %~dp0\frontend
 call npm install
@@ -10,7 +10,7 @@ cd %~dp0\third-party\single-file-cli
 call npm install
 
 cd %~dp0
-robocopy backend\ build\server\ offliner-server
+robocopy backend\ build\server\ offliner-server.exe
 if exist build\server\app (
     rmdir /Q /S build\server\app\
 )

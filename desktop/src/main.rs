@@ -4,7 +4,7 @@
 )]
 
 use core::time;
-use std::{path::PathBuf, process as proc, thread::sleep};
+use std::{os::windows::process::CommandExt, path::PathBuf, process as proc, thread::sleep};
 
 use log::info;
 use sysinfo::SystemExt;
@@ -56,6 +56,10 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
         return;
     }
 
+    let mut flags: u32 = 0;
+    if cfg!(windows) {
+        flags |= 0x08000000; // CREATE_NO_WINDOW
+    }
     info!("server not running, spawn");
     proc::Command::new(exe_path.clone().canonicalize().unwrap())
         .arg("-config")
@@ -63,6 +67,7 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
         .arg("-log")
         .arg(log_dir.unwrap().join("offliner-server.log"))
         .current_dir(exe_path.parent().unwrap())
+        .creation_flags(flags)
         .spawn()
         .expect("spawn server failed");
 }
@@ -136,7 +141,11 @@ fn main() {
             if server.is_some() {
                 let server_path = server.unwrap();
                 info!("server path is {}", server_path.display().to_string());
-                start_server(server_path.join("offliner-server"), &r);
+                if cfg!(windows) {
+                    start_server(server_path.join("offliner-server.exe"), &r);
+                } else if cfg!(unix) {
+                    start_server(server_path.join("offliner-server"), &r);
+                }
                 check_server_is_on();
             }
 
