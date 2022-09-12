@@ -25,8 +25,10 @@ fn check_server_is_on() {
 
         match resp {
             Ok(r) => {
+                if r.status().as_u16() == 200 {
+                    break;
+                }
                 info!("{}", r.status());
-                break;
             }
             Err(err) => {
                 info!("{}", err.to_string())
