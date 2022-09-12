@@ -3,7 +3,8 @@ root=$(readlink -f $(dirname -- "$0"))
 
 build_frontend() {
     cd $frontend
-    ng --base-href=/app/ build
+    npm install
+    ng build
     if [ ! -z $build ]; then
         rm -rf $build/app
     fi
