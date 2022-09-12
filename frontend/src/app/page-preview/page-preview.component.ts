@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeUrl, SafeHtml, SafeStyle, SafeScript, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observer } from 'rxjs';
 import { ToolBoxService } from '../tool-box.service';
 
@@ -25,7 +24,7 @@ export class SafePipe implements PipeTransform {
 export class PagePreviewComponent implements OnInit, AfterViewInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public url: string, public sanitizer: DomSanitizer, private client: HttpClient, private toolbox: ToolBoxService) {
-    this.req = 'http://127.0.0.1:16224/preview/?url=' + encodeURIComponent(this.url);
+    this.req = 'http://' + window.location.hostname + ':16224/preview/?url=' + encodeURIComponent(this.url);
     this.title = `预览【${url}】`
   }
 
@@ -36,11 +35,14 @@ export class PagePreviewComponent implements OnInit, AfterViewInit {
   title: string;
   load(ev: Event) {
     this.isLoading = false;
-    if (window.location.port == '16224' && window.location.host == '127.0.0.1' && window.location.protocol == 'http') {
+    if (window.location.port == '16224' && window.location.protocol == 'http:') {
       this.title = this.iframe.nativeElement.contentDocument.title;
+      if (this.iframe.nativeElement.contentDocument.documentElement.innerText == 'preview loading error') {
+        this.loadError = true;
+      }
     }
   }
-
+  loadError = false;
   cacheDeleted = false;
   delPreview() {
     this.isLoading = true;
@@ -59,11 +61,11 @@ export class PagePreviewComponent implements OnInit, AfterViewInit {
   }
   req: string;
   ngOnInit(): void {
-   }
+  }
   ngAfterViewInit(): void {
     // https://stackoverflow.com/a/15880489
-    let thisRef =this;
-    this.iframe.nativeElement.onload = function(ev:Event) {
+    let thisRef = this;
+    this.iframe.nativeElement.onload = function (ev: Event) {
       thisRef.load(ev);
     }
   }

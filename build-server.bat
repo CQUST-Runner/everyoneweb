@@ -18,6 +18,10 @@ robocopy frontend\dist\frontend build\server\app\ /E
 if exist build\server\single-file-cli (
     rmdir /Q /S build\server\single-file-cli
 )
-robocopy third-party\single-file-cli build\server\single-file-cli\ /E
+robocopy third-party\single-file-cli build\server\single-file-cli\ /E > nul
+if %ERRORLEVEL% neq 1 (
+    echo "copy single-file-cli failed"
+    exit /b %ERRORLEVEL%
+)
 
 call download_node.bat

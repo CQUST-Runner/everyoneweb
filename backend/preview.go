@@ -33,7 +33,8 @@ func getPreview(w http.ResponseWriter, url string) {
 		pc, err = saveAsCache(url)
 		if err != nil {
 			logger.Error("save as cache failed:%v", err)
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("preview loading error"))
 			return
 		}
 	}
@@ -41,7 +42,8 @@ func getPreview(w http.ResponseWriter, url string) {
 
 	bytes, err := ioutil.ReadFile(pc.page.AbsFilePath())
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("preview loading error"))
 		return
 	}
 	w.WriteHeader(http.StatusOK)
