@@ -10,7 +10,6 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
-	"syscall"
 
 	"github.com/CQUST-Runner/datacross/storage"
 	"github.com/vincent-petithory/dataurl"
@@ -43,12 +42,9 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 	cmd.Stdin = nil
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if runtime.GOOS == "windows" {
-		cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	}
 	logger.Info("run cmd:")
 	logger.Info(cmd.String())
-	err = cmd.Run()
+	err = runCmd(cmd)
 	if err != nil {
 		return err
 	}
