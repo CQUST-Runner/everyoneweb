@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 CWD=$(pwd)
 
 if [ ! -z "$1" ]; then

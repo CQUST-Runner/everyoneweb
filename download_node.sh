@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 root=$(readlink -f $(dirname -- "$0"))
 
