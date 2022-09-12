@@ -9,12 +9,35 @@ Be worried of internet content invalidation? Offliner saves web page in various 
     <li><strong>跨浏览器的书签管理软件</strong>——同时使用多个浏览器，书签却无法共享？使用Offliner，在一个地方管理所有书签。</li>
 </ul>
         
- Contributing
+## Contributing
  
- frontend: [angular](https://angular.io/), in typescript
- 
- backend: golang with [chromedp](https://github.com/chromedp/chromedp) and [datacross](https://github.com/CQUST-Runner/datacross) library
- 
- desktop: [tauri](https://tauri.app/), in rust
- 
- 
+frontend: [angular](https://angular.io/), in typescript
+
+backend: golang with [chromedp](https://github.com/chromedp/chromedp) and [datacross](https://github.com/CQUST-Runner/datacross) library
+
+desktop: [tauri](https://tauri.app/), in rust
+
+### Setting up dev environment
+
+On MacOS:
+
+install nodejs and npm from https://nodejs.org/en/
+
+then `npm install -g @angular/cli`
+
+and `npm install -g pkg`
+
+install golang from https://go.dev/dl/
+
+then `go install github.com/gogo/protobuf/protoc-gen-gofast@latest`
+
+install rust via https://rustup.rs/, might require `xcode-select --install`
+
+then `cargo install tauri-cli`
+
+install wget via `brew instal wget` (require homebrew https://brew.sh/)
+
+Linux and Windows:
+
+the same as Mac except that wget is omitted and the omission of xcode staff
+
