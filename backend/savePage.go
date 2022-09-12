@@ -33,7 +33,7 @@ func doSavePage(ctx context.Context, singleFileCli string, dataDirectory string,
 	}
 
 	// TODO: support windows batch files
-	cmd := exec.CommandContext(ctx, "node", singleFile, url, htmlFile, "--browser-executable-path="+chromePath)
+	cmd := exec.CommandContext(ctx, "./node/bin/node", singleFile, url, htmlFile, "--browser-executable-path="+chromePath)
 	cmd.Stdin = nil
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

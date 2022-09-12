@@ -1,4 +1,5 @@
 #!/bin/bash
+root=$(readlink -f $(dirname -- "$0"))
 
 build_frontend() {
     cd $frontend
@@ -36,3 +37,5 @@ else
     build_frontend
     build_backend
 fi
+
+$root/download_node.sh

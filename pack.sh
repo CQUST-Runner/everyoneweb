@@ -1,47 +1,16 @@
 #!/bin/bash
 
+root=$(readlink -f $(dirname -- "$0"))
 
-./build-server.sh all package
+rm -rf $root/build
+
+./build-server.sh all build
 
 . env.sh
-
-cargo tauri build --bundles app
-cp -rf desktop/target/release/bundle/macos/offliner.app package
-
-cat << 'EOF' > package/filter-offliner.sh 
-#!/bin/bash
-
-while IFS= read -r line; do
-    printf '%s\n' "$line"
-done
-if [ -n "$line" ]; then
-    printf '%s' "$line"
+kernel=$(uname)
+if [ $kernel == "Darwin" ]; then
+    cargo tauri build --bundles dmg
+elif [ $kernel == "Linux" ]; then
+    # TODO: support rpm
+    cargo tauri build --bundles deb
 fi
-EOF
-
-cat << 'EOF' > package/launch.sh
-#!/bin/bash
-
-pids=$(ps aux | grep offliner-server | grep -v grep | awk '{print $2}' | ./filter-offliner.sh)
-echo $pids
-
-if [ -z "$pids" ]; then
-    echo "starting ./offliner-server"
-    cd ./server
-    nohup ./offliner-server -config=config.yaml -log=offliner-server.log &
-    sleep 1
-    cd ..
-fi
-
-open -n ./offliner.app
-
-EOF
-
-cat << 'EOF' > package/kill.sh
-#!/bin/bash
-ps aux | grep offliner-server | grep -v grep | awk '{print $2}' | ./filter-offliner.sh | xargs kill
-
-EOF
-
-chmod +x package/filter-offliner.sh package/launch.sh package/kill.sh
-

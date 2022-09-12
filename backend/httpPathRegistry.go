@@ -16,8 +16,12 @@ func serve() {
 	http.DefaultServeMux.HandleFunc("/app/", serveSite)
 	http.DefaultServeMux.HandleFunc("/preview/", withCORS(preview))
 	http.DefaultServeMux.HandleFunc("/view/", serveSavedPage)
-	logger.Info("server running on 127.0.0.1:%v\n", config().Settings.ServeLibraryPort)
-	err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config().Settings.ServeLibraryPort), nil)
+	logger.Info("server running on 127.0.0.1:%v", config().Settings.ServeLibraryPort)
+	wd, err := os.Getwd()
+	if err == nil {
+		logger.Info("working directory is:%v", wd)
+	}
+	err = http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", config().Settings.ServeLibraryPort), nil)
 	if err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
