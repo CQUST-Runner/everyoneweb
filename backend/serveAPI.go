@@ -366,7 +366,7 @@ func updateSettings(w http.ResponseWriter, req *http.Request) {
 		return newConfig
 	})
 	w.WriteHeader(http.StatusOK)
-	w.Write(r)
+	// w.Write(r)
 }
 
 func settings(w http.ResponseWriter, req *http.Request) {

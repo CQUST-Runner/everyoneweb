@@ -4,7 +4,7 @@ import { open } from '@tauri-apps/api/dialog';
 import { appDir } from '@tauri-apps/api/path';
 import { Observer } from 'rxjs';
 import { ColumnEditComponent } from '../column-edit/column-edit.component';
-import { isTauri } from '../common';
+import { isTauri, normalizePath } from '../common';
 import { columnDefine } from '../library/library.component';
 import { ColumnInfo, getConfig, Settings } from '../settings.model';
 import { SettingsService } from '../settings.service';
@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit {
       // user cancelled the selection
     } else {
       // user selected a single file
-      this.settings.dataDirectory = selected;
+      this.settings.dataDirectory = normalizePath(selected);
     }
   }
 
@@ -74,6 +74,7 @@ export class SettingsComponent implements OnInit {
 
   isSaving = false;
   saveSettings() {
+    this.settings.dataDirectory = normalizePath(this.settings.dataDirectory);
     this.isSaving = true;
     let thisRef = this;
     this.settingsService.update(this.settings).subscribe({

@@ -85,6 +85,9 @@ func setConfig(do func(old *Config) *Config) {
 	rw.Lock()
 	defer rw.Unlock()
 	_config = do(_config)
+	if _config.Settings != nil {
+		_config.Settings.DataDirectory = replacePathSeparatorWithForwardSlash(_config.Settings.DataDirectory)
+	}
 }
 
 func check(c *Config) error {

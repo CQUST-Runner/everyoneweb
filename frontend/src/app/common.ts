@@ -57,3 +57,7 @@ export const API_SERVER = "http://127.0.0.1:16224/api";
 export function isTauri(): boolean {
     return (window as any).__TAURI__;
 }
+
+export function normalizePath(p: string): string {
+    return p.replace(/\\/g, "/");
+}
