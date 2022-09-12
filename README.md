@@ -35,9 +35,11 @@ install rust via https://rustup.rs/, might require `xcode-select --install`
 
 then `cargo install tauri-cli`
 
+then `rustup target add x86_64-apple-darwin`
+
 install wget via `brew instal wget` (require homebrew https://brew.sh/)
 
 Linux and Windows:
 
-the same as Mac except that wget is omitted and the omission of xcode staff
+the same as Mac except that wget is omitted and the omission of xcode/apple staff
 
