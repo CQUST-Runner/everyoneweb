@@ -2,12 +2,22 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, BaseRouteReuseStrategy, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AboutComponent } from '../about/about.component';
 import { getConfig } from '../settings.model';
 import { ToolBoxService } from '../tool-box.service';
+
+class MyRouteReuseStrategy extends BaseRouteReuseStrategy {
+  override shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
+    if (future.children.length > 0 && future.children[0].url.length > 0 &&
+      future.children[0].url[0].path == 'library') {
+      return false;
+    }
+    return super.shouldReuseRoute(future, curr);
+  }
+}
 
 @Component({
   selector: 'app-main-nav',
@@ -27,7 +37,9 @@ export class MainNavComponent {
       if (x instanceof NavigationEnd) {
         this.root = this.urlRoot();
       }
-    })
+    });
+    this.router.onSameUrlNavigation = "reload";
+    this.router.routeReuseStrategy = new MyRouteReuseStrategy();
   }
 
   settings = getConfig();
