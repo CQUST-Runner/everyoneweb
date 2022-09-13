@@ -4,7 +4,15 @@
 )]
 
 use core::time;
-use std::{os::windows::process::CommandExt, path::PathBuf, process as proc, thread::sleep};
+
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
+
+use std::{
+    path::PathBuf,
+    process::{self as proc, Command},
+    thread::sleep,
+};
 
 use log::info;
 use sysinfo::SystemExt;
@@ -40,6 +48,18 @@ fn check_server_is_on() {
     }
 }
 
+#[cfg(unix)]
+fn set_creation_flags(cmd: &mut Command) -> &mut Command {
+    return cmd;
+}
+
+#[cfg(windows)]
+fn set_creation_flags(cmd: &mut Command) -> &mut Command {
+    let mut flags: u32 = 0;
+    flags |= 0x08000000; // CREATE_NO_WINDOW
+    return cmd.creation_flags(flags);
+}
+
 fn start_server(exe_path: PathBuf, p: &PathResolver) {
     let mut sys = sysinfo::System::new();
     sys.refresh_processes();
@@ -58,20 +78,17 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
         return;
     }
 
-    let mut flags: u32 = 0;
-    if cfg!(windows) {
-        flags |= 0x08000000; // CREATE_NO_WINDOW
-    }
     info!("server not running, spawn");
-    proc::Command::new(exe_path.clone().canonicalize().unwrap())
+    let program = exe_path.clone().canonicalize().unwrap();
+    let mut cmd = &mut proc::Command::new(program);
+    cmd = cmd
         .arg("-config")
         .arg(config_dir.unwrap().join("config.yaml"))
         .arg("-log")
         .arg(log_dir.unwrap().join("offliner-server.log"))
-        .current_dir(exe_path.parent().unwrap())
-        .creation_flags(flags)
-        .spawn()
-        .expect("spawn server failed");
+        .current_dir(exe_path.parent().unwrap());
+    cmd = set_creation_flags(cmd);
+    cmd.spawn().expect("spawn server failed");
 }
 
 fn main() {
