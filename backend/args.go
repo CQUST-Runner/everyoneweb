@@ -11,6 +11,7 @@ import (
 type serverArgs struct {
 	ConfigPath  string
 	LogFilePath string
+	Id          string
 }
 
 var _args serverArgs
@@ -22,6 +23,7 @@ func args() *serverArgs {
 func mustParseArgs() {
 	flag.StringVar(&_args.ConfigPath, "config", "", "a string denotes where the config file is")
 	flag.StringVar(&_args.LogFilePath, "log", "", "a string denotes to where the log is written")
+	flag.StringVar(&_args.Id, "id", "", "it it used to distinguish process of different version")
 	flag.Parse()
 
 	if _args.ConfigPath == "" {

@@ -14,8 +14,8 @@ use std::{
     thread::sleep,
 };
 
-use log::info;
-use sysinfo::SystemExt;
+use log::{error, info};
+use sysinfo::{ProcessExt, SystemExt};
 use tauri::{CustomMenuItem, Menu, MenuItem, PathResolver, Submenu};
 use tauri_plugin_log::{LogTarget, LoggerBuilder};
 
@@ -61,10 +61,56 @@ fn set_creation_flags(cmd: &mut Command) -> &mut Command {
 }
 
 fn start_server(exe_path: PathBuf, p: &PathResolver) {
+    let metadata = std::fs::metadata(exe_path.clone());
+    if metadata.is_err() {
+        error!(
+            "get metadata of server executable failed:{:?}",
+            metadata.unwrap_err()
+        );
+        return;
+    }
+
+    let mtime = metadata.unwrap().modified();
+    if mtime.is_err() {
+        error!("get modified time failed:{:?}", mtime.unwrap_err());
+        return;
+    }
+
+    let unix = mtime.unwrap().duration_since(std::time::UNIX_EPOCH);
+    if unix.is_err() {
+        error!("get unix timestamp failed:{:?}", unix.unwrap_err());
+        return;
+    }
+    // modification time as process's `-id` argument
+    let current_id = unix.unwrap().as_secs().to_string();
+
     let mut sys = sysinfo::System::new();
     sys.refresh_processes();
     let result = sys.processes_by_name("offliner-server");
-    if result.count() > 0 {
+    let mut count: i32 = 0;
+    for p in result {
+        let cmd = p.cmd();
+        info!("found server process:{:?}", cmd);
+        let mut id_found = false;
+        let mut id: String = String::from("not found");
+        for token in cmd {
+            if id_found {
+                id = String::from(token);
+                break;
+            }
+            if token == "-id" {
+                id_found = true;
+            }
+        }
+        if id == "not found" || id != current_id {
+            info!("kill old version server, pid {}", p.pid());
+            // TODO: more soft
+            p.kill();
+        } else {
+            count += 1;
+        }
+    }
+    if count > 0 {
         info!("server is running");
         return;
     }
@@ -86,6 +132,8 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
         .arg(config_dir.unwrap().join("config.yaml"))
         .arg("-log")
         .arg(log_dir.unwrap().join("offliner-server.log"))
+        .arg("-id")
+        .arg(current_id)
         .current_dir(exe_path.parent().unwrap());
     cmd = set_creation_flags(cmd);
     cmd.spawn().expect("spawn server failed");
