@@ -83,6 +83,7 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
     }
     // modification time as process's `-id` argument
     let current_id = unix.unwrap().as_secs().to_string();
+    info!("current id is {:?}", current_id);
 
     let mut sys = sysinfo::System::new();
     sys.refresh_processes();
@@ -103,7 +104,7 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
             }
         }
         if id == "not found" || id != current_id {
-            info!("kill old version server, pid {}", p.pid());
+            info!("kill old version server, pid {}, id {}", p.pid(), id);
             // TODO: more soft
             p.kill();
         } else {
@@ -137,6 +138,7 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
         .current_dir(exe_path.parent().unwrap());
     cmd = set_creation_flags(cmd);
     cmd.spawn().expect("spawn server failed");
+    sleep(time::Duration::new(0, 200000000)); // 200ms
 }
 
 fn main() {

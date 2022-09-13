@@ -3,7 +3,7 @@ cd %~dp0\backend
 go build -o offliner-server.exe
 
 cd %~dp0\frontend
-call npm install
+call npm install --legacy-peer-deps
 call ng build
 
 cd %~dp0\third-party\single-file-cli

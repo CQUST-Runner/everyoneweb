@@ -4,7 +4,7 @@ root=$(readlink -f $(dirname -- "$0"))
 
 build_frontend() {
     cd $frontend
-    npm install
+    npm install --legacy-peer-deps
     ng build
     if [ ! -z $build ]; then
         rm -rf $build/app
