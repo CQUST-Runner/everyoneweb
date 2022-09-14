@@ -10,13 +10,16 @@ use std::os::windows::process::CommandExt;
 
 use std::{
     path::PathBuf,
-    process::{self as proc, Command},
+    process::{self as proc, exit, Command},
     thread::sleep,
 };
 
 use log::{error, info};
 use sysinfo::{ProcessExt, SystemExt};
-use tauri::{CustomMenuItem, Menu, MenuItem, PathResolver, Submenu};
+use tauri::{
+    api::{process::restart, shell::open},
+    CustomMenuItem, Manager, Menu, MenuItem, PathResolver, Submenu, WindowMenuEvent,
+};
 use tauri_plugin_log::{LogTarget, LoggerBuilder};
 
 #[tauri::command]
@@ -58,6 +61,16 @@ fn set_creation_flags(cmd: &mut Command) -> &mut Command {
     let mut flags: u32 = 0;
     flags |= 0x08000000; // CREATE_NO_WINDOW
     return cmd.creation_flags(flags);
+}
+
+fn close_server() {
+    let mut sys = sysinfo::System::new();
+    sys.refresh_processes();
+    let result = sys.processes_by_name("offliner-server");
+    for p in result {
+        // TODO: more gentle
+        p.kill();
+    }
 }
 
 fn start_server(exe_path: PathBuf, p: &PathResolver) {
@@ -141,6 +154,51 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
     sleep(time::Duration::new(0, 200000000)); // 200ms
 }
 
+fn handle_menu_event(event: WindowMenuEvent) {
+    match event.menu_item_id() {
+        "CompletelyQuit" => {
+            close_server();
+            sleep(time::Duration::new(0, 200000000)); // 200ms
+            exit(0);
+        }
+        "InstallExtension" => {
+            let _ = open(
+                &event.window().app_handle().shell_scope(),
+                "https://chrome.google.com/webstore/category/extensions",
+                None,
+            );
+        }
+        "Restart" => {
+            // TODO: only restart server
+            close_server();
+            sleep(time::Duration::new(0, 200000000)); // 200ms
+            restart(&event.window().app_handle().env());
+        }
+        "DevTools" => {
+            if !event.window().is_devtools_open() {
+                event.window().open_devtools();
+            } else {
+                event.window().close_devtools();
+            }
+        }
+        "OpenInBrower" => {
+            let _ = open(
+                &event.window().app_handle().shell_scope(),
+                "http://localhost:16224/app",
+                None,
+            );
+        }
+        "LearnMore" => {
+            let _ = open(
+                &event.window().app_handle().shell_scope(),
+                "https://github.com/CQUST-Runner/offliner",
+                None,
+            );
+        }
+        _ => {}
+    }
+}
+
 fn main() {
     // https://github.com/tauri-apps/tauri/issues/1055#issuecomment-1008895581
     let about_menu = Submenu::new(
@@ -151,7 +209,10 @@ fn main() {
             .add_native_item(MenuItem::ShowAll)
             .add_native_item(MenuItem::Separator)
             .add_native_item(MenuItem::Quit)
-            .add_item(CustomMenuItem::new("CompletelyQuit", "Completely Quit")),
+            .add_item(
+                CustomMenuItem::new("CompletelyQuit", "完全退出（包括服务）")
+                    .accelerator("Ctrl+Cmd+Q"),
+            ),
     );
 
     let edit_menu = Submenu::new(
@@ -181,15 +242,13 @@ fn main() {
     let help_menu = Submenu::new(
         "Help",
         Menu::new()
-            .add_item(CustomMenuItem::new(
-                "InstallExtension",
-                "Install Browser Extension",
-            ))
-            .add_item(CustomMenuItem::new("Restart", "Restart Server"))
-            .add_item(CustomMenuItem::new("Reload", "Reload Window"))
-            .add_item(CustomMenuItem::new("DevTools", "Toggle Dev Tools"))
-            .add_item(CustomMenuItem::new("OpenInBrower", "Open In Broswer"))
-            .add_item(CustomMenuItem::new("Learn More", "Learn More")),
+            .add_item(
+                CustomMenuItem::new("InstallExtension", "安装浏览器插件").accelerator("Cmd+I"),
+            )
+            .add_item(CustomMenuItem::new("Restart", "重启服务").accelerator("Cmd+R"))
+            .add_item(CustomMenuItem::new("DevTools", "切换开发者工具").accelerator("F12"))
+            .add_item(CustomMenuItem::new("OpenInBrower", "在浏览器中访问").accelerator("Cmd+O"))
+            .add_item(CustomMenuItem::new("LearnMore", "教程").accelerator("Cmd+L")),
     );
 
     let menu = Menu::new()
@@ -222,10 +281,7 @@ fn main() {
         })
         .menu(menu)
         .on_menu_event(|event| {
-            let event_name = event.menu_item_id();
-            match event_name {
-                _ => {}
-            }
+            handle_menu_event(event);
         })
         .invoke_handler(tauri::generate_handler![hello_world_command])
         .run(tauri::generate_context!())
