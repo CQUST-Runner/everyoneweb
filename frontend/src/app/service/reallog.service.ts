@@ -20,7 +20,8 @@ export class RealLogService {
             filter(_ => this.previousDone && this.sub.observed),
             map(_ => this.sendReq()),
             concatAll(),
-            map(x => this.processResp(x))
+            map(x => this.processResp(x)),
+            filter(x => x.lines.length > 0)
         );
 
         this.sub = new ReplaySubject<GetLogResp>(100, Infinity);
