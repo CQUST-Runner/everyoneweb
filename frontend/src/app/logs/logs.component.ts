@@ -1,5 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd } from '@angular/router';
 import { delay, Subscription } from 'rxjs';
+import { AppRouterService } from '../app-router.service';
 import { HighlightService } from '../service/highlight.service';
 import { LogService } from '../service/log.service';
 import { RealLogService } from '../service/reallog.service';
@@ -14,7 +16,30 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   title = '日志';
 
-  constructor(private logService: LogService, private realLogService: RealLogService, private highlightService: HighlightService) { }
+  constructor(private logService: LogService, private realLogService: RealLogService, private highlightService: HighlightService, private routerService: AppRouterService) {
+
+    this.routerService.events.subscribe(x => {
+      if (x instanceof NavigationEnd) {
+        // console.log("current tab " + routerService.currentTab());
+        if (routerService.currentTab() == "logs") {
+          if (this.subscription) {
+            return;
+          }
+          this.subscription = this.realLogService.getLog().pipe(delay(500)).subscribe(x => {
+            this.filename = x.filename;
+            this.code.nativeElement.innerHTML +=
+              this.highlightService.highlight(['', ...(x.lines || [])].join('\n'), 'log');
+          });
+        } else {
+          if (this.subscription) {
+            this.subscription.unsubscribe();
+            this.subscription = undefined;
+          }
+        }
+      }
+    })
+
+  }
 
   @ViewChild('code') code: ElementRef = { nativeElement: {} };
   @ViewChild('pre') pre: ElementRef = { nativeElement: {} };
@@ -24,11 +49,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   subscription: Subscription | undefined = undefined;
   ngOnInit(): void {
     // this.timer = setInterval(() => { this.fetchLog(); }, 1000);
-    this.subscription = this.realLogService.getLog().pipe(delay(500)).subscribe(x => {
-      this.filename = x.filename;
-      this.code.nativeElement.innerHTML +=
-        this.highlightService.highlight(['', ...(x.lines || [])].join('\n'), 'log');
-    });
+
   }
 
   highlighted = false;

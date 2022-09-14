@@ -2,10 +2,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, ActivatedRouteSnapshot, BaseRouteReuseStrategy, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, BaseRouteReuseStrategy, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AboutComponent } from '../about/about.component';
+import { AppRouterService } from '../app-router.service';
 import { getConfig } from '../settings.model';
 import { ToolBoxService } from '../tool-box.service';
 
@@ -32,10 +33,10 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor(public router: Router, public route: ActivatedRoute, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, private toolbox: ToolBoxService) {
-    this.router.events.subscribe(x => {
+  constructor(public router: Router, public route: ActivatedRoute, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, private toolbox: ToolBoxService, private routerService: AppRouterService) {
+    this.routerService.events.subscribe(x => {
       if (x instanceof NavigationEnd) {
-        this.root = this.urlRoot();
+        this.root = this.routerService.currentTab();
       }
     });
     this.router.onSameUrlNavigation = "reload";
@@ -67,16 +68,6 @@ export class MainNavComponent {
   }
 
   root: string = "";
-
-  urlRoot(): string {
-    // console.log('current url is ' + this.router.url);
-    const tree = this.router.parseUrl(this.router.url);
-    const g = tree.root.children[PRIMARY_OUTLET];
-    if (g && g.segments.length > 0) {
-      return g.segments[0].path;
-    }
-    return '#';
-  }
 
   darkMode: boolean = false;
 

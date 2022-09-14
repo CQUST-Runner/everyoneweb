@@ -17,7 +17,7 @@ export class RealLogService {
     constructor(private client: HttpClient) {
 
         let ob = interval(1000).pipe(
-            filter(_ => this.previousDone),
+            filter(_ => this.previousDone && this.sub.observed),
             map(_ => this.sendReq()),
             concatAll(),
             map(x => this.processResp(x))
