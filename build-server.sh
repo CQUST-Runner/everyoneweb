@@ -6,7 +6,7 @@ build_frontend() {
     cd $frontend
     npm install --legacy-peer-deps
     ng build
-    if [ ! -z $build ]; then
+    if [ -d $build ]; then
         rm -rf $build/app
     fi
     mkdir -p $build/app
@@ -17,10 +17,18 @@ build_backend() {
     cd $singleFileCli
     npm install
     cd $backend
-    go build -o offliner-server
+    if [ "$target" == "IntelMac" ]; then
+        GOOS=darwin GOARCH=amd64 go build -o offliner-server
+    elif [ "$target" == "AppleMac" ]; then
+        GOOS=darwin GOARCH=arm64 go build -o offliner-server
+    elif [ "$target" == "Linux" ]; then
+        GOOS=linux GOARCH=amd64 go build -o offliner-server
+    else
+        go build -o offliner-server
+    fi
     cp -f $backend/offliner-server $build/offliner-server
     chmod +x $build/offliner-server
-    cp -f $backend/config.yaml $build/config.yaml
+    # cp -f $backend/config.yaml $build/config.yaml
     cp -rf $singleFileCli $build/single-file-cli
 }
 
@@ -28,6 +36,8 @@ build_backend() {
 if [ ! -d $build ]; then
     mkdir -p $build
 fi
+
+target=$3
 
 if [ "$1" == 'frontend' ]; then
     echo '###### building frontend ######'
@@ -40,4 +50,4 @@ else
     build_backend
 fi
 
-$root/download_node.sh
+$root/download_node.sh $target

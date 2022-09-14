@@ -3,6 +3,8 @@ set -e
 
 root=$(readlink -f $(dirname -- "$0"))
 
+target=$1
+
 node_dir=$root/build/server/node
 if [ -d $node_dir ]; then
     exit 0
@@ -11,7 +13,13 @@ fi
 kernel=$(uname)
 if [ $kernel == "Darwin" ]; then
     echo "running on Darwin"
-    url=https://nodejs.org/dist/v18.9.0/node-v18.9.0-darwin-x64.tar.gz
+    if [ $target == "AppleMac" ]; then
+        url=https://nodejs.org/dist/v18.9.0/node-v18.9.0-darwin-arm64.tar.xz
+    elif [ $target == "IntelMac" ]; then
+        url=https://nodejs.org/dist/v18.9.0/node-v18.9.0-darwin-x64.tar.xz
+    else
+        url=https://nodejs.org/dist/v18.9.0/node-v18.9.0-darwin-x64.tar.xz
+    fi
 elif [ $kernel == "Linux" ]; then
     echo "running on Linux"
     url=https://nodejs.org/dist/v18.9.0/node-v18.9.0-linux-x64.tar.xz
