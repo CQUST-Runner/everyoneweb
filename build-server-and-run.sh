@@ -9,10 +9,10 @@ set -e
 
 cd $build
 
-echo "starting ./webook-server"
-nohup ./webook-server -config=config.yaml -log=webook-server.log &
+echo "starting ./everyoneweb-server"
+nohup ./everyoneweb-server -config=config.yaml -log=everyoneweb-server.log &
 pid="$!"
-echo "$pid" > webook-server.pid
+echo "$pid" > everyoneweb-server.pid
 sleep 1
 result=$(ps aux | grep $pid | grep -v grep)
 if [ -z "$result" ]; then

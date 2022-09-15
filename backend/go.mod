@@ -1,4 +1,4 @@
-module webook-server
+module everyoneweb-server
 
 go 1.18
 

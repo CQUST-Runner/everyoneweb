@@ -66,7 +66,7 @@ fn set_creation_flags(cmd: &mut Command) -> &mut Command {
 fn close_server() {
     let mut sys = sysinfo::System::new();
     sys.refresh_processes();
-    let result = sys.processes_by_name("webook-server");
+    let result = sys.processes_by_name("everyoneweb-server");
     for p in result {
         // TODO: more gentle
         p.kill();
@@ -100,7 +100,7 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
 
     let mut sys = sysinfo::System::new();
     sys.refresh_processes();
-    let result = sys.processes_by_name("webook-server");
+    let result = sys.processes_by_name("everyoneweb-server");
     let mut count: i32 = 0;
     for p in result {
         let cmd = p.cmd();
@@ -145,7 +145,7 @@ fn start_server(exe_path: PathBuf, p: &PathResolver) {
         .arg("-config")
         .arg(config_dir.unwrap().join("config.yaml"))
         .arg("-log")
-        .arg(log_dir.unwrap().join("webook-server.log"))
+        .arg(log_dir.unwrap().join("everyoneweb-server.log"))
         .arg("-id")
         .arg(current_id)
         .current_dir(exe_path.parent().unwrap());
@@ -191,7 +191,7 @@ fn handle_menu_event(event: WindowMenuEvent) {
         "LearnMore" => {
             let _ = open(
                 &event.window().app_handle().shell_scope(),
-                "https://github.com/CQUST-Runner/webook",
+                "https://github.com/CQUST-Runner/everyoneweb",
                 None,
             );
         }
@@ -270,9 +270,9 @@ fn main() {
                 let server_path = server.unwrap();
                 info!("server path is {}", server_path.display().to_string());
                 if cfg!(windows) {
-                    start_server(server_path.join("webook-server.exe"), &r);
+                    start_server(server_path.join("everyoneweb-server.exe"), &r);
                 } else if cfg!(unix) {
-                    start_server(server_path.join("webook-server"), &r);
+                    start_server(server_path.join("everyoneweb-server"), &r);
                 }
                 check_server_is_on();
             }

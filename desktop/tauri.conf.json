@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/tooling/cli/schema.json",
   "package": {
-    "productName": "webook",
+    "productName": "EveryoneWeb",
     "version": "1.0.0"
   },
   "build": {
@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "org.hyan23.webook-desktop",
+      "identifier": "org.hyan23.everyoneweb-desktop",
       "icon": [
         "icons/48x48.png",
         "icons/96x96.png"
@@ -55,7 +55,7 @@
     },
     "windows": [
       {
-        "title": "Webook Desktop",
+        "title": "EveryoneWeb Desktop",
         "width": 1280,
         "height": 720,
         "resizable": true,
