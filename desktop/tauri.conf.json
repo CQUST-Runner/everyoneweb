@@ -16,7 +16,8 @@
       "identifier": "org.hyan23.everyoneweb-desktop",
       "icon": [
         "icons/48x48.png",
-        "icons/96x96.png"
+        "icons/96x96.png",
+        "icons/icon.icns"
       ],
       "resources": [
         "../build/server"
