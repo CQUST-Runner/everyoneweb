@@ -18,13 +18,13 @@ build_backend() {
     npm install
     cd $backend
     if [ "$target" == "IntelMac" ]; then
-        GOOS=darwin GOARCH=amd64 go build -o offliner-server
+        GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o offliner-server
     elif [ "$target" == "AppleMac" ]; then
-        GOOS=darwin GOARCH=arm64 go build -o offliner-server
+        GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o offliner-server
     elif [ "$target" == "Linux" ]; then
-        GOOS=linux GOARCH=amd64 go build -o offliner-server
+        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -o offliner-server
     else
-        go build -o offliner-server
+        CGO_ENABLED=1 go build -o offliner-server
     fi
     cp -f $backend/offliner-server $build/offliner-server
     chmod +x $build/offliner-server
