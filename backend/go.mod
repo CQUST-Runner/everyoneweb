@@ -1,4 +1,4 @@
-module webbook-server
+module webook-server
 
 go 1.18
 

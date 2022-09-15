@@ -169,7 +169,7 @@ func mustGenerateMachineID() string {
 		log.Fatal(err)
 	}
 	return machineID
-	machineID, err = machineid.ProtectedID("webbook-server")
+	machineID, err = machineid.ProtectedID("webook-server")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -182,11 +182,11 @@ func getDefaultDataDirectory() (s string) {
 	}()
 	switch runtime.GOOS {
 	case "darwin":
-		return filepath.Join(os.Getenv("HOME"), "Desktop", "webbook-data")
+		return filepath.Join(os.Getenv("HOME"), "Desktop", "webook-data")
 	case "windows":
-		return filepath.Join(os.Getenv("USERPROFILE"), "Desktop", "webbook-data")
+		return filepath.Join(os.Getenv("USERPROFILE"), "Desktop", "webook-data")
 	default:
-		return filepath.Join(os.Getenv("HOME"), "webbook-data")
+		return filepath.Join(os.Getenv("HOME"), "webook-data")
 	}
 }
 
@@ -208,7 +208,7 @@ func checkFileAccess(p string) error {
 		}
 		return nil
 	}
-	tmpFile := path.Join(dir, "webbook-check-file-access")
+	tmpFile := path.Join(dir, "webook-check-file-access")
 	err := os.WriteFile(tmpFile, []byte("check"), 0666)
 	if err != nil {
 		return fmt.Errorf("write error")

@@ -9,10 +9,10 @@ set -e
 
 cd $build
 
-echo "starting ./webbook-server"
-nohup ./webbook-server -config=config.yaml -log=webbook-server.log &
+echo "starting ./webook-server"
+nohup ./webook-server -config=config.yaml -log=webook-server.log &
 pid="$!"
-echo "$pid" > webbook-server.pid
+echo "$pid" > webook-server.pid
 sleep 1
 result=$(ps aux | grep $pid | grep -v grep)
 if [ -z "$result" ]; then

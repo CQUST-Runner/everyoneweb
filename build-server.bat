@@ -1,6 +1,6 @@
 
 cd %~dp0\backend
-go build -o webbook-server.exe
+go build -o webook-server.exe
 
 cd %~dp0\frontend
 call npm install --legacy-peer-deps
@@ -10,7 +10,7 @@ cd %~dp0\third-party\single-file-cli
 call npm install
 
 cd %~dp0
-robocopy backend\ build\server\ webbook-server.exe
+robocopy backend\ build\server\ webook-server.exe
 if exist build\server\app (
     rmdir /Q /S build\server\app\
 )

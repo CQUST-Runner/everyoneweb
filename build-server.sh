@@ -18,16 +18,16 @@ build_backend() {
     npm install
     cd $backend
     if [ "$target" == "IntelMac" ]; then
-        GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o webbook-server
+        GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o webook-server
     elif [ "$target" == "AppleMac" ]; then
-        GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o webbook-server
+        GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o webook-server
     elif [ "$target" == "Linux" ]; then
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -o webbook-server
+        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -o webook-server
     else
-        CGO_ENABLED=1 go build -o webbook-server
+        CGO_ENABLED=1 go build -o webook-server
     fi
-    cp -f $backend/webbook-server $build/webbook-server
-    chmod +x $build/webbook-server
+    cp -f $backend/webook-server $build/webook-server
+    chmod +x $build/webook-server
     # cp -f $backend/config.yaml $build/config.yaml
     cp -rf $singleFileCli $build/single-file-cli
 }

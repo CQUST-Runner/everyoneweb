@@ -5,13 +5,13 @@ set -e
 
 cd $build
 
-if [ -f webbook-server.pid ]; then
-    pid="$(cat webbook-server.pid | head -n1)"
-    rm webbook-server.pid
+if [ -f webook-server.pid ]; then
+    pid="$(cat webook-server.pid | head -n1)"
+    rm webook-server.pid
     echo "kill pid $pid"
     kill $pid
     
     # other running processes
-    pkill webbook-server
+    pkill webook-server
     sleep 1
 fi

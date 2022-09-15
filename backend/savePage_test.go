@@ -37,11 +37,11 @@ func TestGetPageTitle2(t *testing.T) {
 }
 
 func TestGetFavicon(t *testing.T) {
-	// fmt.Println(getFavicon("/Users/hyan23/Desktop/webbook-data/4PxR4fMH/index.html"))
-	// fmt.Println(getFavicon("/Users/hyan23/Desktop/webbook-data/bKbSxsQ_/index.html"))
+	// fmt.Println(getFavicon("/Users/hyan23/Desktop/webook-data/4PxR4fMH/index.html"))
+	// fmt.Println(getFavicon("/Users/hyan23/Desktop/webook-data/bKbSxsQ_/index.html"))
 }
 
 func TestGetAndSaveFavicon(t *testing.T) {
-	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/webbook-data/4PxR4fMH/index.html", "favicon.ico"))
-	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/webbook-data/nYX7B95W/index.html", "favicon.ico"))
+	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/webook-data/4PxR4fMH/index.html", "favicon.ico"))
+	// fmt.Println(getAndSaveFavicon("/Users/hyan23/Desktop/webook-data/nYX7B95W/index.html", "favicon.ico"))
 }
