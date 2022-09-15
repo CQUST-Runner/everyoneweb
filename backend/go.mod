@@ -1,4 +1,4 @@
-module offliner-server
+module webbook-server
 
 go 1.18
 

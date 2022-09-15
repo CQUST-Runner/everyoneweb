@@ -5,13 +5,13 @@ set -e
 
 cd $build
 
-if [ -f offliner-server.pid ]; then
-    pid="$(cat offliner-server.pid | head -n1)"
-    rm offliner-server.pid
+if [ -f webbook-server.pid ]; then
+    pid="$(cat webbook-server.pid | head -n1)"
+    rm webbook-server.pid
     echo "kill pid $pid"
     kill $pid
     
     # other running processes
-    pkill offliner-server
+    pkill webbook-server
     sleep 1
 fi

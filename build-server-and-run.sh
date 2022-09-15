@@ -9,10 +9,10 @@ set -e
 
 cd $build
 
-echo "starting ./offliner-server"
-nohup ./offliner-server -config=config.yaml -log=offliner-server.log &
+echo "starting ./webbook-server"
+nohup ./webbook-server -config=config.yaml -log=webbook-server.log &
 pid="$!"
-echo "$pid" > offliner-server.pid
+echo "$pid" > webbook-server.pid
 sleep 1
 result=$(ps aux | grep $pid | grep -v grep)
 if [ -z "$result" ]; then
