@@ -15,11 +15,8 @@
       "targets": "all",
       "identifier": "org.hyan23.webook-desktop",
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
+        "icons/48x48.png",
+        "icons/96x96.png"
       ],
       "resources": [
         "../build/server"
