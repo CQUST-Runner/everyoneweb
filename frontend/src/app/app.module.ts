@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdePopoverModule } from '@material-extended/mde';
 import { NgxFilesizeModule } from 'ngx-filesize';
+import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent } from './about/about.component';
 import { AfterIfDirective } from './after-if.directive';
 import { AppRoutingModule } from './app-routing.module';
@@ -97,6 +98,7 @@ import { ViewComponent } from './view/view.component';
     HttpClientModule,
     NgxFilesizeModule,
     MdePopoverModule,
+    MarkdownModule.forRoot(),
   ],
   providers: [HighlightService, LogService, RealLogService, PageService],
   bootstrap: [AppComponent]

@@ -239,6 +239,12 @@ fn main() {
             .add_native_item(MenuItem::Zoom),
     );
 
+    let dev_tool_title;
+    if cfg!(windows) {
+        dev_tool_title = String::from("打开开发者工具");
+    } else {
+        dev_tool_title = String::from("切换开发者工具")
+    }
     let help_menu = Submenu::new(
         "Help",
         Menu::new()
@@ -246,7 +252,7 @@ fn main() {
                 CustomMenuItem::new("InstallExtension", "安装浏览器插件").accelerator("Cmd+I"),
             )
             .add_item(CustomMenuItem::new("Restart", "重启服务").accelerator("Cmd+R"))
-            .add_item(CustomMenuItem::new("DevTools", "切换开发者工具").accelerator("F12"))
+            .add_item(CustomMenuItem::new("DevTools", dev_tool_title).accelerator("F12"))
             .add_item(CustomMenuItem::new("OpenInBrower", "在浏览器中访问").accelerator("Cmd+O"))
             .add_item(CustomMenuItem::new("LearnMore", "教程").accelerator("Cmd+L")),
     );
