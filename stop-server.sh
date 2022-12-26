@@ -12,6 +12,6 @@ if [ -f everyoneweb-server.pid ]; then
     kill $pid
     
     # other running processes
-    pkill everyoneweb-server
+    pkill everyoneweb-server || true
     sleep 1
 fi

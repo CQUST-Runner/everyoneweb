@@ -13,6 +13,7 @@ backend=$CWD/backend
 thirdParty=$CWD/third-party
 singleFileCli=$thirdParty/single-file-cli
 desktop=$CWD/desktop
+doc=$CWD/doc
 
 # echo "CWD=$CWD"
 # echo "build=$build"

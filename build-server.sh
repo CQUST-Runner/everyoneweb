@@ -32,6 +32,13 @@ build_backend() {
     cp -rf $singleFileCli $build/single-file-cli
 }
 
+build_doc() {
+    cd $doc
+    ./build.sh
+    mkdir -p $build/doc
+    cp -rf $doc/*.html $build/doc
+}
+
 . env.sh "$2"
 if [ ! -d $build ]; then
     mkdir -p $build
@@ -49,5 +56,6 @@ else
     build_frontend
     build_backend
 fi
+build_doc
 
 $root/download_node.sh $target
