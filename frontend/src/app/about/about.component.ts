@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-about',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<AboutComponent>,) { }
 
   ngOnInit(): void {
   }
@@ -19,4 +20,5 @@ export class AboutComponent implements OnInit {
 - **“稍后阅读”软件**——待阅读的文章太多？加入待读列表，规划“计划阅读”时间，还不用担心内容过期！
 - **跨浏览器的书签管理软件**——同时使用多个浏览器，书签却无法共享？使用EveryoneWeb，在一个地方管理所有书签。
   `
+
 }
