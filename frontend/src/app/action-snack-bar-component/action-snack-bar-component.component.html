@@ -1,0 +1,9 @@
+<div fxLayout="row" fxLayoutGap="10px" style="width: 100%;">
+    <span fxFlex="1 1 auto">{{data.message}}</span>
+    <span fxFlex="0 0 auto">
+        <button mat-button *ngFor="let action of data.actions" (click)="action.fn()">{{action.name}}</button>
+        <button mat-icon-button *ngIf="data.allowDismiss" (click)="this.ref.dismiss()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </span>
+</div>

@@ -48,6 +48,7 @@ import { TagsInputComponent } from './tags-input/tags-input.component';
 import { UrlWithCopyBtnComponent } from './url-with-copy-btn/url-with-copy-btn.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
 import { ViewComponent } from './view/view.component';
+import { ActionSnackBarComponentComponent } from './action-snack-bar-component/action-snack-bar-component.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { ViewComponent } from './view/view.component';
     SafePipe,
     MoveToDialogComponent,
     ViewComponent,
+    ActionSnackBarComponentComponent,
   ],
   imports: [
     BrowserModule,

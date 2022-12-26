@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { open } from '@tauri-apps/api/dialog';
 import { documentDir } from '@tauri-apps/api/path';
+import { relaunch } from '@tauri-apps/api/process';
 import { Observer } from 'rxjs';
+import { ActionSnackBarComponentComponent, ActionSnackBarData, SnackBarAction } from '../action-snack-bar-component/action-snack-bar-component.component';
 import { ColumnEditComponent } from '../column-edit/column-edit.component';
 import { isTauri, normalizePath } from '../common';
 import { columnDefine } from '../library/library.component';
@@ -19,7 +23,7 @@ export class SettingsComponent implements OnInit {
 
   title = '设置';
   columns: ColumnInfo[];
-  constructor(private settingsService: SettingsService, private toolbox: ToolBoxService, private dialog: MatDialog) {
+  constructor(private settingsService: SettingsService, private toolbox: ToolBoxService, private dialog: MatDialog, private router: Router) {
     this.columns = this.settings.columns || [];
     this.columns.push(...columnDefine.filter(x => x.configurable && !this.columns.some(y => y.id == x.id)).map(x => { return { id: x.id, display: x.display } as ColumnInfo }));
     this.columns = this.columns.filter(x => columnDefine.some(y => y.id == x.id));
@@ -81,7 +85,27 @@ export class SettingsComponent implements OnInit {
       next(value) {
       },
       complete() {
-        thisRef.toolbox.openSnackBar('保存成功, 有些设置需要重启系统服务生效', '如何重启？');
+        let actions: SnackBarAction[] = [];
+        if (isTauri()) {
+          actions.push({
+            name: '立即重启',
+            fn: () => relaunch(),
+          } as SnackBarAction);
+        } else {
+          actions.push({
+            name: '如何重启？',
+            fn: () => { thisRef.router.navigate(['/view/', { id: 'manual.html', tp: 'doc' }]); },
+          } as SnackBarAction);
+        }
+        thisRef.toolbox.openComponentSnackBar(ActionSnackBarComponentComponent,
+          {
+            data: {
+              allowDismiss: true,
+              actions: actions,
+              message: '保存成功, 有些设置需要重启系统服务生效',
+            } as ActionSnackBarData
+          } as MatSnackBarConfig);
+
         thisRef.isSaving = false;
         thisRef.applyConfig();
       },
