@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { invoke } from '@tauri-apps/api';
 import { open } from '@tauri-apps/api/dialog';
 import { documentDir } from '@tauri-apps/api/path';
-import { relaunch } from '@tauri-apps/api/process';
 import { Observer } from 'rxjs';
 import { ActionSnackBarComponentComponent, ActionSnackBarData, SnackBarAction } from '../action-snack-bar-component/action-snack-bar-component.component';
 import { ColumnEditComponent } from '../column-edit/column-edit.component';
@@ -89,7 +89,7 @@ export class SettingsComponent implements OnInit {
         if (isTauri()) {
           actions.push({
             name: '立即重启',
-            fn: () => relaunch(),
+            fn: () => invoke('restart_command'),
           } as SnackBarAction);
         } else {
           actions.push({

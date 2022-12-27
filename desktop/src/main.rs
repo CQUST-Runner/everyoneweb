@@ -28,6 +28,14 @@ async fn hello_world_command(_app: tauri::AppHandle) -> Result<String, String> {
     Ok("Hello world from Tauri!".into())
 }
 
+#[tauri::command]
+async fn restart_command(_app: tauri::AppHandle) -> Result<String, String> {
+    println!("I was invoked from JS!");
+    close_server();
+    restart(&_app.env());
+    Ok("Hello world from Tauri!".into())
+}
+
 fn check_server_is_on() {
     let mut i = 0;
     while i < 5 {
@@ -289,7 +297,7 @@ fn main() {
         .on_menu_event(|event| {
             handle_menu_event(event);
         })
-        .invoke_handler(tauri::generate_handler![hello_world_command])
+        .invoke_handler(tauri::generate_handler![restart_command])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
