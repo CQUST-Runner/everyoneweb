@@ -99,7 +99,7 @@ https://github.com/markusmobius/nodeSavePageWE
     - 修改 hosts 文件或者运行 DNS 服务会让用户感觉不安全，并且需要高权限
       - 我们无法监听 80 端口，访问时还是需要在域名后面指定端口，没有想象中简洁
     - 自定义协议跳转到 everyoneweb 然后跳转到浏览器过于繁琐，而且自定义协议的链接一般无法被识别为链接
-    - 最好直接拷贝 a 标签，实际链接为 localhost:port/abc 形式
+    - 最好直接拷贝 a 标签，实际链接为 127.0.0.1:port/abc 形式
 - URL前添加 offline/ 快捷保存
 - 支持批量保存
 - 以后阅读和提醒支持

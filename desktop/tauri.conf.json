@@ -5,8 +5,8 @@
     "version": "1.0.0"
   },
   "build": {
-    "distDir": "http://localhost:16224/app",
-    "devPath": "http://localhost:4200",
+    "distDir": "http://127.0.0.1:16224/app",
+    "devPath": "http://127.0.0.1:4200",
     "withGlobalTauri": true
   },
   "tauri": {

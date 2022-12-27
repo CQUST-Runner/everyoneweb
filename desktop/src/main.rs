@@ -40,7 +40,7 @@ fn check_server_is_on() {
     let mut i = 0;
     while i < 5 {
         info!("waiting server to start");
-        let resp = reqwest::blocking::get("http://localhost:16224/app");
+        let resp = reqwest::blocking::get("http://127.0.0.1:16224/app");
 
         match resp {
             Ok(r) => {
@@ -192,7 +192,7 @@ fn handle_menu_event(event: WindowMenuEvent) {
         "OpenInBrower" => {
             let _ = open(
                 &event.window().app_handle().shell_scope(),
-                "http://localhost:16224/app",
+                "http://127.0.0.1:16224/app",
                 None,
             );
         }
