@@ -45,3 +45,9 @@ Linux and Windows:
 
 the same as Mac except that wget is omitted and the omission of xcode/apple staff
 
+### Build
+
+shipping bundle to a specific system can only be built on the corresponding system
+
+## Plan
+
