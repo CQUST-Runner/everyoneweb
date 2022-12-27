@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/CQUST-Runner/datacross/storage"
 )
@@ -24,5 +27,11 @@ func main() {
 	prepareDataDirectory()
 	mustInitParticipant()
 	regularlyCleanCache()
-	serve()
+	go serve()
+
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGINT)
+	sig := <-ch
+	fmt.Printf("server exit by signal:%v\n", sig)
+	logger.Info("server exit by signal:%v", sig)
 }

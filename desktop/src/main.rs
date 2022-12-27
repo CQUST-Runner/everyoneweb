@@ -77,7 +77,7 @@ fn close_server() {
     let result = sys.processes_by_name("everyoneweb-server");
     for p in result {
         // TODO: more gentle
-        p.kill();
+        p.kill_with(sysinfo::Signal::Term);
     }
 }
 

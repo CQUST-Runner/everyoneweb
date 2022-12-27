@@ -9,7 +9,7 @@ if [ -f everyoneweb-server.pid ]; then
     pid="$(cat everyoneweb-server.pid | head -n1)"
     rm everyoneweb-server.pid
     echo "kill pid $pid"
-    kill $pid
+    kill $pid || true
     
     # other running processes
     pkill everyoneweb-server || true
